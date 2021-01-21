@@ -16,6 +16,12 @@
 		CEBDF3C825B9442F00686F2C /* RemindersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3C725B9442F00686F2C /* RemindersListView.swift */; };
 		CEBDF3CC25B9445B00686F2C /* RemindersListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3CB25B9445B00686F2C /* RemindersListAssembly.swift */; };
 		CEBDF3CF25B9449600686F2C /* NavigationControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3CE25B9449600686F2C /* NavigationControllerAssembly.swift */; };
+		CEBDF3D325B94AA400686F2C /* RemindersListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3D225B94AA400686F2C /* RemindersListInteractor.swift */; };
+		CEBDF3D625B94AAC00686F2C /* RemindersListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3D525B94AAC00686F2C /* RemindersListPresenter.swift */; };
+		CEBDF3D925B94AB200686F2C /* RemindersListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3D825B94AB200686F2C /* RemindersListRouter.swift */; };
+		CEBDF3DE25B94DEF00686F2C /* RemindersTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3DD25B94DEF00686F2C /* RemindersTableViewDelegate.swift */; };
+		CEBDF3E125B94F7100686F2C /* RemindersTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3E025B94F7100686F2C /* RemindersTableViewDataSource.swift */; };
+		CEBDF3E425B9504200686F2C /* RemindersListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3E325B9504200686F2C /* RemindersListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +36,12 @@
 		CEBDF3C725B9442F00686F2C /* RemindersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListView.swift; sourceTree = "<group>"; };
 		CEBDF3CB25B9445B00686F2C /* RemindersListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListAssembly.swift; sourceTree = "<group>"; };
 		CEBDF3CE25B9449600686F2C /* NavigationControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerAssembly.swift; sourceTree = "<group>"; };
+		CEBDF3D225B94AA400686F2C /* RemindersListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListInteractor.swift; sourceTree = "<group>"; };
+		CEBDF3D525B94AAC00686F2C /* RemindersListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListPresenter.swift; sourceTree = "<group>"; };
+		CEBDF3D825B94AB200686F2C /* RemindersListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListRouter.swift; sourceTree = "<group>"; };
+		CEBDF3DD25B94DEF00686F2C /* RemindersTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersTableViewDelegate.swift; sourceTree = "<group>"; };
+		CEBDF3E025B94F7100686F2C /* RemindersTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersTableViewDataSource.swift; sourceTree = "<group>"; };
+		CEBDF3E325B9504200686F2C /* RemindersListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +74,7 @@
 		CEBDF3A525B941C400686F2C /* RemindersApp */ = {
 			isa = PBXGroup;
 			children = (
+				CEBDF3DC25B94DDF00686F2C /* Model */,
 				CEBDF3CA25B9444C00686F2C /* Assembly */,
 				CEBDF3BF25B943D400686F2C /* App */,
 				CEBDF3C125B943F000686F2C /* Modules */,
@@ -95,6 +108,9 @@
 			children = (
 				CEBDF3C525B943FC00686F2C /* Views */,
 				CEBDF3AA25B941C400686F2C /* RemindersListViewController.swift */,
+				CEBDF3D525B94AAC00686F2C /* RemindersListPresenter.swift */,
+				CEBDF3D225B94AA400686F2C /* RemindersListInteractor.swift */,
+				CEBDF3D825B94AB200686F2C /* RemindersListRouter.swift */,
 			);
 			path = RemindersList;
 			sourceTree = "<group>";
@@ -103,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				CEBDF3C725B9442F00686F2C /* RemindersListView.swift */,
+				CEBDF3E325B9504200686F2C /* RemindersListTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -114,6 +131,15 @@
 				CEBDF3CE25B9449600686F2C /* NavigationControllerAssembly.swift */,
 			);
 			path = Assembly;
+			sourceTree = "<group>";
+		};
+		CEBDF3DC25B94DDF00686F2C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CEBDF3DD25B94DEF00686F2C /* RemindersTableViewDelegate.swift */,
+				CEBDF3E025B94F7100686F2C /* RemindersTableViewDataSource.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,13 +211,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEBDF3E125B94F7100686F2C /* RemindersTableViewDataSource.swift in Sources */,
+				CEBDF3D325B94AA400686F2C /* RemindersListInteractor.swift in Sources */,
 				CEBDF3AB25B941C400686F2C /* RemindersListViewController.swift in Sources */,
+				CEBDF3D625B94AAC00686F2C /* RemindersListPresenter.swift in Sources */,
 				CEBDF3CC25B9445B00686F2C /* RemindersListAssembly.swift in Sources */,
 				CEBDF3A725B941C400686F2C /* AppDelegate.swift in Sources */,
 				CEBDF3C825B9442F00686F2C /* RemindersListView.swift in Sources */,
+				CEBDF3D925B94AB200686F2C /* RemindersListRouter.swift in Sources */,
+				CEBDF3E425B9504200686F2C /* RemindersListTableViewCell.swift in Sources */,
 				CEBDF3CF25B9449600686F2C /* NavigationControllerAssembly.swift in Sources */,
 				CEBDF3A925B941C400686F2C /* SceneDelegate.swift in Sources */,
 				CEBDF3B125B941C400686F2C /* RemindersApp.xcdatamodeld in Sources */,
+				CEBDF3DE25B94DEF00686F2C /* RemindersTableViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

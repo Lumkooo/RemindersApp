@@ -9,7 +9,15 @@ import UIKit
 
 enum RemindersListAssembly {
     static func createVC() -> UIViewController {
-        let listViewController = RemindersListViewController()
+        let interactor = RemindersListInteractor()
+        let router = RemindersListRouter()
+        let presenter = RemindersListPresenter(interactor: interactor,
+                                               router: router)
+        let listViewController = RemindersListViewController(presenter: presenter)
+
+        router.vc = listViewController
+        interactor.presenter = presenter
+        
         return listViewController
     }
 }
