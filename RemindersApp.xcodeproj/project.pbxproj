@@ -9,23 +9,27 @@
 /* Begin PBXBuildFile section */
 		CEBDF3A725B941C400686F2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3A625B941C400686F2C /* AppDelegate.swift */; };
 		CEBDF3A925B941C400686F2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3A825B941C400686F2C /* SceneDelegate.swift */; };
-		CEBDF3AB25B941C400686F2C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3AA25B941C400686F2C /* ViewController.swift */; };
-		CEBDF3AE25B941C400686F2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEBDF3AC25B941C400686F2C /* Main.storyboard */; };
+		CEBDF3AB25B941C400686F2C /* RemindersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3AA25B941C400686F2C /* RemindersListViewController.swift */; };
 		CEBDF3B125B941C400686F2C /* RemindersApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3AF25B941C400686F2C /* RemindersApp.xcdatamodeld */; };
 		CEBDF3B325B941C600686F2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBDF3B225B941C600686F2C /* Assets.xcassets */; };
 		CEBDF3B625B941C600686F2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEBDF3B425B941C600686F2C /* LaunchScreen.storyboard */; };
+		CEBDF3C825B9442F00686F2C /* RemindersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3C725B9442F00686F2C /* RemindersListView.swift */; };
+		CEBDF3CC25B9445B00686F2C /* RemindersListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3CB25B9445B00686F2C /* RemindersListAssembly.swift */; };
+		CEBDF3CF25B9449600686F2C /* NavigationControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3CE25B9449600686F2C /* NavigationControllerAssembly.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CEBDF3A325B941C400686F2C /* RemindersApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemindersApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBDF3A625B941C400686F2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEBDF3A825B941C400686F2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CEBDF3AA25B941C400686F2C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		CEBDF3AD25B941C400686F2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CEBDF3AA25B941C400686F2C /* RemindersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListViewController.swift; sourceTree = "<group>"; };
 		CEBDF3B025B941C400686F2C /* RemindersApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RemindersApp.xcdatamodel; sourceTree = "<group>"; };
 		CEBDF3B225B941C600686F2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEBDF3B525B941C600686F2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CEBDF3B725B941C600686F2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEBDF3C725B9442F00686F2C /* RemindersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListView.swift; sourceTree = "<group>"; };
+		CEBDF3CB25B9445B00686F2C /* RemindersListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListAssembly.swift; sourceTree = "<group>"; };
+		CEBDF3CE25B9449600686F2C /* NavigationControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerAssembly.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,16 +62,58 @@
 		CEBDF3A525B941C400686F2C /* RemindersApp */ = {
 			isa = PBXGroup;
 			children = (
-				CEBDF3A625B941C400686F2C /* AppDelegate.swift */,
-				CEBDF3A825B941C400686F2C /* SceneDelegate.swift */,
-				CEBDF3AA25B941C400686F2C /* ViewController.swift */,
-				CEBDF3AC25B941C400686F2C /* Main.storyboard */,
+				CEBDF3CA25B9444C00686F2C /* Assembly */,
+				CEBDF3BF25B943D400686F2C /* App */,
+				CEBDF3C125B943F000686F2C /* Modules */,
 				CEBDF3B225B941C600686F2C /* Assets.xcassets */,
 				CEBDF3B425B941C600686F2C /* LaunchScreen.storyboard */,
 				CEBDF3B725B941C600686F2C /* Info.plist */,
 				CEBDF3AF25B941C400686F2C /* RemindersApp.xcdatamodeld */,
 			);
 			path = RemindersApp;
+			sourceTree = "<group>";
+		};
+		CEBDF3BF25B943D400686F2C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				CEBDF3A625B941C400686F2C /* AppDelegate.swift */,
+				CEBDF3A825B941C400686F2C /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		CEBDF3C125B943F000686F2C /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				CEBDF3C325B943F400686F2C /* RemindersList */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		CEBDF3C325B943F400686F2C /* RemindersList */ = {
+			isa = PBXGroup;
+			children = (
+				CEBDF3C525B943FC00686F2C /* Views */,
+				CEBDF3AA25B941C400686F2C /* RemindersListViewController.swift */,
+			);
+			path = RemindersList;
+			sourceTree = "<group>";
+		};
+		CEBDF3C525B943FC00686F2C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEBDF3C725B9442F00686F2C /* RemindersListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CEBDF3CA25B9444C00686F2C /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				CEBDF3CB25B9445B00686F2C /* RemindersListAssembly.swift */,
+				CEBDF3CE25B9449600686F2C /* NavigationControllerAssembly.swift */,
+			);
+			path = Assembly;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,7 +175,6 @@
 			files = (
 				CEBDF3B625B941C600686F2C /* LaunchScreen.storyboard in Resources */,
 				CEBDF3B325B941C600686F2C /* Assets.xcassets in Resources */,
-				CEBDF3AE25B941C400686F2C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,8 +185,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEBDF3AB25B941C400686F2C /* ViewController.swift in Sources */,
+				CEBDF3AB25B941C400686F2C /* RemindersListViewController.swift in Sources */,
+				CEBDF3CC25B9445B00686F2C /* RemindersListAssembly.swift in Sources */,
 				CEBDF3A725B941C400686F2C /* AppDelegate.swift in Sources */,
+				CEBDF3C825B9442F00686F2C /* RemindersListView.swift in Sources */,
+				CEBDF3CF25B9449600686F2C /* NavigationControllerAssembly.swift in Sources */,
 				CEBDF3A925B941C400686F2C /* SceneDelegate.swift in Sources */,
 				CEBDF3B125B941C400686F2C /* RemindersApp.xcdatamodeld in Sources */,
 			);
@@ -150,14 +198,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CEBDF3AC25B941C400686F2C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CEBDF3AD25B941C400686F2C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		CEBDF3B425B941C600686F2C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
