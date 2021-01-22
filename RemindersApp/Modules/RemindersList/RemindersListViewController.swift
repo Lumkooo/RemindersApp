@@ -31,6 +31,7 @@ class RemindersListViewController: UIViewController {
         super.viewDidLoad()
         self.view = self.customView
         self.presenter.viewDidLoad(ui: self.customView)
+        self.setupHidingKeyboardOnTap()
     }
 }
 

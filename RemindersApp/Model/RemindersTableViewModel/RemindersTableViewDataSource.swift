@@ -22,20 +22,12 @@ final class RemindersTableViewDataSource: NSObject {
 
 extension RemindersTableViewDataSource: UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
-
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Title"
+        return "Напоминания"
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return self.dataArray.count
-        } else {
-            return 2
-        }
+        return self.dataArray.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -46,7 +38,9 @@ extension RemindersTableViewDataSource: UITableViewDataSource {
             return UITableViewCell()
         }
         let data = dataArray[indexPath.row]
-        cell.setupCell(text: data)
+        cell.setupCell(tableView: tableView,
+                       cellIndex: indexPath.row,
+                       text: data)
         return cell
     }
 }

@@ -27,9 +27,9 @@ final class RemindersListInteractor {
 
 extension RemindersListInteractor: IRemindersListInteractor {
     func loadInitData() {
-        self.dataArray.append("One")
-        self.dataArray.append("Two")
-        self.dataArray.append("Three")
+        self.dataArray.append("")
+        self.dataArray.append("")
+        self.dataArray.append("")
         self.presenter?.showDataOnScreen(dataArray: self.dataArray)
     }
 }
