@@ -82,11 +82,8 @@ extension RemindersListTableViewCell: UITextViewDelegate {
         guard let text = textView.text else {
             return
         }
-        guard let dataSource = self.parentTableView?.dataSource as? RemindersTableViewDataSource else {
-            assertionFailure("can't do that...")
-            return
-        }
-        dataSource.dataArray[self.cellIndex] = text
+        ReminderManager.shared.updateElement(atIndex: self.cellIndex,
+                                             text: text)
     }
 
     func setSelected(selected: Bool, animated: Bool) {

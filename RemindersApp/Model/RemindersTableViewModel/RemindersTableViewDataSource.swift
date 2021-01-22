@@ -43,4 +43,18 @@ extension RemindersTableViewDataSource: UITableViewDataSource {
                        text: data)
         return cell
     }
+
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            self.dataArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            ReminderManager.shared.removeElement(atIndex: indexPath.row)
+            self.dataArray = ReminderManager.shared.getDataArray()
+            tableView.reloadData()
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
+    }
 }

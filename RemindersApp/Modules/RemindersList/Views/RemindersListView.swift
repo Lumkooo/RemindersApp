@@ -8,6 +8,8 @@
 import UIKit
 
 protocol IRemindersListView: AnyObject {
+    var updateDataArray: ((Int, String) -> Void)? { get set }
+
     func showDataOnScreen(dataArray: [String])
 }
 
@@ -26,6 +28,7 @@ final class RemindersListView: UIView {
 
     private var tableViewDelegate: RemindersTableViewDelegate?
     private var tableViewDataSource = RemindersTableViewDataSource()
+    var updateDataArray: ((Int, String) -> Void)?
 
     // MARK: - Init
 
@@ -37,6 +40,12 @@ final class RemindersListView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Public method
+
+    func updateData(atIndex index: Int, text: String) {
+        self.updateDataArray?(index, text)
     }
 }
 

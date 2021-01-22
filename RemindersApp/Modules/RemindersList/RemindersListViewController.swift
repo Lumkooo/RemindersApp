@@ -32,6 +32,18 @@ class RemindersListViewController: UIViewController {
         self.view = self.customView
         self.presenter.viewDidLoad(ui: self.customView)
         self.setupHidingKeyboardOnTap()
+        self.addNavigationBarButton()
+    }
+
+    private func addNavigationBarButton() {
+        let add = UIBarButtonItem(barButtonSystemItem: .add,
+                                  target: self,
+                                  action: #selector(addTapped))
+        navigationItem.rightBarButtonItem = add
+    }
+
+    @objc private func addTapped() {
+        self.presenter.addReminderTapped()
     }
 }
 

@@ -9,6 +9,8 @@ import Foundation
 
 protocol IRemindersListInteractor {
     func loadInitData()
+    func addNewReminder()
+    func updateDataArray(atIndex index: Int, text: String)
 }
 
 protocol IRemindersListInteractorOuter: AnyObject {
@@ -20,16 +22,29 @@ final class RemindersListInteractor {
     // MARK: - Properties
 
     weak var presenter: IRemindersListInteractorOuter?
-    private var dataArray: [String] = []
 }
 
 // MARK: - IRemindersListInteractor
 
 extension RemindersListInteractor: IRemindersListInteractor {
     func loadInitData() {
-        self.dataArray.append("")
-        self.dataArray.append("")
-        self.dataArray.append("")
-        self.presenter?.showDataOnScreen(dataArray: self.dataArray)
+        self.addNewReminder()
+        self.passDataToView()
+    }
+    
+    func addNewReminder() {
+        ReminderManager.shared.appendElement()
+        self.passDataToView()
+    }
+    
+    func updateDataArray(atIndex index: Int, text: String) {
+        ReminderManager.shared.updateElement(atIndex: index, text: text)
+        self.passDataToView()
+    }
+}
+
+private extension RemindersListInteractor {
+    func passDataToView() {
+        self.presenter?.showDataOnScreen(dataArray: ReminderManager.shared.getDataArray())
     }
 }

@@ -9,6 +9,7 @@ import Foundation
 
 protocol IRemindersListPresenter {
     func viewDidLoad(ui: IRemindersListView)
+    func addReminderTapped()
 }
 
 final class RemindersListPresenter {
@@ -31,7 +32,14 @@ final class RemindersListPresenter {
 extension RemindersListPresenter: IRemindersListPresenter {
     func viewDidLoad(ui: IRemindersListView) {
         self.ui = ui
+        self.ui?.updateDataArray = { (index, text) in
+            self.interactor.updateDataArray(atIndex: index, text: text)
+        }
         self.interactor.loadInitData()
+    }
+
+    func addReminderTapped() {
+        self.interactor.addNewReminder()
     }
 }
 

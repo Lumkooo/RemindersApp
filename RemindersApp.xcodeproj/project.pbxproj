@@ -25,6 +25,7 @@
 		CEFADAB725BA80070020DE32 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFADAB625BA80070020DE32 /* Reminder.swift */; };
 		CEFADABD25BA84870020DE32 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFADABC25BA84870020DE32 /* AppConstants.swift */; };
 		CEFADAC125BA8DE10020DE32 /* HideKeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFADAC025BA8DE10020DE32 /* HideKeyboardExtension.swift */; };
+		CEFADAC425BA97E90020DE32 /* ReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFADAC325BA97E90020DE32 /* ReminderManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		CEFADAB625BA80070020DE32 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		CEFADABC25BA84870020DE32 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		CEFADAC025BA8DE10020DE32 /* HideKeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardExtension.swift; sourceTree = "<group>"; };
+		CEFADAC325BA97E90020DE32 /* ReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 				CEFADAB325BA7FEE0020DE32 /* RemindersTableViewModel */,
 				CEFADABC25BA84870020DE32 /* AppConstants.swift */,
 				CEFADAC025BA8DE10020DE32 /* HideKeyboardExtension.swift */,
+				CEFADAC325BA97E90020DE32 /* ReminderManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				CEBDF3E125B94F7100686F2C /* RemindersTableViewDataSource.swift in Sources */,
 				CEFADAB725BA80070020DE32 /* Reminder.swift in Sources */,
 				CEBDF3D325B94AA400686F2C /* RemindersListInteractor.swift in Sources */,
+				CEFADAC425BA97E90020DE32 /* ReminderManager.swift in Sources */,
 				CEBDF3AB25B941C400686F2C /* RemindersListViewController.swift in Sources */,
 				CEBDF3D625B94AAC00686F2C /* RemindersListPresenter.swift in Sources */,
 				CEBDF3CC25B9445B00686F2C /* RemindersListAssembly.swift in Sources */,
