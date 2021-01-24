@@ -14,4 +14,14 @@ struct Reminder {
     var date: Date?
     var location: CLLocation?
     var photo: UIImage?
+
+    // MARK: - Init
+
+    init() {
+        self.text = ""
+        self.isDone = false
+        self.date = nil
+        self.location = nil
+        self.photo = nil
+    }
 }

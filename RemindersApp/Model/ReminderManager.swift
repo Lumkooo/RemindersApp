@@ -9,22 +9,22 @@ import Foundation
 
 final class ReminderManager {
 
-    private var dataArray: [String] = []
+    // MARK: Properties
 
-    static let shared = ReminderManager()
+    private var dataArray: [Reminder] = []
 
-    func getDataArray() -> [String] {
+    // MARK: Methods
+
+    func getDataArray() -> [Reminder] {
         return self.dataArray
     }
 
     func appendElement() {
-        self.dataArray.append("")
+        self.dataArray.append(Reminder())
     }
 
     func updateElement(atIndex index: Int, text: String) {
-        print("index", index)
-        print("text", text)
-        self.dataArray[index] = text
+        self.dataArray[index].text = text
     }
 
     func loadElements() {
@@ -33,5 +33,9 @@ final class ReminderManager {
 
     func removeElement(atIndex index: Int) {
         self.dataArray.remove(at: index)
+    }
+
+    func saveReminderToCompleted(indexPath: IndexPath) {
+        // TODO: - Сохранение в удаленные в CoreData
     }
 }

@@ -18,4 +18,14 @@ enum AppConstants {
         static let halfNormalConstraint: CGFloat = 8
         static let quarterNormalConstraint: CGFloat = 4
     }
+
+    enum Images {
+        static let circleImage = UIImage(systemName: "circle")
+        static let infoImage = UIImage(systemName: "info.circle")
+    }
+
+    enum Sizes {
+        static let isDoneButtonSize: CGSize = CGSize(width: 35, height: 35)
+        static let infoButtonSize: CGSize = CGSize(width: 35, height: 35)
+    }
 }

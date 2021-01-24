@@ -8,7 +8,7 @@
 import UIKit
 
 protocol IRemindersListRouter {
-
+    func showDetailInfo(forReminder reminder: Reminder)
 }
 
 final class RemindersListRouter {
@@ -18,5 +18,7 @@ final class RemindersListRouter {
 // MARK: - IRemindersListRouter
 
 extension RemindersListRouter: IRemindersListRouter {
-
+    func showDetailInfo(forReminder reminder: Reminder) {
+        // TODO: - Показывать другой экран
+    }
 }

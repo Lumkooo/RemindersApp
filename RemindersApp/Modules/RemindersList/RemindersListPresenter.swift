@@ -32,8 +32,17 @@ final class RemindersListPresenter {
 extension RemindersListPresenter: IRemindersListPresenter {
     func viewDidLoad(ui: IRemindersListView) {
         self.ui = ui
-        self.ui?.updateDataArray = { (index, text) in
-            self.interactor.updateDataArray(atIndex: index, text: text)
+        self.ui?.infoButtonTapped = { [weak self] indexPath in
+            self?.interactor.goToDetailInfo(indexPath: indexPath)
+        }
+        self.ui?.isDoneButtonTapped = { [weak self] indexPath in
+            self?.interactor.saveReminderToCompleted(indexPath: indexPath)
+        }
+        self.ui?.deletingCellAt = { [weak self] indexPath in
+            self?.interactor.deleteReminderAt(indexPath: indexPath)
+        }
+        self.ui?.textDidChanged = { [weak self] (index, text) in
+            self?.interactor.textDidChanged(atIndex: index, text: text)
         }
         self.interactor.loadInitData()
     }
@@ -46,7 +55,11 @@ extension RemindersListPresenter: IRemindersListPresenter {
 // MARK: - IRemindersListInteractorOuter
 
 extension RemindersListPresenter: IRemindersListInteractorOuter {
-    func showDataOnScreen(dataArray: [String]) {
+    func goToDetailInfo(reminder: Reminder) {
+        self.router.showDetailInfo(forReminder: reminder)
+    }
+
+    func showDataOnScreen(dataArray: [Reminder]) {
         self.ui?.showDataOnScreen(dataArray: dataArray)
     }
 }
