@@ -64,11 +64,6 @@ extension RemindersTableViewDataSource: UITableViewDataSource {
                    forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             self.delegate.deletingCellAt(indexPath)
-//            self.dataArray.remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//            ReminderManager.shared.removeElement(atIndex: indexPath.row)
-//            self.dataArray = ReminderManager.shared.getDataArray()
-//            tableView.reloadData()
-        } 
+        }
     }
 }

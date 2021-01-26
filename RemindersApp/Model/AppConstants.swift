@@ -22,10 +22,19 @@ enum AppConstants {
     enum Images {
         static let circleImage = UIImage(systemName: "circle")
         static let infoImage = UIImage(systemName: "info.circle")
+        static let calendarImage = UIImage(systemName: "calendar")
+        static let clockImage = UIImage(systemName: "clock.fill")
+        static let locationFillImage = UIImage(systemName: "location.fill")
+        static let messageFillImage = UIImage(systemName: "message.fill")
+        static let flagFillImage = UIImage(systemName: "flag.fill")
+        static let rightArrowImage = UIImage(systemName: "chevron.right")
     }
 
     enum Sizes {
         static let isDoneButtonSize: CGSize = CGSize(width: 35, height: 35)
         static let infoButtonSize: CGSize = CGSize(width: 35, height: 35)
+        static let reminderInfoIconImageSize: CGSize = CGSize(width: 25, height: 25)
+        static let reminderInfoIconCornerRadius: CGFloat = 5
+        static let reminderInfoPriorityImageSize: CGSize = CGSize(width: 10, height: 15)
     }
 }

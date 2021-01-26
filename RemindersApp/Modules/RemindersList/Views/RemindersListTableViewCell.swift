@@ -48,12 +48,12 @@ final class RemindersListTableViewCell: UITableViewCell {
         return myButton
     }()
 
-
     // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupElements()
+        self.selectionStyle = .none
     }
 
     required init?(coder: NSCoder) {
@@ -127,7 +127,7 @@ private extension RemindersListTableViewCell {
         self.contentView.addSubview(self.reminderTextView)
         self.reminderTextView.translatesAutoresizingMaskIntoConstraints = false
         self.reminderTextView.delegate = self
-
+        self.reminderTextView.backgroundColor = self.backgroundColor
         NSLayoutConstraint.activate([
             self.reminderTextView.leadingAnchor.constraint(
                 equalTo: self.isDoneButton.trailingAnchor,
@@ -154,8 +154,6 @@ extension RemindersListTableViewCell: UITextViewDelegate {
         }
         self.textViewDidChange?(self.cellIndex,
                                 text)
-//        ReminderManager.shared.updateElement(atIndex: self.cellIndex,
-//                                             text: text)
     }
 
     func setSelected(selected: Bool, animated: Bool) {

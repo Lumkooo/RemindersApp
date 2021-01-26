@@ -29,7 +29,7 @@ final class RemindersListView: UIView {
 
     // MARK: - Properties
 
-    private var tableViewDelegate: RemindersTableViewDelegate?
+    private var tableViewDelegate: CustomTableViewDelegate?
     private var tableViewDataSource: RemindersTableViewDataSource?
     var isDoneButtonTapped: ((IndexPath) -> Void)?
     var infoButtonTapped: ((IndexPath) -> Void)?
@@ -66,7 +66,7 @@ private extension RemindersListView {
     }
 
     func setupTableView() {
-        self.tableViewDelegate = RemindersTableViewDelegate(delegate: self)
+        self.tableViewDelegate = CustomTableViewDelegate(delegate: self)
         self.tableViewDataSource = RemindersTableViewDataSource(delegate: self)
         self.tableView.delegate = self.tableViewDelegate
         self.tableView.dataSource = self.tableViewDataSource
@@ -84,10 +84,9 @@ private extension RemindersListView {
 
 // MARK: - IRemindersTableViewDelegate
 
-extension RemindersListView: IRemindersTableViewDelegate {
+extension RemindersListView: ICustomTableViewDelegate {
     func didSelectRowAt(_ indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        print("cell tapped at: \(indexPath.row)")
     }
 }
 
@@ -106,9 +105,6 @@ extension RemindersListView: IRemindersTableViewDataSource {
             cell?.contentView.alpha = 0
         }
         DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-//            ReminderManager.shared.removeElement(atIndex: indexPath.row)
-//            self.tableViewDataSource?.dataArray = ReminderManager.shared.getDataArray()
-//            self.tableView.reloadData()
             cell?.contentView.alpha = 1
             self.isDoneButtonTapped?(indexPath)
         }

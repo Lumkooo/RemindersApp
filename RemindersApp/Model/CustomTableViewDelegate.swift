@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol IRemindersTableViewDelegate {
+protocol ICustomTableViewDelegate {
     func didSelectRowAt(_ indexPath: IndexPath)
 }
 
-final class RemindersTableViewDelegate: NSObject {
+final class CustomTableViewDelegate: NSObject {
 
     // MARK: - Constants
 
@@ -21,16 +21,16 @@ final class RemindersTableViewDelegate: NSObject {
 
     // MARK: - Properties
 
-    private let delegate: IRemindersTableViewDelegate
+    private let delegate: ICustomTableViewDelegate
 
     // MARK: - Init
 
-    init(delegate: IRemindersTableViewDelegate) {
+    init(delegate: ICustomTableViewDelegate) {
         self.delegate = delegate
     }
 }
 
-extension RemindersTableViewDelegate: UITableViewDelegate {
+extension CustomTableViewDelegate: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.delegate.didSelectRowAt(indexPath)
     }

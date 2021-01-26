@@ -29,6 +29,7 @@ class RemindersListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Напоминания"
         self.view = self.customView
         self.presenter.viewDidLoad(ui: self.customView)
         self.setupHidingKeyboardOnTap()
