@@ -19,6 +19,7 @@ final class RemindersListRouter {
 
 extension RemindersListRouter: IRemindersListRouter {
     func showDetailInfo(forReminder reminder: Reminder) {
-        // TODO: - Показывать другой экран
+        let vc = ReminderInfoAssembly.createVC(reminder: reminder)
+        self.vc?.navigationController?.present(vc, animated: true)
     }
 }
