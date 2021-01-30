@@ -11,12 +11,16 @@ protocol IReminderInfoInteractor {
     func loadInitData()
     func textViewDidChange(indexPath: IndexPath, text: String)
     func switchValueDidChange(indexPath: IndexPath, value: Bool)
+    func setDate(date: Date)
 }
 
 protocol IReminderInfoInteractorOuter: AnyObject {
     func prepareViewFor(reminder: Reminder)
-    func showCalendar()
-    func hideCalendar()
+    func reloadViewFor(reminder: Reminder)
+    func showCalendarInfo()
+    func hideCalendarInfo()
+    func showTime()
+    func hideTime()
 }
 
 final class ReminderInfoInteractor {
@@ -61,12 +65,16 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
         if indexPath.section == 1 {
             if indexPath.row == 0 {
                 if value {
-                    self.presenter?.showCalendar()
+                    self.presenter?.showCalendarInfo()
                 } else {
-                    self.presenter?.hideCalendar()
+                    self.presenter?.hideCalendarInfo()
                 }
             } else if indexPath.row == 1 {
-                // Время
+                if value {
+                    self.presenter?.showTime()
+                } else {
+                    self.presenter?.hideTime()
+                }
             }
         } else if indexPath.section == 2 {
             // Местоположение
@@ -76,6 +84,11 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
             self.reminder.flag = value
         }
         self.reloadViewPresentation()
+    }
+
+    func setDate(date: Date) {
+        self.reminder.date = date
+        self.presenter?.reloadViewFor(reminder: reminder)
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 final class ReminderInfoSwitcherTableViewCell: UITableViewCell {
 
@@ -68,6 +69,7 @@ final class ReminderInfoSwitcherTableViewCell: UITableViewCell {
         self.iconImageView.image = image
         self.iconImageView.backgroundColor = imageBackgroundColor
         self.infoTextLabel.text = text
+        self.switcher.isOn = isSwitchActive
     }
 
     // MARK: - Action для Switch-а
@@ -75,6 +77,7 @@ final class ReminderInfoSwitcherTableViewCell: UITableViewCell {
     @objc private func switchChanged(mySwitch: UISwitch) {
         let value = mySwitch.isOn
         self.switchValueDidChange?(self.indexPath, value)
+        AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate)) { }
     }
 }
 

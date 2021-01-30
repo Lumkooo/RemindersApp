@@ -38,6 +38,9 @@ extension ReminderInfoPresenter: IReminderInfoPresenter {
         self.ui?.switchValueDidChange = { [weak self] (indexPath, value) in
             self?.interactor.switchValueDidChange(indexPath: indexPath, value: value)
         }
+        self.ui?.showCalendar = { [weak self] in
+            self?.router.goToCalendar()
+        }
         self.interactor.loadInitData()
     }
 }
@@ -49,11 +52,29 @@ extension ReminderInfoPresenter: IReminderInfoInteractorOuter {
         self.ui?.prepareViewFor(reminder: reminder)
     }
 
-    func showCalendar() {
-        self.ui?.showCalendar()
+    func showCalendarInfo() {
+        self.ui?.showCalendarInfo()
     }
 
-    func hideCalendar() {
-        self.ui?.hideCalendar()
+    func hideCalendarInfo() {
+        self.ui?.hideCalendarInfo()
+    }
+
+    func showTime() {
+        self.ui?.showTime()
+    }
+
+    func hideTime() {
+        self.ui?.hideTime()
+    }
+
+    func reloadViewFor(reminder: Reminder) {
+        self.ui?.reloadViewFor(reminder: reminder)
+    }
+}
+
+extension ReminderInfoPresenter: IReminderInfoRouterOuter {
+    func setDate(date: Date) {
+        self.interactor.setDate(date: date)
     }
 }

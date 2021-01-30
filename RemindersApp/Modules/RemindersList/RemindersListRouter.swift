@@ -20,6 +20,6 @@ final class RemindersListRouter {
 extension RemindersListRouter: IRemindersListRouter {
     func showDetailInfo(forReminder reminder: Reminder) {
         let reminderInfoVC = ReminderInfoAssembly.createVC(reminder: reminder)
-        self.vc?.navigationController?.present(reminderInfoVC, animated: true)
+        self.vc?.navigationController?.pushViewController(reminderInfoVC, animated: true)
     }
 }

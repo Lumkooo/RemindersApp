@@ -19,6 +19,11 @@ final class ReminderInfoTableViewDataSource: NSObject {
     private let delegate: IReminderInfoTableViewDataSource
     var reminderInfo = ReminderInfo()
     var reminder = Reminder()
+    private lazy var dateFormatter: DateFormatter = {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateStyle = .long
+      return dateFormatter
+    }()
 
     // MARK: - Init
 
@@ -35,6 +40,15 @@ final class ReminderInfoTableViewDataSource: NSObject {
     func hideCalendar() {
         self.reminderInfo.dateAndTimeInfo.calendarIsShowing = false
     }
+
+    func showTime() {
+        self.reminderInfo.dateAndTimeInfo.timeIsShowing = true
+    }
+
+    func hideTime() {
+        self.reminderInfo.dateAndTimeInfo.timeIsShowing = false
+    }
+
 }
 
 // MARK: - UITableViewDataSource
@@ -50,8 +64,6 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
         case 0:
             return self.reminderInfo.mainInfo.count
         case 1:
-            print("self.reminderInfo.dateAndTimeInfo.stringRepresentation.count",
-                  self.reminderInfo.dateAndTimeInfo.stringRepresentation.count)
             return self.reminderInfo.dateAndTimeInfo.stringRepresentation.count
         case 2:
             return self.reminderInfo.locationInfo.stringRepresentation.count
@@ -121,12 +133,41 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
             var text: String = ""
             var image: UIImage = UIImage()
             var imageBackgroundColor: UIColor = .white
+            var isSwitchActive: Bool = false
 
             if section == 1 {
-                let dateAndTimeInfo = self.reminderInfo.dateAndTimeInfo
-                text = dateAndTimeInfo.stringRepresentation[indexPath.row]
-                image = dateAndTimeInfo.image[indexPath.row]
-                imageBackgroundColor = dateAndTimeInfo.imageColors[indexPath.row]
+                if indexPath.row == 0 || indexPath.row == 1 {
+                    let dateAndTimeInfo = self.reminderInfo.dateAndTimeInfo
+                    text = dateAndTimeInfo.stringRepresentation[indexPath.row]
+                    image = dateAndTimeInfo.image[indexPath.row]
+                    imageBackgroundColor = dateAndTimeInfo.imageColors[indexPath.row]
+                    if indexPath.row == 0 {
+                        isSwitchActive = dateAndTimeInfo.calendarIsShowing
+                    } else if indexPath.row == 1 {
+                        isSwitchActive = dateAndTimeInfo.timeIsShowing
+                    }
+                } else if indexPath.row == 2 {
+                    // MARK: - Ячейка с календарем
+                    let cell = tableView.dequeueReusableCell(
+                        withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
+                    cell.textLabel?.textColor = .systemBlue
+                    let text = self.reminderInfo.dateAndTimeInfo.stringRepresentation[indexPath.row]
+
+                    cell.textLabel?.text = text
+                    if let date = self.reminder.date {
+                        cell.textLabel?.text = dateFormatter.string(from: date)
+                        cell.textLabel?.textColor = .lightGray
+                    }
+                    return cell
+                } else if indexPath.row == 3 {
+                    // MARK: - Ячейка с часами
+                    let cell = tableView.dequeueReusableCell(
+                        withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
+                    cell.textLabel?.textColor = .systemBlue
+                    let text = self.reminderInfo.dateAndTimeInfo.stringRepresentation[indexPath.row]
+                    cell.textLabel?.text = text
+                    return cell
+                }
             } else if section == 2 {
                 let locationInfo = self.reminderInfo.locationInfo
                 text = locationInfo.stringRepresentation[indexPath.row]
@@ -149,7 +190,7 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
                                  text: text,
                                  image: image,
                                  imageBackgroundColor: imageBackgroundColor,
-                                 isSwitchActive: false)
+                                 isSwitchActive: isSwitchActive)
             secondCell.switchValueDidChange = { [weak self] (indexPath, value) in
                 self?.delegate.switchValueDidChange(indexPath: indexPath, value: value)
             }
@@ -173,7 +214,8 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
 
             // MARK: - Добавление картинки
 
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
             cell.textLabel?.textColor = .systemBlue
             let text = self.reminderInfo.addImageInfo[indexPath.row]
             cell.textLabel?.text = text

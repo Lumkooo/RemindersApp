@@ -25,19 +25,36 @@ struct ReminderInfo {
         var calendarIsShowing: Bool {
             willSet {
                 if newValue == true {
-                    self.stringRepresentation.insert("Календарь", at: 1)
+                    self.stringRepresentation.append("Нажмите для выбора даты")
                 }  else {
-                    self.stringRepresentation.remove(at: 1)
+                    if self.timeIsShowing == true {
+                        self.timeIsShowing = false
+                    }
+                    self.stringRepresentation.removeAll { (string) -> Bool in
+                        string == "Нажмите для выбора даты"
+                    }
                 }
             }
         }
-        var timeIsShowing: Bool
+        var timeIsShowing: Bool {
+            willSet {
+                if newValue == true {
+                    if self.calendarIsShowing == false {
+                        self.calendarIsShowing = true
+                    }
+                    self.stringRepresentation.append("Выберите время")
+                }  else {
+                    self.stringRepresentation.removeAll { (string) -> Bool in
+                        string == "Выберите время"
+                    }
+                }
+            }
+        }
 
         init() {
             self.stringRepresentation = ["Дата", "Время"]
             self.image = [AppConstants.Images.calendarImage ?? UIImage(),
-                          AppConstants.Images.calendarImage ?? UIImage(),
-                          AppConstants.Images.clockImage ?? UIImage()]
+                          AppConstants.Images.calendarImage ?? UIImage()]
             self.imageColors = [.red, .systemBlue, .systemBlue]
             self.calendarIsShowing = false
             self.timeIsShowing = false

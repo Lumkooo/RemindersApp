@@ -10,10 +10,14 @@ import UIKit
 protocol IReminderInfoView: AnyObject {
     var textViewDidChange: ((IndexPath, String) -> Void)? { get set }
     var switchValueDidChange: ((IndexPath, Bool) -> Void)? { get set }
+    var showCalendar: (() -> Void)? { get set }
 
     func prepareViewFor(reminder: Reminder)
-    func showCalendar()
-    func hideCalendar()
+    func reloadViewFor(reminder: Reminder)
+    func showCalendarInfo()
+    func hideCalendarInfo()
+    func showTime()
+    func hideTime()
 }
 
 final class ReminderInfoView: UIView {
@@ -32,6 +36,7 @@ final class ReminderInfoView: UIView {
     private var tableViewDelegate: CustomTableViewDelegate?
     var textViewDidChange: ((IndexPath, String) -> Void)?
     var switchValueDidChange: ((IndexPath, Bool) -> Void)?
+    var showCalendar: (() -> Void)?
 
     // MARK: - Init
 
@@ -53,14 +58,36 @@ extension ReminderInfoView: IReminderInfoView {
         self.tableViewDataSource?.reminder = reminder
     }
 
-    func showCalendar() {
-        self.tableViewDataSource?.showCalendar()
-        self.tableView.reloadData()
+    func reloadViewFor(reminder: Reminder) {
+        self.tableViewDataSource?.reminder = reminder
+        self.reloadTableViewWithAnimation()
     }
 
-    func hideCalendar() {
+    func showCalendarInfo() {
+        self.tableViewDataSource?.showCalendar()
+        self.reloadTableViewWithAnimation()
+    }
+    
+    func hideCalendarInfo() {
         self.tableViewDataSource?.hideCalendar()
-        self.tableView.reloadData()
+        self.reloadTableViewWithAnimation()
+    }
+
+    func showTime() {
+        self.tableViewDataSource?.showTime()
+        self.reloadTableViewWithAnimation()
+    }
+
+    func hideTime() {
+        self.tableViewDataSource?.hideTime()
+        self.reloadTableViewWithAnimation()
+    }
+
+    private func reloadTableViewWithAnimation() {
+        UIView.transition(with: tableView,
+                          duration: 0.35,
+                          options: .transitionCrossDissolve,
+                          animations: { self.tableView.reloadData() })
     }
 }
 
@@ -75,7 +102,7 @@ private extension ReminderInfoView {
         self.tableView.register(ReminderInfoTextViewTableViewCell.self,
                                 forCellReuseIdentifier: ReminderInfoTextViewTableViewCell.reuseIdentifier)
         self.tableView.register(UITableViewCell.self,
-                                forCellReuseIdentifier: "cellID")
+                                forCellReuseIdentifier: AppConstants.TableViewCells.cellID)
         self.tableView.register(ReminderInfoSwitcherTableViewCell.self,
                                 forCellReuseIdentifier: ReminderInfoSwitcherTableViewCell.reuseIdentifier)
         self.tableView.register(ReminderInfoPriorityTableViewCell.self,
@@ -101,6 +128,10 @@ private extension ReminderInfoView {
 extension ReminderInfoView: ICustomTableViewDelegate {
     func didSelectRowAt(_ indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+
+        if indexPath == IndexPath(row: 2, section: 1) {
+            self.showCalendar?()
+        }
     }
 }
 
@@ -115,3 +146,4 @@ extension ReminderInfoView: IReminderInfoTableViewDataSource {
         self.switchValueDidChange?(indexPath, value)
     }
 }
+
