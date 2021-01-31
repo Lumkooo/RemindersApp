@@ -9,6 +9,7 @@ import Foundation
 
 protocol IReminderInfoPresenter {
     func viewDidLoad(ui: IReminderInfoView)
+    func saveTapped()
 }
 
 final class ReminderInfoPresenter {
@@ -38,10 +39,17 @@ extension ReminderInfoPresenter: IReminderInfoPresenter {
         self.ui?.switchValueDidChange = { [weak self] (indexPath, value) in
             self?.interactor.switchValueDidChange(indexPath: indexPath, value: value)
         }
-        self.ui?.showCalendar = { [weak self] in
-            self?.router.goToCalendar()
+        self.ui?.dateChanged = { [weak self] (date) in
+            self?.interactor.dateChanged(date: date)
+        }
+        self.ui?.timeChanged = { [weak self] (time) in
+            self?.interactor.timeChanged(time: time)
         }
         self.interactor.loadInitData()
+    }
+
+    func saveTapped() {
+        self.interactor.saveReminder()
     }
 }
 
@@ -70,11 +78,5 @@ extension ReminderInfoPresenter: IReminderInfoInteractorOuter {
 
     func reloadViewFor(reminder: Reminder) {
         self.ui?.reloadViewFor(reminder: reminder)
-    }
-}
-
-extension ReminderInfoPresenter: IReminderInfoRouterOuter {
-    func setDate(date: Date) {
-        self.interactor.setDate(date: date)
     }
 }

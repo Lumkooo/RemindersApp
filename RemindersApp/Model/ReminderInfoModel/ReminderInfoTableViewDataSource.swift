@@ -10,6 +10,8 @@ import UIKit
 protocol IReminderInfoTableViewDataSource {
     func textViewDidChange(indexPath: IndexPath, text: String)
     func switchValueDidChange(indexPath: IndexPath, value: Bool)
+    func dateChanged(newDate: Date)
+    func timeChanged(newTime: Date)
 }
 
 final class ReminderInfoTableViewDataSource: NSObject {
@@ -20,9 +22,9 @@ final class ReminderInfoTableViewDataSource: NSObject {
     var reminderInfo = ReminderInfo()
     var reminder = Reminder()
     private lazy var dateFormatter: DateFormatter = {
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateStyle = .long
-      return dateFormatter
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        return dateFormatter
     }()
 
     // MARK: - Init
@@ -147,25 +149,35 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
                         isSwitchActive = dateAndTimeInfo.timeIsShowing
                     }
                 } else if indexPath.row == 2 {
-                    // MARK: - Ячейка с календарем
-                    let cell = tableView.dequeueReusableCell(
-                        withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
-                    cell.textLabel?.textColor = .systemBlue
-                    let text = self.reminderInfo.dateAndTimeInfo.stringRepresentation[indexPath.row]
 
-                    cell.textLabel?.text = text
-                    if let date = self.reminder.date {
-                        cell.textLabel?.text = dateFormatter.string(from: date)
-                        cell.textLabel?.textColor = .lightGray
+                    // MARK: - Ячейка с календарем
+
+                    guard let cell = tableView.dequeueReusableCell(
+                            withIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier,
+                            for: indexPath) as? ReminderInfoDateTableViewCell else {
+                        assertionFailure("oops, something went wrong")
+                        return UITableViewCell()
+                    }
+                    cell.setupCell(cellType: .date)
+                    cell.datePickerDidChangedValue = { [weak self] (date) in
+                        self?.delegate.dateChanged(newDate: date)
                     }
                     return cell
                 } else if indexPath.row == 3 {
+
                     // MARK: - Ячейка с часами
-                    let cell = tableView.dequeueReusableCell(
-                        withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
-                    cell.textLabel?.textColor = .systemBlue
-                    let text = self.reminderInfo.dateAndTimeInfo.stringRepresentation[indexPath.row]
-                    cell.textLabel?.text = text
+
+                    guard let cell = tableView.dequeueReusableCell(
+                            withIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier,
+                            for: indexPath) as? ReminderInfoDateTableViewCell else {
+                        assertionFailure("oops, something went wrong")
+                        return UITableViewCell()
+                    }
+
+                    cell.setupCell(cellType: .time)
+                    cell.datePickerDidChangedValue = { [weak self] (date) in
+                        self?.delegate.timeChanged(newTime: date)
+                    }
                     return cell
                 }
             } else if section == 2 {

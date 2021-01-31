@@ -45,6 +45,7 @@ enum AppConstants {
         static let separatorViewAlpha: CGFloat = 0.2
         static let calendarHeaderHeight: CGFloat = 85
         static let calendarFooterHeight: CGFloat = 60
+        static let datePickerMinimumSize: CGSize = CGSize(width: 280, height: 280)
     }
 
     enum TableViewCells {

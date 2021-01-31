@@ -12,13 +12,6 @@
 		CE3A008025BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A007F25BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift */; };
 		CE5F252325BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F252225BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift */; };
 		CE5F252825BFE26200409BDF /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F252725BFE26200409BDF /* Priority.swift */; };
-		CE802DCB25C12C7400E674D8 /* CalendarPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE802DCA25C12C7400E674D8 /* CalendarPickerViewController.swift */; };
-		CE802DCF25C12C9E00E674D8 /* CalendarPickerFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE802DCE25C12C9E00E674D8 /* CalendarPickerFooterView.swift */; };
-		CE802DD225C12CC600E674D8 /* CalendarPickerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE802DD125C12CC600E674D8 /* CalendarPickerHeaderView.swift */; };
-		CE802DD625C12CEC00E674D8 /* CalendarDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE802DD525C12CEC00E674D8 /* CalendarDateCollectionViewCell.swift */; };
-		CE802DDB25C12D2200E674D8 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE802DDA25C12D2200E674D8 /* Day.swift */; };
-		CE802DDF25C12D3B00E674D8 /* MonthMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE802DDE25C12D3B00E674D8 /* MonthMetadata.swift */; };
-		CE802DE225C12D5200E674D8 /* CalendarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE802DE125C12D5200E674D8 /* CalendarAssembly.swift */; };
 		CEAF39E225BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF39E125BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift */; };
 		CEBDF3A725B941C400686F2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3A625B941C400686F2C /* AppDelegate.swift */; };
 		CEBDF3A925B941C400686F2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3A825B941C400686F2C /* SceneDelegate.swift */; };
@@ -35,6 +28,8 @@
 		CEBDF3DE25B94DEF00686F2C /* CustomTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3DD25B94DEF00686F2C /* CustomTableViewDelegate.swift */; };
 		CEBDF3E125B94F7100686F2C /* RemindersTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3E025B94F7100686F2C /* RemindersTableViewDataSource.swift */; };
 		CEBDF3E425B9504200686F2C /* RemindersListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3E325B9504200686F2C /* RemindersListTableViewCell.swift */; };
+		CED3520D25C6610200B58757 /* ReminderInfoDateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3520C25C6610200B58757 /* ReminderInfoDateTableViewCell.swift */; };
+		CED3521125C66E8D00B58757 /* DateAndTimeCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3521025C66E8D00B58757 /* DateAndTimeCellType.swift */; };
 		CEF4F29525BD2FE400B59892 /* ReminderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF4F29425BD2FE400B59892 /* ReminderInfoView.swift */; };
 		CEF4F29A25BD2FF500B59892 /* ReminderInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF4F29925BD2FF500B59892 /* ReminderInfoViewController.swift */; };
 		CEF4F29D25BD2FFB00B59892 /* ReminderInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF4F29C25BD2FFB00B59892 /* ReminderInfoPresenter.swift */; };
@@ -53,13 +48,6 @@
 		CE3A007F25BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoTextViewTableViewCell.swift; sourceTree = "<group>"; };
 		CE5F252225BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoPriorityTableViewCell.swift; sourceTree = "<group>"; };
 		CE5F252725BFE26200409BDF /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
-		CE802DCA25C12C7400E674D8 /* CalendarPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPickerViewController.swift; sourceTree = "<group>"; };
-		CE802DCE25C12C9E00E674D8 /* CalendarPickerFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPickerFooterView.swift; sourceTree = "<group>"; };
-		CE802DD125C12CC600E674D8 /* CalendarPickerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPickerHeaderView.swift; sourceTree = "<group>"; };
-		CE802DD525C12CEC00E674D8 /* CalendarDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateCollectionViewCell.swift; sourceTree = "<group>"; };
-		CE802DDA25C12D2200E674D8 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
-		CE802DDE25C12D3B00E674D8 /* MonthMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthMetadata.swift; sourceTree = "<group>"; };
-		CE802DE125C12D5200E674D8 /* CalendarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarAssembly.swift; sourceTree = "<group>"; };
 		CEAF39E125BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoSwitcherTableViewCell.swift; sourceTree = "<group>"; };
 		CEBDF3A325B941C400686F2C /* RemindersApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemindersApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBDF3A625B941C400686F2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +66,8 @@
 		CEBDF3DD25B94DEF00686F2C /* CustomTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewDelegate.swift; sourceTree = "<group>"; };
 		CEBDF3E025B94F7100686F2C /* RemindersTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersTableViewDataSource.swift; sourceTree = "<group>"; };
 		CEBDF3E325B9504200686F2C /* RemindersListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListTableViewCell.swift; sourceTree = "<group>"; };
+		CED3520C25C6610200B58757 /* ReminderInfoDateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoDateTableViewCell.swift; sourceTree = "<group>"; };
+		CED3521025C66E8D00B58757 /* DateAndTimeCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndTimeCellType.swift; sourceTree = "<group>"; };
 		CEF4F29425BD2FE400B59892 /* ReminderInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoView.swift; sourceTree = "<group>"; };
 		CEF4F29925BD2FF500B59892 /* ReminderInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoViewController.swift; sourceTree = "<group>"; };
 		CEF4F29C25BD2FFB00B59892 /* ReminderInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoPresenter.swift; sourceTree = "<group>"; };
@@ -115,36 +105,9 @@
 				CE3A007F25BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift */,
 				CEAF39E125BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift */,
 				CE5F252225BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift */,
+				CED3520C25C6610200B58757 /* ReminderInfoDateTableViewCell.swift */,
 			);
 			path = CustomTableViewCells;
-			sourceTree = "<group>";
-		};
-		CE802DC925C12C1900E674D8 /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-				CE802DD425C12CC900E674D8 /* Views */,
-				CE802DCA25C12C7400E674D8 /* CalendarPickerViewController.swift */,
-				CE802DD525C12CEC00E674D8 /* CalendarDateCollectionViewCell.swift */,
-			);
-			path = Calendar;
-			sourceTree = "<group>";
-		};
-		CE802DD425C12CC900E674D8 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				CE802DCE25C12C9E00E674D8 /* CalendarPickerFooterView.swift */,
-				CE802DD125C12CC600E674D8 /* CalendarPickerHeaderView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		CE802DD925C12D0800E674D8 /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-				CE802DDA25C12D2200E674D8 /* Day.swift */,
-				CE802DDE25C12D3B00E674D8 /* MonthMetadata.swift */,
-			);
-			path = Calendar;
 			sourceTree = "<group>";
 		};
 		CEBDF39A25B941C400686F2C = {
@@ -194,7 +157,6 @@
 				CEF4F29225BD2FBE00B59892 /* Main */,
 				CEBDF3C325B943F400686F2C /* RemindersList */,
 				CEF4F29325BD2FC800B59892 /* ReminderInfo */,
-				CE802DC925C12C1900E674D8 /* Calendar */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -226,7 +188,6 @@
 				CEBDF3CB25B9445B00686F2C /* RemindersListAssembly.swift */,
 				CEBDF3CE25B9449600686F2C /* NavigationControllerAssembly.swift */,
 				CEF4F2A525BD326500B59892 /* ReminderInfoAssembly.swift */,
-				CE802DE125C12D5200E674D8 /* CalendarAssembly.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -283,10 +244,10 @@
 		CEFADAB525BA7FFD0020DE32 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				CE802DD925C12D0800E674D8 /* Calendar */,
 				CEFADAB625BA80070020DE32 /* Reminder.swift */,
 				CE5F252725BFE26200409BDF /* Priority.swift */,
 				CE3A007B25BE82420094BD4F /* ReminderInfo.swift */,
+				CED3521025C66E8D00B58757 /* DateAndTimeCellType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -361,11 +322,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEBDF3E125B94F7100686F2C /* RemindersTableViewDataSource.swift in Sources */,
-				CE802DDF25C12D3B00E674D8 /* MonthMetadata.swift in Sources */,
 				CEFADAB725BA80070020DE32 /* Reminder.swift in Sources */,
 				CEBDF3D325B94AA400686F2C /* RemindersListInteractor.swift in Sources */,
+				CED3521125C66E8D00B58757 /* DateAndTimeCellType.swift in Sources */,
 				CEFADAC425BA97E90020DE32 /* ReminderManager.swift in Sources */,
-				CE802DCB25C12C7400E674D8 /* CalendarPickerViewController.swift in Sources */,
 				CEBDF3AB25B941C400686F2C /* RemindersListViewController.swift in Sources */,
 				CEBDF3D625B94AAC00686F2C /* RemindersListPresenter.swift in Sources */,
 				CEF4F29525BD2FE400B59892 /* ReminderInfoView.swift in Sources */,
@@ -377,24 +337,20 @@
 				CEBDF3E425B9504200686F2C /* RemindersListTableViewCell.swift in Sources */,
 				CEF4F29D25BD2FFB00B59892 /* ReminderInfoPresenter.swift in Sources */,
 				CEFADABD25BA84870020DE32 /* AppConstants.swift in Sources */,
-				CE802DD625C12CEC00E674D8 /* CalendarDateCollectionViewCell.swift in Sources */,
 				CEBDF3CF25B9449600686F2C /* NavigationControllerAssembly.swift in Sources */,
 				CE3A007225BE7F060094BD4F /* ReminderInfoTableViewDataSource.swift in Sources */,
 				CE5F252325BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift in Sources */,
 				CE3A008025BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift in Sources */,
 				CE3A007C25BE82420094BD4F /* ReminderInfo.swift in Sources */,
-				CE802DE225C12D5200E674D8 /* CalendarAssembly.swift in Sources */,
-				CE802DD225C12CC600E674D8 /* CalendarPickerHeaderView.swift in Sources */,
 				CEBDF3A925B941C400686F2C /* SceneDelegate.swift in Sources */,
 				CEF4F2A625BD326500B59892 /* ReminderInfoAssembly.swift in Sources */,
 				CE5F252825BFE26200409BDF /* Priority.swift in Sources */,
 				CEBDF3B125B941C400686F2C /* RemindersApp.xcdatamodeld in Sources */,
 				CEF4F2A025BD300400B59892 /* ReminderInfoInteractor.swift in Sources */,
-				CE802DDB25C12D2200E674D8 /* Day.swift in Sources */,
 				CEFADAC125BA8DE10020DE32 /* HideKeyboardExtension.swift in Sources */,
 				CEAF39E225BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift in Sources */,
 				CEBDF3DE25B94DEF00686F2C /* CustomTableViewDelegate.swift in Sources */,
-				CE802DCF25C12C9E00E674D8 /* CalendarPickerFooterView.swift in Sources */,
+				CED3520D25C6610200B58757 /* ReminderInfoDateTableViewCell.swift in Sources */,
 				CEF4F29A25BD2FF500B59892 /* ReminderInfoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

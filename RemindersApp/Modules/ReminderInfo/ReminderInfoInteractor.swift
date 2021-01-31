@@ -11,7 +11,9 @@ protocol IReminderInfoInteractor {
     func loadInitData()
     func textViewDidChange(indexPath: IndexPath, text: String)
     func switchValueDidChange(indexPath: IndexPath, value: Bool)
-    func setDate(date: Date)
+    func dateChanged(date: Date)
+    func timeChanged(time: Date)
+    func saveReminder()
 }
 
 protocol IReminderInfoInteractorOuter: AnyObject {
@@ -29,6 +31,14 @@ final class ReminderInfoInteractor {
 
     weak var presenter: IReminderInfoInteractorOuter?
     private var reminder: Reminder
+    private var dayMonthsAndYears: DateComponents = DateComponents()
+    // Изначально ставим на 8:00. Поэтому если пользователь не выберет
+    // время, то напоминание будет установлено на 8:00
+    private var hoursAndMinutes: DateComponents = DateComponents(calendar: .autoupdatingCurrent,
+                                                                 timeZone: .autoupdatingCurrent,
+                                                                 hour: 8,
+                                                                 minute: 0)
+    private var isDateIncluded: Bool = false
 
     // MARK: - Init
 
@@ -63,6 +73,7 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
 
     func switchValueDidChange(indexPath: IndexPath, value: Bool) {
         if indexPath.section == 1 {
+            self.isDateIncluded = value
             if indexPath.row == 0 {
                 if value {
                     self.presenter?.showCalendarInfo()
@@ -86,14 +97,49 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
         self.reloadViewPresentation()
     }
 
-    func setDate(date: Date) {
-        self.reminder.date = date
-        self.presenter?.reloadViewFor(reminder: reminder)
+    func dateChanged(date: Date) {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day, .month, .year], from: date)
+        self.dayMonthsAndYears = components
+    }
+
+    func timeChanged(time: Date) {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.hour, .minute], from: time)
+        self.hoursAndMinutes = components
+    }
+
+    func saveReminder() {
+        if self.isDateIncluded {
+            let dateAndTime = self.getDateAndTime()
+            print("Date and Time", dateAndTime)
+            self.reminder.date = dateAndTime
+        }
+        print("saved", reminder)
     }
 }
 
 private extension ReminderInfoInteractor {
     func reloadViewPresentation() {
         self.presenter?.prepareViewFor(reminder: reminder)
+    }
+
+    func getDateAndTime() -> Date? {
+        let calendar = Calendar.current
+        if self.dayMonthsAndYears.year ?? 0 <= 1 {
+            // Для того, чтобы выбрать дату, соответствующую сегодня
+            // если пользователь не выбрал конкретную дату, но выбрал swifch календаря
+            let date = Date()
+            self.dateChanged(date: date)
+        }
+        let components = DateComponents(calendar: .autoupdatingCurrent,
+                                        timeZone: .autoupdatingCurrent,
+                                        year: self.dayMonthsAndYears.year,
+                                        month: self.dayMonthsAndYears.month,
+                                        day: self.dayMonthsAndYears.day,
+                                        hour: self.hoursAndMinutes.hour,
+                                        minute: self.hoursAndMinutes.minute)
+        let dateAndTime = calendar.date(from: components)
+        return dateAndTime
     }
 }

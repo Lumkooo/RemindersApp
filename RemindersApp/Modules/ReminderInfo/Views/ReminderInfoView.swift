@@ -10,7 +10,8 @@ import UIKit
 protocol IReminderInfoView: AnyObject {
     var textViewDidChange: ((IndexPath, String) -> Void)? { get set }
     var switchValueDidChange: ((IndexPath, Bool) -> Void)? { get set }
-    var showCalendar: (() -> Void)? { get set }
+    var dateChanged: ((Date) -> Void)? { get set }
+    var timeChanged: ((Date) -> Void)? { get set }
 
     func prepareViewFor(reminder: Reminder)
     func reloadViewFor(reminder: Reminder)
@@ -36,7 +37,8 @@ final class ReminderInfoView: UIView {
     private var tableViewDelegate: CustomTableViewDelegate?
     var textViewDidChange: ((IndexPath, String) -> Void)?
     var switchValueDidChange: ((IndexPath, Bool) -> Void)?
-    var showCalendar: (() -> Void)?
+    var dateChanged: ((Date) -> Void)?
+    var timeChanged: ((Date) -> Void)?
 
     // MARK: - Init
 
@@ -107,6 +109,8 @@ private extension ReminderInfoView {
                                 forCellReuseIdentifier: ReminderInfoSwitcherTableViewCell.reuseIdentifier)
         self.tableView.register(ReminderInfoPriorityTableViewCell.self,
                                 forCellReuseIdentifier: ReminderInfoPriorityTableViewCell.reuseIdentifier)
+        self.tableView.register(ReminderInfoDateTableViewCell.self,
+                                forCellReuseIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier)
         self.tableViewDelegate = CustomTableViewDelegate(delegate: self)
         self.tableViewDataSource = ReminderInfoTableViewDataSource(delegate: self)
         self.tableView.delegate = tableViewDelegate
@@ -128,10 +132,6 @@ private extension ReminderInfoView {
 extension ReminderInfoView: ICustomTableViewDelegate {
     func didSelectRowAt(_ indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-
-        if indexPath == IndexPath(row: 2, section: 1) {
-            self.showCalendar?()
-        }
     }
 }
 
@@ -144,6 +144,14 @@ extension ReminderInfoView: IReminderInfoTableViewDataSource {
 
     func switchValueDidChange(indexPath: IndexPath, value: Bool) {
         self.switchValueDidChange?(indexPath, value)
+    }
+
+    func dateChanged(newDate: Date) {
+        self.dateChanged?(newDate)
+    }
+
+    func timeChanged(newTime: Date) {
+        self.timeChanged?(newTime)
     }
 }
 

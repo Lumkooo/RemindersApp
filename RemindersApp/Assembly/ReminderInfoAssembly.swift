@@ -17,7 +17,6 @@ enum ReminderInfoAssembly {
 
         router.vc = viewController
         interactor.presenter = presenter
-        router.presenter = presenter
 
         return viewController
     }
