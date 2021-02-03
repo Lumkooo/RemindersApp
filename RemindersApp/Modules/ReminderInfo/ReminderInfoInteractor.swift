@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 protocol IReminderInfoInteractor {
     func loadInitData()
@@ -14,6 +15,9 @@ protocol IReminderInfoInteractor {
     func dateChanged(date: Date)
     func timeChanged(time: Date)
     func saveReminder()
+    func userCurrentLocationChosen()
+    func getInCarLocationChosen()
+    func getOutCarLocationChosen()
 }
 
 protocol IReminderInfoInteractorOuter: AnyObject {
@@ -23,6 +27,11 @@ protocol IReminderInfoInteractorOuter: AnyObject {
     func hideCalendarInfo()
     func showTime()
     func hideTime()
+    func showLocation()
+    func hideLocation()
+    func setupViewForUsersCurrentLocation(stringLocation: String)
+    func setupViewForGetInCarLocation()
+    func setupViewForGetOutCarLocation()
 }
 
 final class ReminderInfoInteractor {
@@ -73,6 +82,9 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
 
     func switchValueDidChange(indexPath: IndexPath, value: Bool) {
         if indexPath.section == 1 {
+
+            // MARK: - Дата и время
+
             self.isDateIncluded = value
             if indexPath.row == 0 {
                 if value {
@@ -88,7 +100,17 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
                 }
             }
         } else if indexPath.section == 2 {
-            // Местоположение
+
+            // MARK: - Местоположение
+            
+            if value {
+                // показать ячейку с выбором местоположения
+                self.presenter?.showLocation()
+                self.userCurrentLocationChosen()
+            } else {
+                // убрать ячейку с выбором местоположения
+                self.presenter?.hideLocation()
+            }
         } else if indexPath.section == 3 {
             // Сообщения
         } else if indexPath.section == 4 {
@@ -112,10 +134,23 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
     func saveReminder() {
         if self.isDateIncluded {
             let dateAndTime = self.getDateAndTime()
-            print("Date and Time", dateAndTime)
             self.reminder.date = dateAndTime
         }
         print("saved", reminder)
+    }
+
+    func userCurrentLocationChosen() {
+        // TODO: - Получить информацию о местоположении пользователя
+        let stringLocation = "Текущее местоположение:\n" + "Some location that i have to get!"
+        self.presenter?.setupViewForUsersCurrentLocation(stringLocation: stringLocation)
+    }
+
+    func getInCarLocationChosen() {
+        self.presenter?.setupViewForGetInCarLocation()
+    }
+
+    func getOutCarLocationChosen() {
+        self.presenter?.setupViewForGetOutCarLocation()
     }
 }
 

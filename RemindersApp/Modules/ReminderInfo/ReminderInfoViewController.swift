@@ -32,19 +32,35 @@ final class ReminderInfoViewController: UIViewController {
         self.view = self.customView
         self.presenter.viewDidLoad(ui: self.customView)
         self.setupHidingKeyboardOnTap()
-        self.addNavigationBarButton()
+        self.title = "Detail"
+        self.addNavigationBarButtons()
     }
 
-    private func addNavigationBarButton() {
-        let add = UIBarButtonItem(barButtonSystemItem: .save,
+    private func addNavigationBarButtons() {
+        self.addNavigationRightBarButton()
+        self.addNavigationLeftBarButton()
+    }
+
+    private func addNavigationRightBarButton() {
+        let save = UIBarButtonItem(barButtonSystemItem: .save,
                                   target: self,
-                                  action: #selector(addTapped))
-        navigationItem.rightBarButtonItem = add
+                                  action: #selector(saveTapped))
+        navigationItem.rightBarButtonItem = save
     }
 
-    @objc private func addTapped() {
+    private func addNavigationLeftBarButton() {
+        let cancel = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                  target: self,
+                                  action: #selector(cancelTapped))
+        navigationItem.leftBarButtonItem = cancel
+    }
+
+    @objc private func saveTapped() {
         self.presenter.saveTapped()
     }
 
+    @objc private func cancelTapped() {
+        self.presenter.cancelTapped()
+    }
 }
 

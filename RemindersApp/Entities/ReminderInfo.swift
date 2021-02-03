@@ -64,13 +64,33 @@ struct ReminderInfo {
     // MARK: - LocationInfo
 
     struct LocationInfo {
-        let stringRepresentation: [String]
+        var stringRepresentation: [String]
         let image: UIImage
         let imageColor: UIColor
+        var chosenLocationType: ChosenLocationType = .userCurrent
+        var chosenLocation: String
+        var locationIsShowing: Bool {
+            willSet {
+                if newValue == true {
+                    self.stringRepresentation.append("Выберите местоположение")
+                    self.stringRepresentation.append("Выбранный вариант:")
+                }  else {
+                    self.stringRepresentation.removeAll { (string) -> Bool in
+                        string == "Выберите местоположение"
+                    }
+                    self.stringRepresentation.removeAll { (string) -> Bool in
+                        string == "Выбранный вариант:"
+                    }
+                }
+            }
+        }
+
         init() {
             self.stringRepresentation = ["Местоположение"]
             self.image = AppConstants.Images.locationFillImage ?? UIImage()
             self.imageColor = .systemBlue
+            self.locationIsShowing = false
+            self.chosenLocation = ""
         }
     }
 

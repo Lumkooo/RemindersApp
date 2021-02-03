@@ -8,10 +8,14 @@
 import UIKit
 
 enum AppConstants {
+    static let screenHeight = UIScreen.main.bounds.size.height
+    static let screenWidth = UIScreen.main.bounds.size.width
+
     enum AppFonts {
         static let reminderFont: UIFont = .systemFont(ofSize: 16)
         static let calendarButtonsFont: UIFont = .systemFont(ofSize: 17, weight: .medium)
         static let calendarDaysFont: UIFont = .systemFont(ofSize: 18, weight: .medium)
+        static let locationDescriptionButtonsFont: UIFont = .systemFont(ofSize: 14)
     }
 
     enum Constraints {
@@ -33,22 +37,32 @@ enum AppConstants {
         static let chevronLeftImage = UIImage(systemName: "chevron.left.circle.fill")
         static let chevronRightImage = UIImage(systemName: "chevron.right.circle.fill")
         static let xmarCircleFillImage = UIImage(systemName: "xmark.circle.fill")
+        static let locationImage = UIImage(systemName: "location.fill")
+        static let carImage = UIImage(systemName: "car")
     }
 
     enum Sizes {
         static let isDoneButtonSize: CGSize = CGSize(width: 35, height: 35)
         static let infoButtonSize: CGSize = CGSize(width: 35, height: 35)
         static let reminderInfoIconImageSize: CGSize = CGSize(width: 25, height: 25)
-        static let reminderInfoIconCornerRadius: CGFloat = 5
         static let reminderInfoPriorityImageSize: CGSize = CGSize(width: 10, height: 15)
+        static let locationButtonSize: CGSize = CGSize(width: AppConstants.screenHeight/15,
+                                                       height: AppConstants.screenHeight/15)
+
+        static let reminderInfoIconCornerRadius: CGFloat = 5
         static let calendarCornerRadius: CGFloat = 15
         static let separatorViewAlpha: CGFloat = 0.2
         static let calendarHeaderHeight: CGFloat = 85
         static let calendarFooterHeight: CGFloat = 60
-        static let datePickerMinimumSize: CGSize = CGSize(width: 280, height: 280)
+        static let locationDescriptionButtonConrnerLayer: CGFloat = 5
+        static let locationDescriptionButtonHeight: CGFloat = 20
     }
 
     enum TableViewCells {
         static let cellID = "cellID"
+    }
+
+    enum AnimationTimes {
+        static let reloadTableView: Double = 0.1
     }
 }

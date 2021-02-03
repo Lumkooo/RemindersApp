@@ -12,6 +12,9 @@ protocol IReminderInfoTableViewDataSource {
     func switchValueDidChange(indexPath: IndexPath, value: Bool)
     func dateChanged(newDate: Date)
     func timeChanged(newTime: Date)
+    func userCurrentLocationChosen()
+    func getInCarLocationChosen()
+    func getOutCarLocationChosen()
 }
 
 final class ReminderInfoTableViewDataSource: NSObject {
@@ -51,6 +54,26 @@ final class ReminderInfoTableViewDataSource: NSObject {
         self.reminderInfo.dateAndTimeInfo.timeIsShowing = false
     }
 
+    func showLocation() {
+        self.reminderInfo.locationInfo.locationIsShowing = true
+    }
+
+    func hideLocation() {
+        self.reminderInfo.locationInfo.locationIsShowing = false
+    }
+
+    func setupViewForUsersCurrentLocation(stringLocation: String) {
+        self.reminderInfo.locationInfo.chosenLocationType = .userCurrent
+        self.reminderInfo.locationInfo.chosenLocation = stringLocation
+    }
+
+    func setupViewForGetInCarLocation() {
+        self.reminderInfo.locationInfo.chosenLocationType = .getInCar
+    }
+
+    func setupViewForGetOutCarLocation() {
+        self.reminderInfo.locationInfo.chosenLocationType = .getOutCar
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -150,7 +173,7 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
                     }
                 } else if indexPath.row == 2 {
 
-                    // MARK: - Ячейка с календарем
+                    // Ячейка с календарем
 
                     guard let cell = tableView.dequeueReusableCell(
                             withIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier,
@@ -165,7 +188,7 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
                     return cell
                 } else if indexPath.row == 3 {
 
-                    // MARK: - Ячейка с часами
+                    // Ячейка с часами
 
                     guard let cell = tableView.dequeueReusableCell(
                             withIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier,
@@ -181,11 +204,59 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
                     return cell
                 }
             } else if section == 2 {
+
+                // MARK: - Местоположение
+
                 let locationInfo = self.reminderInfo.locationInfo
                 text = locationInfo.stringRepresentation[indexPath.row]
                 image = locationInfo.image
                 imageBackgroundColor = locationInfo.imageColor
+                isSwitchActive = locationInfo.locationIsShowing
+
+                if  indexPath.row == 1 {
+
+                    // Ячейка с вариантами местоположений
+
+                    guard let cell = tableView.dequeueReusableCell(
+                            withIdentifier: ReminderInfoLocationTableViewCell.reuseIdentifier,
+                            for: indexPath) as? ReminderInfoLocationTableViewCell else {
+                        assertionFailure("oops, something went wrong")
+                        return UITableViewCell()
+                    }
+
+                    cell.userCurrentLocationTapped = { [weak self] in
+                        self?.delegate.userCurrentLocationChosen()
+                    }
+                    cell.getInCarTapped = { [weak self] in
+                        self?.delegate.getInCarLocationChosen()
+                    }
+                    cell.getOutCarTapped = { [weak self] in
+                        self?.delegate.getOutCarLocationChosen()
+                    }
+                    cell.setupCell(chosenLocationType: locationInfo.chosenLocationType)
+
+                    return cell
+                } else if indexPath.row == 2{
+                    
+                    // Ячейка с описанием выбранного пункта меспоположения
+
+                    let cell = tableView.dequeueReusableCell(
+                        withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
+                    cell.textLabel?.textColor = .systemGray4
+                    cell.selectionStyle = .none
+                    if locationInfo.chosenLocationType == .userCurrent {
+                        cell.textLabel?.text = locationInfo.chosenLocation
+                    } else {
+                        let text = locationInfo.chosenLocationType.rawValue
+                        cell.textLabel?.text = text
+                    }
+                    cell.textLabel?.numberOfLines = 0
+                    return cell
+                }
             } else if section == 3 {
+
+                // MARK: - Сообщения
+
                 let messagingInfo = self.reminderInfo.messagingInfo
                 text = messagingInfo.stringRepresentation[indexPath.row]
                 image = messagingInfo.image

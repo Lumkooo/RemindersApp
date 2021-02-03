@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE007A7525CA6AEF00EDC11B /* ChosenLocationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE007A7425CA6AEF00EDC11B /* ChosenLocationType.swift */; };
 		CE3A007225BE7F060094BD4F /* ReminderInfoTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A007125BE7F060094BD4F /* ReminderInfoTableViewDataSource.swift */; };
 		CE3A007C25BE82420094BD4F /* ReminderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A007B25BE82420094BD4F /* ReminderInfo.swift */; };
 		CE3A008025BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A007F25BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift */; };
+		CE3C093525C9143F00723B83 /* ReminderInfoLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C093425C9143F00723B83 /* ReminderInfoLocationTableViewCell.swift */; };
 		CE5F252325BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F252225BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift */; };
 		CE5F252825BFE26200409BDF /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F252725BFE26200409BDF /* Priority.swift */; };
 		CEAF39E225BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF39E125BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift */; };
@@ -43,9 +45,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE007A7425CA6AEF00EDC11B /* ChosenLocationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChosenLocationType.swift; sourceTree = "<group>"; };
 		CE3A007125BE7F060094BD4F /* ReminderInfoTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoTableViewDataSource.swift; sourceTree = "<group>"; };
 		CE3A007B25BE82420094BD4F /* ReminderInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfo.swift; sourceTree = "<group>"; };
 		CE3A007F25BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoTextViewTableViewCell.swift; sourceTree = "<group>"; };
+		CE3C093425C9143F00723B83 /* ReminderInfoLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoLocationTableViewCell.swift; sourceTree = "<group>"; };
 		CE5F252225BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoPriorityTableViewCell.swift; sourceTree = "<group>"; };
 		CE5F252725BFE26200409BDF /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
 		CEAF39E125BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoSwitcherTableViewCell.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 				CEAF39E125BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift */,
 				CE5F252225BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift */,
 				CED3520C25C6610200B58757 /* ReminderInfoDateTableViewCell.swift */,
+				CE3C093425C9143F00723B83 /* ReminderInfoLocationTableViewCell.swift */,
 			);
 			path = CustomTableViewCells;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 				CE5F252725BFE26200409BDF /* Priority.swift */,
 				CE3A007B25BE82420094BD4F /* ReminderInfo.swift */,
 				CED3521025C66E8D00B58757 /* DateAndTimeCellType.swift */,
+				CE007A7425CA6AEF00EDC11B /* ChosenLocationType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -321,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE3C093525C9143F00723B83 /* ReminderInfoLocationTableViewCell.swift in Sources */,
 				CEBDF3E125B94F7100686F2C /* RemindersTableViewDataSource.swift in Sources */,
 				CEFADAB725BA80070020DE32 /* Reminder.swift in Sources */,
 				CEBDF3D325B94AA400686F2C /* RemindersListInteractor.swift in Sources */,
@@ -337,6 +344,7 @@
 				CEBDF3E425B9504200686F2C /* RemindersListTableViewCell.swift in Sources */,
 				CEF4F29D25BD2FFB00B59892 /* ReminderInfoPresenter.swift in Sources */,
 				CEFADABD25BA84870020DE32 /* AppConstants.swift in Sources */,
+				CE007A7525CA6AEF00EDC11B /* ChosenLocationType.swift in Sources */,
 				CEBDF3CF25B9449600686F2C /* NavigationControllerAssembly.swift in Sources */,
 				CE3A007225BE7F060094BD4F /* ReminderInfoTableViewDataSource.swift in Sources */,
 				CE5F252325BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift in Sources */,

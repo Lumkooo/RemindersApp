@@ -10,6 +10,7 @@ import Foundation
 protocol IReminderInfoPresenter {
     func viewDidLoad(ui: IReminderInfoView)
     func saveTapped()
+    func cancelTapped()
 }
 
 final class ReminderInfoPresenter {
@@ -45,11 +46,24 @@ extension ReminderInfoPresenter: IReminderInfoPresenter {
         self.ui?.timeChanged = { [weak self] (time) in
             self?.interactor.timeChanged(time: time)
         }
+        self.ui?.userCurrentLocation = { [weak self] in
+            self?.interactor.userCurrentLocationChosen()
+        }
+        self.ui?.getInCarLocation = { [weak self] in
+            self?.interactor.getInCarLocationChosen()
+        }
+        self.ui?.getOutCarLocation = { [weak self] in
+            self?.interactor.getOutCarLocationChosen()
+        }
         self.interactor.loadInitData()
     }
 
     func saveTapped() {
         self.interactor.saveReminder()
+    }
+
+    func cancelTapped() {
+        self.router.showCancelAlert()
     }
 }
 
@@ -78,5 +92,25 @@ extension ReminderInfoPresenter: IReminderInfoInteractorOuter {
 
     func reloadViewFor(reminder: Reminder) {
         self.ui?.reloadViewFor(reminder: reminder)
+    }
+
+    func showLocation() {
+        self.ui?.showLocation()
+    }
+
+    func hideLocation() {
+        self.ui?.hideLocation()
+    }
+
+    func setupViewForUsersCurrentLocation(stringLocation: String) {
+        self.ui?.setupViewForUsersCurrentLocation(stringLocation: stringLocation)
+    }
+
+    func setupViewForGetInCarLocation() {
+        self.ui?.setupViewForGetInCarLocation()
+    }
+
+    func setupViewForGetOutCarLocation() {
+        self.ui?.setupViewForGetOutCarLocation()
     }
 }

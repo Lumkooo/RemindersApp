@@ -12,6 +12,9 @@ protocol IReminderInfoView: AnyObject {
     var switchValueDidChange: ((IndexPath, Bool) -> Void)? { get set }
     var dateChanged: ((Date) -> Void)? { get set }
     var timeChanged: ((Date) -> Void)? { get set }
+    var userCurrentLocation: (() -> Void)? { get set }
+    var getInCarLocation: (() -> Void)? { get set }
+    var getOutCarLocation: (() -> Void)? { get set }
 
     func prepareViewFor(reminder: Reminder)
     func reloadViewFor(reminder: Reminder)
@@ -19,6 +22,11 @@ protocol IReminderInfoView: AnyObject {
     func hideCalendarInfo()
     func showTime()
     func hideTime()
+    func showLocation()
+    func hideLocation()
+    func setupViewForUsersCurrentLocation(stringLocation: String)
+    func setupViewForGetInCarLocation()
+    func setupViewForGetOutCarLocation()
 }
 
 final class ReminderInfoView: UIView {
@@ -39,6 +47,9 @@ final class ReminderInfoView: UIView {
     var switchValueDidChange: ((IndexPath, Bool) -> Void)?
     var dateChanged: ((Date) -> Void)?
     var timeChanged: ((Date) -> Void)?
+    var userCurrentLocation: (() -> Void)?
+    var getInCarLocation: (() -> Void)?
+    var getOutCarLocation: (() -> Void)?
 
     // MARK: - Init
 
@@ -85,11 +96,38 @@ extension ReminderInfoView: IReminderInfoView {
         self.reloadTableViewWithAnimation()
     }
 
+    func showLocation() {
+        self.tableViewDataSource?.showLocation()
+        self.reloadTableViewWithAnimation()
+    }
+
+    func hideLocation() {
+        self.tableViewDataSource?.hideLocation()
+        self.reloadTableViewWithAnimation()
+    }
+
+    func setupViewForUsersCurrentLocation(stringLocation: String) {
+        self.tableViewDataSource?.setupViewForUsersCurrentLocation(stringLocation: stringLocation)
+        self.reloadTableViewWithAnimation()
+    }
+
+    func setupViewForGetInCarLocation() {
+        self.tableViewDataSource?.setupViewForGetInCarLocation()
+        self.reloadTableViewWithAnimation()
+    }
+
+    func setupViewForGetOutCarLocation() {
+        self.tableViewDataSource?.setupViewForGetOutCarLocation()
+        self.reloadTableViewWithAnimation()
+    }
+
     private func reloadTableViewWithAnimation() {
-        UIView.transition(with: tableView,
-                          duration: 0.35,
-                          options: .transitionCrossDissolve,
-                          animations: { self.tableView.reloadData() })
+        DispatchQueue.main.asyncAfter(deadline: .now() + AppConstants.AnimationTimes.reloadTableView) {
+            UIView.transition(with: self.tableView,
+                              duration: AppConstants.AnimationTimes.reloadTableView,
+                              options: .transitionCrossDissolve,
+                              animations: { self.tableView.reloadData() })
+        }
     }
 }
 
@@ -100,7 +138,7 @@ private extension ReminderInfoView {
         self.setupTableView()
     }
 
-    func setupTableView() {
+    func registerTableViewCells() {
         self.tableView.register(ReminderInfoTextViewTableViewCell.self,
                                 forCellReuseIdentifier: ReminderInfoTextViewTableViewCell.reuseIdentifier)
         self.tableView.register(UITableViewCell.self,
@@ -111,6 +149,12 @@ private extension ReminderInfoView {
                                 forCellReuseIdentifier: ReminderInfoPriorityTableViewCell.reuseIdentifier)
         self.tableView.register(ReminderInfoDateTableViewCell.self,
                                 forCellReuseIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier)
+        self.tableView.register(ReminderInfoLocationTableViewCell.self,
+                                forCellReuseIdentifier: ReminderInfoLocationTableViewCell.reuseIdentifier)
+    }
+
+    func setupTableView() {
+        self.registerTableViewCells()
         self.tableViewDelegate = CustomTableViewDelegate(delegate: self)
         self.tableViewDataSource = ReminderInfoTableViewDataSource(delegate: self)
         self.tableView.delegate = tableViewDelegate
@@ -152,6 +196,18 @@ extension ReminderInfoView: IReminderInfoTableViewDataSource {
 
     func timeChanged(newTime: Date) {
         self.timeChanged?(newTime)
+    }
+
+    func userCurrentLocationChosen() {
+        self.userCurrentLocation?()
+    }
+
+    func getInCarLocationChosen() {
+        self.getInCarLocation?()
+    }
+
+    func getOutCarLocationChosen() {
+        self.getOutCarLocation?()
     }
 }
 
