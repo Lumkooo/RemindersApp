@@ -39,6 +39,10 @@ enum AppConstants {
         static let xmarCircleFillImage = UIImage(systemName: "xmark.circle.fill")
         static let locationImage = UIImage(systemName: "location.fill")
         static let carImage = UIImage(systemName: "car")
+        static let checkmarkImage = UIImage(systemName: "checkmark")
+        static let photoImage = UIImage(systemName: "photo")
+        static let cameraImage = UIImage(systemName: "camera")
+        static let minusCircleFill = UIImage(systemName: "minus.circle.fill")
     }
 
     enum Sizes {
@@ -48,14 +52,17 @@ enum AppConstants {
         static let reminderInfoPriorityImageSize: CGSize = CGSize(width: 10, height: 15)
         static let locationButtonSize: CGSize = CGSize(width: AppConstants.screenHeight/15,
                                                        height: AppConstants.screenHeight/15)
+        static let reminderInfoImageSize: CGSize = CGSize(width: 50,
+                                                       height: 50)
 
         static let reminderInfoIconCornerRadius: CGFloat = 5
         static let calendarCornerRadius: CGFloat = 15
         static let separatorViewAlpha: CGFloat = 0.2
         static let calendarHeaderHeight: CGFloat = 85
         static let calendarFooterHeight: CGFloat = 60
-        static let locationDescriptionButtonConrnerLayer: CGFloat = 5
+        static let locationDescriptionButtonCornerRadius: CGFloat = 5
         static let locationDescriptionButtonHeight: CGFloat = 20
+        static let reminderInfoImageCornerRadius: CGFloat = 12
     }
 
     enum TableViewCells {

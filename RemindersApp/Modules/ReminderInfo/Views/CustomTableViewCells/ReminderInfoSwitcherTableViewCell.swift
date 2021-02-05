@@ -16,8 +16,7 @@ final class ReminderInfoSwitcherTableViewCell: UITableViewCell {
         return String(describing: ReminderInfoSwitcherTableViewCell.self)
     }
     private weak var parentTableView: UITableView?
-    private var indexPath: IndexPath = IndexPath(row: 0, section: 0)
-    var switchValueDidChange: ((IndexPath, Bool) -> Void)?
+    var switchValueDidChange: ((Bool) -> Void)?
 
     // MARK: - Views
 
@@ -59,13 +58,11 @@ final class ReminderInfoSwitcherTableViewCell: UITableViewCell {
     // MARK: - Publich method
 
     func setupCell(tableView: UITableView,
-                   indexPath: IndexPath,
                    text: String,
                    image: UIImage,
                    imageBackgroundColor: UIColor,
                    isSwitchActive: Bool) {
         self.parentTableView = tableView
-        self.indexPath = indexPath
         self.iconImageView.image = image
         self.iconImageView.backgroundColor = imageBackgroundColor
         self.infoTextLabel.text = text
@@ -76,7 +73,7 @@ final class ReminderInfoSwitcherTableViewCell: UITableViewCell {
 
     @objc private func switchChanged(mySwitch: UISwitch) {
         let value = mySwitch.isOn
-        self.switchValueDidChange?(self.indexPath, value)
+        self.switchValueDidChange?(value)
         AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate)) { }
     }
 }

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		CE007A7525CA6AEF00EDC11B /* ChosenLocationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE007A7425CA6AEF00EDC11B /* ChosenLocationType.swift */; };
+		CE1149B925CCFCD700D03FBD /* ReminderInfoAddImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1149B825CCFCD600D03FBD /* ReminderInfoAddImageTableViewCell.swift */; };
+		CE1149BC25CD025A00D03FBD /* ImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1149BB25CD025A00D03FBD /* ImagePickerManager.swift */; };
+		CE1149BF25CD08D900D03FBD /* ReminderInfoImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1149BE25CD08D900D03FBD /* ReminderInfoImageTableViewCell.swift */; };
 		CE3A007225BE7F060094BD4F /* ReminderInfoTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A007125BE7F060094BD4F /* ReminderInfoTableViewDataSource.swift */; };
 		CE3A007C25BE82420094BD4F /* ReminderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A007B25BE82420094BD4F /* ReminderInfo.swift */; };
 		CE3A008025BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A007F25BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift */; };
@@ -38,6 +41,9 @@
 		CEF4F2A025BD300400B59892 /* ReminderInfoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF4F29F25BD300400B59892 /* ReminderInfoInteractor.swift */; };
 		CEF4F2A325BD300900B59892 /* ReminderInfoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF4F2A225BD300900B59892 /* ReminderInfoRouter.swift */; };
 		CEF4F2A625BD326500B59892 /* ReminderInfoAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF4F2A525BD326500B59892 /* ReminderInfoAssembly.swift */; };
+		CEFA795725CBA32A0004AF81 /* PrioritiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFA795625CBA32A0004AF81 /* PrioritiesTableViewController.swift */; };
+		CEFA795B25CBA4910004AF81 /* PriorityListVCAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFA795A25CBA4910004AF81 /* PriorityListVCAssembly.swift */; };
+		CEFA795E25CBA52A0004AF81 /* PrioritiesListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFA795D25CBA52A0004AF81 /* PrioritiesListTableViewCell.swift */; };
 		CEFADAB725BA80070020DE32 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFADAB625BA80070020DE32 /* Reminder.swift */; };
 		CEFADABD25BA84870020DE32 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFADABC25BA84870020DE32 /* AppConstants.swift */; };
 		CEFADAC125BA8DE10020DE32 /* HideKeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFADAC025BA8DE10020DE32 /* HideKeyboardExtension.swift */; };
@@ -46,6 +52,9 @@
 
 /* Begin PBXFileReference section */
 		CE007A7425CA6AEF00EDC11B /* ChosenLocationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChosenLocationType.swift; sourceTree = "<group>"; };
+		CE1149B825CCFCD600D03FBD /* ReminderInfoAddImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoAddImageTableViewCell.swift; sourceTree = "<group>"; };
+		CE1149BB25CD025A00D03FBD /* ImagePickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerManager.swift; sourceTree = "<group>"; };
+		CE1149BE25CD08D900D03FBD /* ReminderInfoImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoImageTableViewCell.swift; sourceTree = "<group>"; };
 		CE3A007125BE7F060094BD4F /* ReminderInfoTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoTableViewDataSource.swift; sourceTree = "<group>"; };
 		CE3A007B25BE82420094BD4F /* ReminderInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfo.swift; sourceTree = "<group>"; };
 		CE3A007F25BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoTextViewTableViewCell.swift; sourceTree = "<group>"; };
@@ -78,6 +87,9 @@
 		CEF4F29F25BD300400B59892 /* ReminderInfoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoInteractor.swift; sourceTree = "<group>"; };
 		CEF4F2A225BD300900B59892 /* ReminderInfoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoRouter.swift; sourceTree = "<group>"; };
 		CEF4F2A525BD326500B59892 /* ReminderInfoAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoAssembly.swift; sourceTree = "<group>"; };
+		CEFA795625CBA32A0004AF81 /* PrioritiesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritiesTableViewController.swift; sourceTree = "<group>"; };
+		CEFA795A25CBA4910004AF81 /* PriorityListVCAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityListVCAssembly.swift; sourceTree = "<group>"; };
+		CEFA795D25CBA52A0004AF81 /* PrioritiesListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritiesListTableViewCell.swift; sourceTree = "<group>"; };
 		CEFADAB625BA80070020DE32 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		CEFADABC25BA84870020DE32 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		CEFADAC025BA8DE10020DE32 /* HideKeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardExtension.swift; sourceTree = "<group>"; };
@@ -111,6 +123,8 @@
 				CE5F252225BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift */,
 				CED3520C25C6610200B58757 /* ReminderInfoDateTableViewCell.swift */,
 				CE3C093425C9143F00723B83 /* ReminderInfoLocationTableViewCell.swift */,
+				CE1149B825CCFCD600D03FBD /* ReminderInfoAddImageTableViewCell.swift */,
+				CE1149BE25CD08D900D03FBD /* ReminderInfoImageTableViewCell.swift */,
 			);
 			path = CustomTableViewCells;
 			sourceTree = "<group>";
@@ -162,6 +176,7 @@
 				CEF4F29225BD2FBE00B59892 /* Main */,
 				CEBDF3C325B943F400686F2C /* RemindersList */,
 				CEF4F29325BD2FC800B59892 /* ReminderInfo */,
+				CEFA795525CBA2F90004AF81 /* PrioritiesList */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -193,6 +208,7 @@
 				CEBDF3CB25B9445B00686F2C /* RemindersListAssembly.swift */,
 				CEBDF3CE25B9449600686F2C /* NavigationControllerAssembly.swift */,
 				CEF4F2A525BD326500B59892 /* ReminderInfoAssembly.swift */,
+				CEFA795A25CBA4910004AF81 /* PriorityListVCAssembly.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -206,6 +222,7 @@
 				CEFADABC25BA84870020DE32 /* AppConstants.swift */,
 				CEFADAC025BA8DE10020DE32 /* HideKeyboardExtension.swift */,
 				CEFADAC325BA97E90020DE32 /* ReminderManager.swift */,
+				CE1149BB25CD025A00D03FBD /* ImagePickerManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -234,6 +251,23 @@
 			children = (
 				CEF4F29425BD2FE400B59892 /* ReminderInfoView.swift */,
 				CE3A007E25BE8BC00094BD4F /* CustomTableViewCells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CEFA795525CBA2F90004AF81 /* PrioritiesList */ = {
+			isa = PBXGroup;
+			children = (
+				CEFA796025CBA5460004AF81 /* Views */,
+				CEFA795625CBA32A0004AF81 /* PrioritiesTableViewController.swift */,
+			);
+			path = PrioritiesList;
+			sourceTree = "<group>";
+		};
+		CEFA796025CBA5460004AF81 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEFA795D25CBA52A0004AF81 /* PrioritiesListTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -333,12 +367,14 @@
 				CEBDF3D325B94AA400686F2C /* RemindersListInteractor.swift in Sources */,
 				CED3521125C66E8D00B58757 /* DateAndTimeCellType.swift in Sources */,
 				CEFADAC425BA97E90020DE32 /* ReminderManager.swift in Sources */,
+				CEFA795B25CBA4910004AF81 /* PriorityListVCAssembly.swift in Sources */,
 				CEBDF3AB25B941C400686F2C /* RemindersListViewController.swift in Sources */,
 				CEBDF3D625B94AAC00686F2C /* RemindersListPresenter.swift in Sources */,
 				CEF4F29525BD2FE400B59892 /* ReminderInfoView.swift in Sources */,
 				CEBDF3CC25B9445B00686F2C /* RemindersListAssembly.swift in Sources */,
 				CEF4F2A325BD300900B59892 /* ReminderInfoRouter.swift in Sources */,
 				CEBDF3A725B941C400686F2C /* AppDelegate.swift in Sources */,
+				CE1149BC25CD025A00D03FBD /* ImagePickerManager.swift in Sources */,
 				CEBDF3C825B9442F00686F2C /* RemindersListView.swift in Sources */,
 				CEBDF3D925B94AB200686F2C /* RemindersListRouter.swift in Sources */,
 				CEBDF3E425B9504200686F2C /* RemindersListTableViewCell.swift in Sources */,
@@ -350,12 +386,16 @@
 				CE5F252325BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift in Sources */,
 				CE3A008025BE8BE60094BD4F /* ReminderInfoTextViewTableViewCell.swift in Sources */,
 				CE3A007C25BE82420094BD4F /* ReminderInfo.swift in Sources */,
+				CE1149B925CCFCD700D03FBD /* ReminderInfoAddImageTableViewCell.swift in Sources */,
 				CEBDF3A925B941C400686F2C /* SceneDelegate.swift in Sources */,
 				CEF4F2A625BD326500B59892 /* ReminderInfoAssembly.swift in Sources */,
+				CE1149BF25CD08D900D03FBD /* ReminderInfoImageTableViewCell.swift in Sources */,
+				CEFA795725CBA32A0004AF81 /* PrioritiesTableViewController.swift in Sources */,
 				CE5F252825BFE26200409BDF /* Priority.swift in Sources */,
 				CEBDF3B125B941C400686F2C /* RemindersApp.xcdatamodeld in Sources */,
 				CEF4F2A025BD300400B59892 /* ReminderInfoInteractor.swift in Sources */,
 				CEFADAC125BA8DE10020DE32 /* HideKeyboardExtension.swift in Sources */,
+				CEFA795E25CBA52A0004AF81 /* PrioritiesListTableViewCell.swift in Sources */,
 				CEAF39E225BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift in Sources */,
 				CEBDF3DE25B94DEF00686F2C /* CustomTableViewDelegate.swift in Sources */,
 				CED3520D25C6610200B58757 /* ReminderInfoDateTableViewCell.swift in Sources */,

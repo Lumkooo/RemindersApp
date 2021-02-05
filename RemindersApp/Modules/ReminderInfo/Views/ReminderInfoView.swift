@@ -15,6 +15,10 @@ protocol IReminderInfoView: AnyObject {
     var userCurrentLocation: (() -> Void)? { get set }
     var getInCarLocation: (() -> Void)? { get set }
     var getOutCarLocation: (() -> Void)? { get set }
+    var goToPriorityMenu: (() -> Void)? { get set }
+    var goToCamera: (() -> Void)? { get set }
+    var goToPhotoLibrary: (() -> Void)? { get set }
+    var geletingImageAtIndex: ((Int) -> Void)? { get set }
 
     func prepareViewFor(reminder: Reminder)
     func reloadViewFor(reminder: Reminder)
@@ -50,7 +54,12 @@ final class ReminderInfoView: UIView {
     var userCurrentLocation: (() -> Void)?
     var getInCarLocation: (() -> Void)?
     var getOutCarLocation: (() -> Void)?
+    var goToPriorityMenu: (() -> Void)?
+    var goToCamera: (() -> Void)?
+    var goToPhotoLibrary: (() -> Void)?
+    var geletingImageAtIndex: ((Int) -> Void)?
 
+    
     // MARK: - Init
 
     init() {
@@ -151,6 +160,10 @@ private extension ReminderInfoView {
                                 forCellReuseIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier)
         self.tableView.register(ReminderInfoLocationTableViewCell.self,
                                 forCellReuseIdentifier: ReminderInfoLocationTableViewCell.reuseIdentifier)
+        self.tableView.register(ReminderInfoAddImageTableViewCell.self,
+                                forCellReuseIdentifier: ReminderInfoAddImageTableViewCell.reuseIdentifier)
+        self.tableView.register(ReminderInfoImageTableViewCell.self,
+                                forCellReuseIdentifier: ReminderInfoImageTableViewCell.reuseIdentifier)
     }
 
     func setupTableView() {
@@ -176,6 +189,9 @@ private extension ReminderInfoView {
 extension ReminderInfoView: ICustomTableViewDelegate {
     func didSelectRowAt(_ indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 5 {
+            self.goToPriorityMenu?()
+        }
     }
 }
 
@@ -208,6 +224,18 @@ extension ReminderInfoView: IReminderInfoTableViewDataSource {
 
     func getOutCarLocationChosen() {
         self.getOutCarLocation?()
+    }
+
+    func takePhotoTapped() {
+        self.goToCamera?()
+    }
+
+    func photoLibraryTapped() {
+        self.goToPhotoLibrary?()
+    }
+
+    func deleteImageButtonTapped(atIndex index: Int) {
+        self.geletingImageAtIndex?(index)
     }
 }
 

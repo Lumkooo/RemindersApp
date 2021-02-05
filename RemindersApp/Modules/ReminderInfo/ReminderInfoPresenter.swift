@@ -5,7 +5,7 @@
 //  Created by Андрей Шамин on 1/24/21.
 //
 
-import Foundation
+import UIKit
 
 protocol IReminderInfoPresenter {
     func viewDidLoad(ui: IReminderInfoView)
@@ -54,6 +54,18 @@ extension ReminderInfoPresenter: IReminderInfoPresenter {
         }
         self.ui?.getOutCarLocation = { [weak self] in
             self?.interactor.getOutCarLocationChosen()
+        }
+        self.ui?.goToPriorityMenu = { [ weak self] in
+            self?.interactor.prepareForPriorityVC()
+        }
+        self.ui?.goToCamera = { [weak self] in
+            self?.router.showCamera()
+        }
+        self.ui?.goToPhotoLibrary = { [weak self] in
+            self?.router.showPhotoLibrary()
+        }
+        self.ui?.geletingImageAtIndex = { [weak self] (index) in
+            self?.interactor.deleteImage(atIndex: index)
         }
         self.interactor.loadInitData()
     }
@@ -112,5 +124,16 @@ extension ReminderInfoPresenter: IReminderInfoInteractorOuter {
 
     func setupViewForGetOutCarLocation() {
         self.ui?.setupViewForGetOutCarLocation()
+    }
+
+    func goToPriorityVC(currentPriority: Priority, delegate: IPriorityDelegate) {
+        self.router.showPriorityVC(currentPriority: currentPriority,
+                                   delegate: delegate)
+    }
+}
+
+extension ReminderInfoPresenter: IReminderInfoRouterOuter {
+    func imageFromImagePicker(image: UIImage) {
+        self.interactor.imageFromImagePicker(image: image)
     }
 }

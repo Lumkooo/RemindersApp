@@ -18,6 +18,9 @@ protocol IReminderInfoInteractor {
     func userCurrentLocationChosen()
     func getInCarLocationChosen()
     func getOutCarLocationChosen()
+    func prepareForPriorityVC()
+    func imageFromImagePicker(image: UIImage)
+    func deleteImage(atIndex index: Int)
 }
 
 protocol IReminderInfoInteractorOuter: AnyObject {
@@ -32,6 +35,11 @@ protocol IReminderInfoInteractorOuter: AnyObject {
     func setupViewForUsersCurrentLocation(stringLocation: String)
     func setupViewForGetInCarLocation()
     func setupViewForGetOutCarLocation()
+    func goToPriorityVC(currentPriority: Priority, delegate: IPriorityDelegate)
+}
+
+protocol IPriorityDelegate {
+    func priorityChanged(newPriority: Priority)
 }
 
 final class ReminderInfoInteractor {
@@ -152,6 +160,24 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
     func getOutCarLocationChosen() {
         self.presenter?.setupViewForGetOutCarLocation()
     }
+
+    func prepareForPriorityVC() {
+        let priority = self.reminder.priority ?? .none
+        self.presenter?.goToPriorityVC(currentPriority: priority,
+                                       delegate: self)
+    }
+
+    func imageFromImagePicker(image: UIImage) {
+        self.reminder.photos.append(image)
+        self.presenter?.reloadViewFor(reminder: self.reminder)
+    }
+
+    func deleteImage(atIndex index: Int) {
+        if self.reminder.photos.count >= index {
+            self.reminder.photos.remove(at: index)
+        }
+        self.presenter?.reloadViewFor(reminder: self.reminder)
+    }
 }
 
 private extension ReminderInfoInteractor {
@@ -176,5 +202,12 @@ private extension ReminderInfoInteractor {
                                         minute: self.hoursAndMinutes.minute)
         let dateAndTime = calendar.date(from: components)
         return dateAndTime
+    }
+}
+
+extension ReminderInfoInteractor: IPriorityDelegate {
+    func priorityChanged(newPriority: Priority) {
+        self.reminder.priority = newPriority
+        self.presenter?.reloadViewFor(reminder: self.reminder)
     }
 }

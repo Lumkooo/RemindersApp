@@ -15,9 +15,8 @@ import UIKit
         return String(describing: ReminderInfoTextViewTableViewCell.self)
     }
     private weak var parentTableView: UITableView?
-    private var indexPath: IndexPath = IndexPath(row: 0, section: 0)
     private var placeholderText: String = ""
-    var textViewDidChange: ((IndexPath, String) -> Void)?
+    var textViewDidChange: ((String) -> Void)?
 
     // MARK: - Views
 
@@ -43,7 +42,6 @@ import UIKit
     // MARK: - Public Method
 
     func setupCell(tableView: UITableView,
-                   indexPath: IndexPath,
                    placeholder: String,
                    text: String) {
         if text.isEmpty {
@@ -57,7 +55,6 @@ import UIKit
         }
         self.placeholderText = placeholder
         self.parentTableView = tableView
-        self.indexPath = indexPath
     }
 }
 
@@ -100,8 +97,7 @@ extension ReminderInfoTextViewTableViewCell: UITextViewDelegate {
         guard let text = textView.text else {
             return
         }
-        self.textViewDidChange?(self.indexPath,
-                                text)
+        self.textViewDidChange?(text)
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {

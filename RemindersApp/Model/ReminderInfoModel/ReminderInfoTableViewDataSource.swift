@@ -15,6 +15,9 @@ protocol IReminderInfoTableViewDataSource {
     func userCurrentLocationChosen()
     func getInCarLocationChosen()
     func getOutCarLocationChosen()
+    func takePhotoTapped()
+    func photoLibraryTapped()
+    func deleteImageButtonTapped(atIndex index: Int)
 }
 
 final class ReminderInfoTableViewDataSource: NSObject {
@@ -99,7 +102,7 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
         case 5:
             return self.reminderInfo.priorityInfo.count
         case 6:
-            return self.reminderInfo.addImageInfo.count
+            return self.reminderInfo.addImageInfo.count + self.reminder.photos.count
         default:
             return 0
         }
@@ -137,10 +140,9 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
                 text = self.reminder.url ?? ""
             }
             firstCell.setupCell(tableView: tableView,
-                                indexPath: indexPath,
                                 placeholder: placeholder,
                                 text: text)
-            firstCell.textViewDidChange = { [weak self] (indexPath, text) in
+            firstCell.textViewDidChange = { [weak self] (text) in
                 self?.delegate.textViewDidChange(indexPath: indexPath, text: text)
             }
             return firstCell
@@ -262,19 +264,22 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
                 image = messagingInfo.image
                 imageBackgroundColor = messagingInfo.imageColor
             } else if section == 4 {
+
+                // MARK: - Флаг
+
                 let flagInfo = self.reminderInfo.flagInfo
                 text = flagInfo.stringRepresentation[indexPath.row]
                 image = flagInfo.image
                 imageBackgroundColor = flagInfo.imageColor
+                isSwitchActive = self.reminder.flag
             }
             
             secondCell.setupCell(tableView: tableView,
-                                 indexPath: indexPath,
                                  text: text,
                                  image: image,
                                  imageBackgroundColor: imageBackgroundColor,
                                  isSwitchActive: isSwitchActive)
-            secondCell.switchValueDidChange = { [weak self] (indexPath, value) in
+            secondCell.switchValueDidChange = { [weak self] (value) in
                 self?.delegate.switchValueDidChange(indexPath: indexPath, value: value)
             }
             return secondCell
@@ -289,7 +294,7 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
                 return UITableViewCell()
             }
             let text = self.reminderInfo.priorityInfo[indexPath.row]
-            let priority = Priority()
+            let priority = self.reminder.priority ?? .none
             thirdCell.setupCell(text: text,
                                 chosenPriority: priority)
             return thirdCell
@@ -297,12 +302,46 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
 
             // MARK: - Добавление картинки
 
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
-            cell.textLabel?.textColor = .systemBlue
-            let text = self.reminderInfo.addImageInfo[indexPath.row]
-            cell.textLabel?.text = text
-            return cell
+            if indexPath.row == 0 {
+                guard let addNewImageCell = tableView.dequeueReusableCell(
+                        withIdentifier: ReminderInfoAddImageTableViewCell.reuseIdentifier, for: indexPath)
+                        as? ReminderInfoAddImageTableViewCell else {
+                    assertionFailure("oops, error")
+                    return UITableViewCell()
+                }
+
+                addNewImageCell.photoLibraryMenuItemTapped = { [weak self] in
+                    self?.delegate.photoLibraryTapped()
+                }
+
+                addNewImageCell.takePhotoMenuItemTapped = { [weak self] in
+                    self?.delegate.takePhotoTapped()
+                }
+
+                return addNewImageCell
+            } else {
+
+
+
+                guard let cell = tableView.dequeueReusableCell(
+                        withIdentifier: ReminderInfoImageTableViewCell.reuseIdentifier, for: indexPath)
+                        as? ReminderInfoImageTableViewCell else {
+                    assertionFailure("oops, error")
+                    return UITableViewCell()
+                }
+                // Берем изображение с индекса - indexPath.row - 1 потому что первая ячейка - ячейка с
+                // кнопкой для добавления изображений
+                guard let image = self.reminder.photos[indexPath.row - 1] else {
+                    assertionFailure("oops, can't get image")
+                    return UITableViewCell()
+                }
+                cell.setupCell(image: image)
+                cell.deleteButtonTapped = { [weak self] in
+                    self?.delegate.deleteImageButtonTapped(atIndex: indexPath.row - 1)
+                }
+                cell.isEditing = true
+                return cell
+            }
         }
     }
 }

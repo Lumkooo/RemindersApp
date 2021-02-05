@@ -17,6 +17,7 @@ enum ReminderInfoAssembly {
 
         router.vc = viewController
         interactor.presenter = presenter
+        router.presenter = presenter
 
         let navController = UINavigationController(rootViewController: viewController)
         return navController
