@@ -41,7 +41,7 @@ final class ReminderInfoLocationTableViewCell: UITableViewCell {
                            for: .touchUpInside)
         myButton.backgroundColor = .systemBlue
         myButton.layer.cornerRadius = AppConstants.Sizes.locationDescriptionButtonCornerRadius
-        myButton.titleLabel?.font = AppConstants.AppFonts.locationDescriptionButtonsFont
+        myButton.titleLabel?.font = AppConstants.AppFonts.reminderNotesFont
         return myButton
     }()
 
@@ -66,7 +66,7 @@ final class ReminderInfoLocationTableViewCell: UITableViewCell {
                            for: .touchUpInside)
         myButton.layer.cornerRadius = AppConstants.Sizes.locationDescriptionButtonCornerRadius
         myButton.setTitleColor(.black, for: .normal)
-        myButton.titleLabel?.font = AppConstants.AppFonts.locationDescriptionButtonsFont
+        myButton.titleLabel?.font = AppConstants.AppFonts.reminderNotesFont
         return myButton
     }()
 
@@ -91,7 +91,7 @@ final class ReminderInfoLocationTableViewCell: UITableViewCell {
         myButton.backgroundColor = self.backgroundColor
         myButton.layer.cornerRadius = AppConstants.Sizes.locationDescriptionButtonCornerRadius
         myButton.setTitleColor(.black, for: .normal)
-        myButton.titleLabel?.font = AppConstants.AppFonts.locationDescriptionButtonsFont
+        myButton.titleLabel?.font = AppConstants.AppFonts.reminderNotesFont
         return myButton
     }()
 

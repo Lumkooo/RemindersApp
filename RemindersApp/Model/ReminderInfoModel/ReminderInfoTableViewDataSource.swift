@@ -117,231 +117,275 @@ extension ReminderInfoTableViewDataSource: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let section = indexPath.section
         if section == 0 {
-
-            // MARK: - ReminderInfoTextViewTableViewCell(TextView)
-
-            guard let firstCell = tableView.dequeueReusableCell(
-                    withIdentifier: ReminderInfoTextViewTableViewCell.reuseIdentifier, for: indexPath)
-                    as? ReminderInfoTextViewTableViewCell else {
-                assertionFailure("oops, error")
-                return UITableViewCell()
-            }
-
-            let placeholder = self.reminderInfo.mainInfo[indexPath.row]
-            var text: String = ""
-            if indexPath.row == 0 {
-                text = self.reminder.text
-            } else if indexPath.row == 1 {
-                text = self.reminder.note ?? ""
-            } else if indexPath.row == 2 {
-                text = self.reminder.url ?? ""
-            }
-            firstCell.setupCell(tableView: tableView,
-                                placeholder: placeholder,
-                                text: text)
-            firstCell.textViewDidChange = { [weak self] (text) in
-                self?.delegate.textViewDidChange(indexPath: indexPath, text: text)
-            }
-            return firstCell
+            // Ячейка с textView
+            return self.setupTextViewTableViewCell(tableView: tableView,
+                                            indexPath: indexPath)
         } else if section > 0 && section < 5 {
-
-            // MARK: - ReminderInfoSwitcherTableViewCell(Switch)
-
-            guard let secondCell = tableView.dequeueReusableCell(
-                    withIdentifier: ReminderInfoSwitcherTableViewCell.reuseIdentifier, for: indexPath)
-                    as? ReminderInfoSwitcherTableViewCell else {
-                assertionFailure("oops, error")
-                return UITableViewCell()
-            }
-
-            var text: String = ""
-            var image: UIImage = UIImage()
-            var imageBackgroundColor: UIColor = .white
-            var isSwitchActive: Bool = false
-
-            if section == 1 {
-                if indexPath.row == 0 || indexPath.row == 1 {
-                    let dateAndTimeInfo = self.reminderInfo.dateAndTimeInfo
-                    text = dateAndTimeInfo.stringRepresentation[indexPath.row]
-                    image = dateAndTimeInfo.image[indexPath.row]
-                    imageBackgroundColor = dateAndTimeInfo.imageColors[indexPath.row]
-                    if indexPath.row == 0 {
-                        isSwitchActive = dateAndTimeInfo.calendarIsShowing
-                    } else if indexPath.row == 1 {
-                        isSwitchActive = dateAndTimeInfo.timeIsShowing
-                    }
-                } else if indexPath.row == 2 {
-
-                    // Ячейка с календарем
-
-                    guard let cell = tableView.dequeueReusableCell(
-                            withIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier,
-                            for: indexPath) as? ReminderInfoDateTableViewCell else {
-                        assertionFailure("oops, something went wrong")
-                        return UITableViewCell()
-                    }
-                    cell.setupCell(cellType: .date)
-                    cell.datePickerDidChangedValue = { [weak self] (date) in
-                        self?.delegate.dateChanged(newDate: date)
-                    }
-                    return cell
-                } else if indexPath.row == 3 {
-
-                    // Ячейка с часами
-
-                    guard let cell = tableView.dequeueReusableCell(
-                            withIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier,
-                            for: indexPath) as? ReminderInfoDateTableViewCell else {
-                        assertionFailure("oops, something went wrong")
-                        return UITableViewCell()
-                    }
-
-                    cell.setupCell(cellType: .time)
-                    cell.datePickerDidChangedValue = { [weak self] (date) in
-                        self?.delegate.timeChanged(newTime: date)
-                    }
-                    return cell
-                }
-            } else if section == 2 {
-
-                // MARK: - Местоположение
-
-                let locationInfo = self.reminderInfo.locationInfo
-                text = locationInfo.stringRepresentation[indexPath.row]
-                image = locationInfo.image
-                imageBackgroundColor = locationInfo.imageColor
-                isSwitchActive = locationInfo.locationIsShowing
-
-                if  indexPath.row == 1 {
-
-                    // Ячейка с вариантами местоположений
-
-                    guard let cell = tableView.dequeueReusableCell(
-                            withIdentifier: ReminderInfoLocationTableViewCell.reuseIdentifier,
-                            for: indexPath) as? ReminderInfoLocationTableViewCell else {
-                        assertionFailure("oops, something went wrong")
-                        return UITableViewCell()
-                    }
-
-                    cell.userCurrentLocationTapped = { [weak self] in
-                        self?.delegate.userCurrentLocationChosen()
-                    }
-                    cell.getInCarTapped = { [weak self] in
-                        self?.delegate.getInCarLocationChosen()
-                    }
-                    cell.getOutCarTapped = { [weak self] in
-                        self?.delegate.getOutCarLocationChosen()
-                    }
-                    cell.setupCell(chosenLocationType: locationInfo.chosenLocationType)
-
-                    return cell
-                } else if indexPath.row == 2{
-                    
-                    // Ячейка с описанием выбранного пункта меспоположения
-
-                    let cell = tableView.dequeueReusableCell(
-                        withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
-                    cell.textLabel?.textColor = .systemGray4
-                    cell.selectionStyle = .none
-                    if locationInfo.chosenLocationType == .userCurrent {
-                        cell.textLabel?.text = locationInfo.chosenLocation
-                    } else {
-                        let text = locationInfo.chosenLocationType.rawValue
-                        cell.textLabel?.text = text
-                    }
-                    cell.textLabel?.numberOfLines = 0
-                    return cell
-                }
-            } else if section == 3 {
-
-                // MARK: - Сообщения
-
-                let messagingInfo = self.reminderInfo.messagingInfo
-                text = messagingInfo.stringRepresentation[indexPath.row]
-                image = messagingInfo.image
-                imageBackgroundColor = messagingInfo.imageColor
-            } else if section == 4 {
-
-                // MARK: - Флаг
-
-                let flagInfo = self.reminderInfo.flagInfo
-                text = flagInfo.stringRepresentation[indexPath.row]
-                image = flagInfo.image
-                imageBackgroundColor = flagInfo.imageColor
-                isSwitchActive = self.reminder.flag
-            }
-            
-            secondCell.setupCell(tableView: tableView,
-                                 text: text,
-                                 image: image,
-                                 imageBackgroundColor: imageBackgroundColor,
-                                 isSwitchActive: isSwitchActive)
-            secondCell.switchValueDidChange = { [weak self] (value) in
-                self?.delegate.switchValueDidChange(indexPath: indexPath, value: value)
-            }
-            return secondCell
+            // Ячейки с switch
+            return self.setupCellWithSwitch(tableView: tableView,
+                                            indexPath: indexPath)
         } else if section == 5 {
+            // Ячейка для выбора приоритета
+            return self.setupPriorityTableViewCell(tableView: tableView,
+                                                   indexPath: indexPath)
+        } else {
+            // Ячейки для добавления и отображения картинки
+            return self.setupAddImageTableViewCell(tableView: tableView,
+                                                   indexPath: indexPath)
+        }
+    }
+}
 
-            // MARK: - ReminderInfoPriorityTableViewCell(Приоритет)
+// MARK: - Методы для работы с ячейками tableView
 
-            guard let thirdCell = tableView.dequeueReusableCell(
-                    withIdentifier: ReminderInfoPriorityTableViewCell.reuseIdentifier, for: indexPath)
-                    as? ReminderInfoPriorityTableViewCell else {
+private extension ReminderInfoTableViewDataSource {
+
+    // MARK: - Настройка ячейки TableView с textView
+
+    private func setupTextViewTableViewCell(tableView: UITableView,
+                                            indexPath: IndexPath) -> UITableViewCell {
+
+        guard let firstCell = tableView.dequeueReusableCell(
+                withIdentifier: ReminderInfoTextViewTableViewCell.reuseIdentifier, for: indexPath)
+                as? ReminderInfoTextViewTableViewCell else {
+            assertionFailure("oops, error")
+            return UITableViewCell()
+        }
+
+        let placeholder = self.reminderInfo.mainInfo[indexPath.row]
+        var text: String = ""
+        if indexPath.row == 0 {
+            text = self.reminder.text
+        } else if indexPath.row == 1 {
+            text = self.reminder.note ?? ""
+        } else if indexPath.row == 2 {
+            text = self.reminder.url ?? ""
+        }
+        firstCell.setupCell(tableView: tableView,
+                            placeholder: placeholder,
+                            text: text)
+        firstCell.textViewDidChange = { [weak self] (text) in
+            self?.delegate.textViewDidChange(indexPath: indexPath, text: text)
+        }
+        return firstCell
+    }
+
+    // MARK: - Настройка ячейки TableView для выбора приоритета
+
+    func setupPriorityTableViewCell(tableView: UITableView,
+                                    indexPath: IndexPath) -> UITableViewCell {
+        guard let thirdCell = tableView.dequeueReusableCell(
+                withIdentifier: ReminderInfoPriorityTableViewCell.reuseIdentifier, for: indexPath)
+                as? ReminderInfoPriorityTableViewCell else {
+            assertionFailure("oops, error")
+            return UITableViewCell()
+        }
+        let text = self.reminderInfo.priorityInfo[indexPath.row]
+        let priority = self.reminder.priority ?? .none
+        thirdCell.setupCell(text: text,
+                            chosenPriority: priority)
+        return thirdCell
+    }
+
+    func setupAddImageTableViewCell(tableView: UITableView,
+                        indexPath: IndexPath) -> UITableViewCell {
+
+        // MARK: - Настройка ячейки TableView для добавления картинки
+
+        if indexPath.row == 0 {
+            guard let addNewImageCell = tableView.dequeueReusableCell(
+                    withIdentifier: ReminderInfoAddImageTableViewCell.reuseIdentifier, for: indexPath)
+                    as? ReminderInfoAddImageTableViewCell else {
                 assertionFailure("oops, error")
                 return UITableViewCell()
             }
-            let text = self.reminderInfo.priorityInfo[indexPath.row]
-            let priority = self.reminder.priority ?? .none
-            thirdCell.setupCell(text: text,
-                                chosenPriority: priority)
-            return thirdCell
+
+            addNewImageCell.photoLibraryMenuItemTapped = { [weak self] in
+                self?.delegate.photoLibraryTapped()
+            }
+
+            addNewImageCell.takePhotoMenuItemTapped = { [weak self] in
+                self?.delegate.takePhotoTapped()
+            }
+
+            return addNewImageCell
         } else {
 
-            // MARK: - Добавление картинки
-
-            if indexPath.row == 0 {
-                guard let addNewImageCell = tableView.dequeueReusableCell(
-                        withIdentifier: ReminderInfoAddImageTableViewCell.reuseIdentifier, for: indexPath)
-                        as? ReminderInfoAddImageTableViewCell else {
-                    assertionFailure("oops, error")
-                    return UITableViewCell()
-                }
-
-                addNewImageCell.photoLibraryMenuItemTapped = { [weak self] in
-                    self?.delegate.photoLibraryTapped()
-                }
-
-                addNewImageCell.takePhotoMenuItemTapped = { [weak self] in
-                    self?.delegate.takePhotoTapped()
-                }
-
-                return addNewImageCell
-            } else {
-
-
-
-                guard let cell = tableView.dequeueReusableCell(
-                        withIdentifier: ReminderInfoImageTableViewCell.reuseIdentifier, for: indexPath)
-                        as? ReminderInfoImageTableViewCell else {
-                    assertionFailure("oops, error")
-                    return UITableViewCell()
-                }
-                // Берем изображение с индекса - indexPath.row - 1 потому что первая ячейка - ячейка с
-                // кнопкой для добавления изображений
-                guard let image = self.reminder.photos[indexPath.row - 1] else {
-                    assertionFailure("oops, can't get image")
-                    return UITableViewCell()
-                }
-                cell.setupCell(image: image)
-                cell.deleteButtonTapped = { [weak self] in
-                    self?.delegate.deleteImageButtonTapped(atIndex: indexPath.row - 1)
-                }
-                cell.isEditing = true
-                return cell
+            guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: ReminderInfoImageTableViewCell.reuseIdentifier, for: indexPath)
+                    as? ReminderInfoImageTableViewCell else {
+                assertionFailure("oops, error")
+                return UITableViewCell()
             }
+            // Берем изображение с индекса - indexPath.row - 1 потому что первая ячейка - ячейка с
+            // кнопкой для добавления изображений
+            guard let image = self.reminder.photos[indexPath.row - 1] else {
+                assertionFailure("oops, can't get image")
+                return UITableViewCell()
+            }
+            cell.setupCell(image: image)
+            cell.deleteButtonTapped = { [weak self] in
+                self?.delegate.deleteImageButtonTapped(atIndex: indexPath.row - 1)
+            }
+            cell.isEditing = true
+            return cell
         }
+    }
+
+    // MARK: - Настройка ячейки TableView с календарем
+
+    func setupCellWithCalendar(tableView: UITableView,
+                               indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier,
+                for: indexPath) as? ReminderInfoDateTableViewCell else {
+            assertionFailure("oops, something went wrong")
+            return UITableViewCell()
+        }
+        cell.setupCell(cellType: .date)
+        cell.datePickerDidChangedValue = { [weak self] (date) in
+            self?.delegate.dateChanged(newDate: date)
+        }
+        return cell
+    }
+
+    // MARK: - Настройка ячейки TableView со временем
+
+    func setupCellWithTime(tableView: UITableView,
+                               indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ReminderInfoDateTableViewCell.reuseIdentifier,
+                for: indexPath) as? ReminderInfoDateTableViewCell else {
+            assertionFailure("oops, something went wrong")
+            return UITableViewCell()
+        }
+        cell.setupCell(cellType: .time)
+        cell.datePickerDidChangedValue = { [weak self] (date) in
+            self?.delegate.timeChanged(newTime: date)
+        }
+        return cell
+    }
+
+    // MARK: - Настройка ячейки TableView с возможностью выбора варианта местоположения
+
+    func setupCellWithLocationVariants(tableView: UITableView,
+                                       indexPath: IndexPath,
+                                       locationInfo: ReminderInfo.LocationInfo) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ReminderInfoLocationTableViewCell.reuseIdentifier,
+                for: indexPath) as? ReminderInfoLocationTableViewCell else {
+            assertionFailure("oops, something went wrong")
+            return UITableViewCell()
+        }
+
+        cell.userCurrentLocationTapped = { [weak self] in
+            self?.delegate.userCurrentLocationChosen()
+        }
+        cell.getInCarTapped = { [weak self] in
+            self?.delegate.getInCarLocationChosen()
+        }
+        cell.getOutCarTapped = { [weak self] in
+            self?.delegate.getOutCarLocationChosen()
+        }
+        cell.setupCell(chosenLocationType: locationInfo.chosenLocationType)
+        return cell
+    }
+
+    // MARK: - Настройка ячейки TableView с текстом
+
+    func setupCellWithText(tableView: UITableView,
+                           indexPath: IndexPath,
+                           locationInfo: ReminderInfo.LocationInfo) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
+        cell.textLabel?.textColor = .systemGray4
+        cell.selectionStyle = .none
+        if locationInfo.chosenLocationType == .userCurrent {
+            cell.textLabel?.text = locationInfo.chosenLocation
+        } else {
+            let text = locationInfo.chosenLocationType.rawValue
+            cell.textLabel?.text = text
+        }
+        cell.textLabel?.numberOfLines = 0
+        return cell
+    }
+
+    // MARK: - Настройка ячейки TableView с switch
+
+    func setupCellWithSwitch(tableView: UITableView,
+                             indexPath: IndexPath) -> UITableViewCell {
+        guard let secondCell = tableView.dequeueReusableCell(
+                withIdentifier: ReminderInfoSwitcherTableViewCell.reuseIdentifier, for: indexPath)
+                as? ReminderInfoSwitcherTableViewCell else {
+            assertionFailure("oops, error")
+            return UITableViewCell()
+        }
+        var text: String = ""
+        var image: UIImage = UIImage()
+        var imageBackgroundColor: UIColor = .white
+        var isSwitchActive: Bool = false
+        if indexPath.section == 1 {
+            if indexPath.row == 0 || indexPath.row == 1 {
+                let dateAndTimeInfo = self.reminderInfo.dateAndTimeInfo
+                text = dateAndTimeInfo.stringRepresentation[indexPath.row]
+                image = dateAndTimeInfo.image[indexPath.row]
+                imageBackgroundColor = dateAndTimeInfo.imageColors[indexPath.row]
+                if indexPath.row == 0 {
+                    isSwitchActive = dateAndTimeInfo.calendarIsShowing
+                } else if indexPath.row == 1 {
+                    isSwitchActive = dateAndTimeInfo.timeIsShowing
+                }
+            } else if indexPath.row == 2 {
+                // Ячейка с календарем
+                return self.setupCellWithCalendar(tableView: tableView,
+                                                  indexPath: indexPath)
+            } else if indexPath.row == 3 {
+                // Ячейка с часами
+                return self.setupCellWithTime(tableView: tableView,
+                                              indexPath: indexPath)
+            }
+        } else if indexPath.section == 2 {
+            // MARK: - Местоположение
+            let locationInfo = self.reminderInfo.locationInfo
+            text = locationInfo.stringRepresentation[indexPath.row]
+            image = locationInfo.image
+            imageBackgroundColor = locationInfo.imageColor
+            isSwitchActive = locationInfo.locationIsShowing
+            if  indexPath.row == 1 {
+                // Ячейка с вариантами местоположений
+                return self.setupCellWithLocationVariants(tableView: tableView,
+                                                          indexPath: indexPath,
+                                                          locationInfo: locationInfo)
+            } else if indexPath.row == 2 {
+                // Ячейка с описанием выбранного пункта меспоположения
+                return self.setupCellWithText(tableView: tableView,
+                                              indexPath: indexPath,
+                                              locationInfo: locationInfo)
+            }
+        } else if indexPath.section == 3 {
+            // MARK: - Сообщения
+            let messagingInfo = self.reminderInfo.messagingInfo
+            text = messagingInfo.stringRepresentation[indexPath.row]
+            image = messagingInfo.image
+            imageBackgroundColor = messagingInfo.imageColor
+        } else if indexPath.section == 4 {
+            // MARK: - Флаг
+            let flagInfo = self.reminderInfo.flagInfo
+            text = flagInfo.stringRepresentation[indexPath.row]
+            image = flagInfo.image
+            imageBackgroundColor = flagInfo.imageColor
+            isSwitchActive = self.reminder.flag
+        }
+        secondCell.setupCell(tableView: tableView,
+                             text: text,
+                             image: image,
+                             imageBackgroundColor: imageBackgroundColor,
+                             isSwitchActive: isSwitchActive)
+        secondCell.switchValueDidChange = { [weak self] (value) in
+            self?.delegate.switchValueDidChange(indexPath: indexPath, value: value)
+        }
+        return secondCell
     }
 }

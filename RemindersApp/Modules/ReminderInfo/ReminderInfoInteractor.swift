@@ -36,6 +36,7 @@ protocol IReminderInfoInteractorOuter: AnyObject {
     func setupViewForGetInCarLocation()
     func setupViewForGetOutCarLocation()
     func goToPriorityVC(currentPriority: Priority, delegate: IPriorityDelegate)
+    func dismissVC()
 }
 
 protocol IPriorityDelegate {
@@ -48,6 +49,8 @@ final class ReminderInfoInteractor {
 
     weak var presenter: IReminderInfoInteractorOuter?
     private var reminder: Reminder
+    private var reminderIndex: Int
+    private var delegate: IReminderListInteractorDelegate
     private var dayMonthsAndYears: DateComponents = DateComponents()
     // Изначально ставим на 8:00. Поэтому если пользователь не выберет
     // время, то напоминание будет установлено на 8:00
@@ -59,8 +62,12 @@ final class ReminderInfoInteractor {
 
     // MARK: - Init
 
-    init(reminder: Reminder) {
+    init(delegate: IReminderListInteractorDelegate,
+         reminder: Reminder,
+         reminderIndex: Int) {
+        self.delegate = delegate
         self.reminder = reminder
+        self.reminderIndex = reminderIndex
     }
 }
 
@@ -144,7 +151,10 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
             let dateAndTime = self.getDateAndTime()
             self.reminder.date = dateAndTime
         }
-        print("saved", reminder)
+        ReminderManager.sharedInstance.updateReminderAt(self.reminderIndex,
+                                                        reminder: self.reminder)
+        self.presenter?.dismissVC()
+        self.delegate.reloadData()
     }
 
     func userCurrentLocationChosen() {

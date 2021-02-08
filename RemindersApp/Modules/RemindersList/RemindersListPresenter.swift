@@ -55,8 +55,12 @@ extension RemindersListPresenter: IRemindersListPresenter {
 // MARK: - IRemindersListInteractorOuter
 
 extension RemindersListPresenter: IRemindersListInteractorOuter {
-    func goToDetailInfo(reminder: Reminder) {
-        self.router.showDetailInfo(forReminder: reminder)
+    func goToDetailInfo(delegate: IReminderListInteractorDelegate,
+                        reminder: Reminder,
+                        reminderIndex: Int) {
+        self.router.showDetailInfo(delegate: delegate,
+                                   forReminder: reminder,
+                                   reminderIndex: reminderIndex)
     }
 
     func showDataOnScreen(dataArray: [Reminder]) {

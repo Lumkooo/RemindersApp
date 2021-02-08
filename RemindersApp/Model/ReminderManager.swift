@@ -11,6 +11,7 @@ final class ReminderManager {
 
     // MARK: Properties
 
+    static let sharedInstance = ReminderManager()
     private var dataArray: [Reminder] = []
 
     // MARK: Methods
@@ -19,12 +20,24 @@ final class ReminderManager {
         return self.dataArray
     }
 
+    func getReminderAt(_ index: Int) -> Reminder? {
+        if self.dataArray.count >= index {
+            return self.dataArray[index]
+        } else {
+            return nil
+        }
+    }
+
     func appendElement() {
         self.dataArray.append(Reminder())
     }
 
-    func updateElement(atIndex index: Int, text: String) {
+    func updateTextForReminderAt(_ index: Int, text: String) {
         self.dataArray[index].text = text
+    }
+
+    func updateReminderAt(_ index: Int, reminder: Reminder) {
+        self.dataArray[index] = reminder
     }
 
     func loadElements() {

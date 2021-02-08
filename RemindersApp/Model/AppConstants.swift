@@ -13,9 +13,9 @@ enum AppConstants {
 
     enum AppFonts {
         static let reminderFont: UIFont = .systemFont(ofSize: 16)
+        static let reminderNotesFont: UIFont = .systemFont(ofSize: 14)
         static let calendarButtonsFont: UIFont = .systemFont(ofSize: 17, weight: .medium)
         static let calendarDaysFont: UIFont = .systemFont(ofSize: 18, weight: .medium)
-        static let locationDescriptionButtonsFont: UIFont = .systemFont(ofSize: 14)
     }
 
     enum Constraints {
@@ -54,6 +54,8 @@ enum AppConstants {
                                                        height: AppConstants.screenHeight/15)
         static let reminderInfoImageSize: CGSize = CGSize(width: 50,
                                                        height: 50)
+        static let reminderInfoDeletingButtonSize: CGSize = CGSize(width: 20,
+                                                       height: 20)
 
         static let reminderInfoIconCornerRadius: CGFloat = 5
         static let calendarCornerRadius: CGFloat = 15
@@ -63,6 +65,7 @@ enum AppConstants {
         static let locationDescriptionButtonCornerRadius: CGFloat = 5
         static let locationDescriptionButtonHeight: CGFloat = 20
         static let reminderInfoImageCornerRadius: CGFloat = 12
+        static let reminderImageCornerRadius: CGFloat = 6
     }
 
     enum TableViewCells {
@@ -72,4 +75,13 @@ enum AppConstants {
     enum AnimationTimes {
         static let reloadTableView: Double = 0.1
     }
+
+    // MARK: - CollectionViewSize
+
+    enum CollectionViewSize {
+        static let reminderImagesCollectionViewSize = CGSize(
+            width: 35,
+            height: 35)
+    }
+
 }

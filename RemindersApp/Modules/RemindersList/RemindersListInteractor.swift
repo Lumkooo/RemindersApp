@@ -18,14 +18,17 @@ protocol IRemindersListInteractor {
 
 protocol IRemindersListInteractorOuter: AnyObject {
     func showDataOnScreen(dataArray: [Reminder])
-    func goToDetailInfo(reminder: Reminder)
+    func goToDetailInfo(delegate: IReminderListInteractorDelegate, reminder: Reminder, reminderIndex: Int)
+}
+
+protocol IReminderListInteractorDelegate {
+    func reloadData()
 }
 
 final class RemindersListInteractor {
 
     // MARK: - Properties
 
-    private let reminderManager = ReminderManager()
     weak var presenter: IRemindersListInteractorOuter?
 }
 
@@ -34,38 +37,49 @@ final class RemindersListInteractor {
 extension RemindersListInteractor: IRemindersListInteractor {
 
     func loadInitData() {
-        self.addNewReminder()
+        ReminderManager.sharedInstance.loadElements()
         self.passDataToView()
     }
     
     func addNewReminder() {
-        self.reminderManager.appendElement()
+        ReminderManager.sharedInstance.appendElement()
         self.passDataToView()
     }
     
     func saveReminderToCompleted(indexPath: IndexPath) {
-        self.reminderManager.saveReminderToCompleted(indexPath: indexPath)
+        ReminderManager.sharedInstance.saveReminderToCompleted(indexPath: indexPath)
         self.deleteReminderAt(indexPath: indexPath)
     }
 
     func deleteReminderAt(indexPath: IndexPath) {
-        self.reminderManager.removeElement(atIndex: indexPath.row)
+        ReminderManager.sharedInstance.removeElement(atIndex: indexPath.row)
         self.passDataToView()
     }
 
     func textDidChanged(atIndex index: Int, text: String) {
-        self.reminderManager.updateElement(atIndex: index, text: text)
+        ReminderManager.sharedInstance.updateTextForReminderAt(index, text: text)
     }
 
     func goToDetailInfo(indexPath: IndexPath) {
-        let reminderArray = self.reminderManager.getDataArray()
-        let reminder = reminderArray[indexPath.row]
-        self.presenter?.goToDetailInfo(reminder: reminder)
+        let reminderIndex = indexPath.row
+        guard let reminder = ReminderManager.sharedInstance.getReminderAt(reminderIndex) else {
+            assertionFailure("oops, error occured")
+            return
+        }
+        self.presenter?.goToDetailInfo(delegate: self,
+                                       reminder: reminder,
+                                       reminderIndex: reminderIndex)
     }
 }
 
 private extension RemindersListInteractor {
     func passDataToView() {
-        self.presenter?.showDataOnScreen(dataArray: self.reminderManager.getDataArray())
+        self.presenter?.showDataOnScreen(dataArray: ReminderManager.sharedInstance.getDataArray())
+    }
+}
+
+extension RemindersListInteractor: IReminderListInteractorDelegate {
+    func reloadData() {
+        self.passDataToView()
     }
 }

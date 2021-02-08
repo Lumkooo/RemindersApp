@@ -8,7 +8,7 @@
 import UIKit
 
 struct ReminderInfo {
-    var mainInfo: [String] = ["Заголовок", "Заметки", "URL"]
+    var mainInfo: [String] = ["Заголовок", "Заметки", "Ссылка"]
     var dateAndTimeInfo = DateAndTimeInfo()
     var locationInfo = LocationInfo()
     var messagingInfo = MessagingInfo()

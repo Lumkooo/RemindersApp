@@ -53,7 +53,7 @@ final class RemindersListView: UIView {
 
 extension RemindersListView: IRemindersListView {
     func showDataOnScreen(dataArray: [Reminder]) {
-        self.tableViewDataSource?.dataArray = dataArray
+        self.tableViewDataSource?.reminderArray = dataArray
         self.tableView.reloadData()
     }
 }

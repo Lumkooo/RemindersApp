@@ -16,6 +16,8 @@ final class RemindersListTableViewCell: UITableViewCell {
     }
     private weak var parentTableView: UITableView?
     private var cellIndex: Int = 0
+    private var collectionViewDelegate: CustomCollectionViewDelegate?
+    private var collectionViewDataSource: CustomCollectionViewDataSource?
     var isDoneButtonTapped: (() -> Void)?
     var infoButtonTapped: (() -> Void)?
     var textViewDidChange: ((Int, String) -> Void)?
@@ -27,6 +29,24 @@ final class RemindersListTableViewCell: UITableViewCell {
         myTextView.font = AppConstants.AppFonts.reminderFont
         myTextView.isScrollEnabled = false
         return myTextView
+    }()
+
+    private lazy var reminderNotesLabel: UILabel = {
+        let myLabel = UILabel()
+        myLabel.textColor = .lightGray
+        myLabel.textAlignment = .natural
+        myLabel.font = AppConstants.AppFonts.reminderNotesFont
+        myLabel.numberOfLines = 0
+        return myLabel
+    }()
+
+    private lazy var reminderImagesCollectionView: UICollectionView = {
+        let myCollectionView:UICollectionView = UICollectionView(
+            frame: CGRect.zero,
+            collectionViewLayout: UICollectionViewFlowLayout.init())
+        myCollectionView.register(ReminderImagesCollectionViewCell.self,
+                                  forCellWithReuseIdentifier: ReminderImagesCollectionViewCell.reuseIdentifier)
+        return myCollectionView
     }()
 
     private lazy var isDoneButton: UIButton = {
@@ -62,10 +82,19 @@ final class RemindersListTableViewCell: UITableViewCell {
 
     // MARK: - Public method
 
-    func setupCell(tableView: UITableView, cellIndex: Int, text: String) {
-        self.reminderTextView.text = text
+    func setupCell(tableView: UITableView, cellIndex: Int, reminder: Reminder) {
+        self.reminderTextView.text = reminder.text
+        if let note = reminder.note {
+            self.reminderNotesLabel.text = note
+        }
         self.parentTableView = tableView
         self.cellIndex = cellIndex
+        self.collectionViewDataSource?.imagesArray = reminder.photos
+        if reminder.photos.count > 0 {
+            self.reminderImagesCollectionView.heightAnchor.constraint(
+                equalToConstant: AppConstants.CollectionViewSize.reminderImagesCollectionViewSize.height).isActive = true
+        }
+        self.reminderImagesCollectionView.reloadData()
     }
 
     // MARK: - Buttons action methods
@@ -77,7 +106,6 @@ final class RemindersListTableViewCell: UITableViewCell {
     @objc private func isDoneButtonTapped(gesture: UIGestureRecognizer) {
         self.isDoneButtonTapped?()
     }
-
 }
 
 // MARK: - UISetup
@@ -87,6 +115,8 @@ private extension RemindersListTableViewCell {
         self.setupIsDoneButton()
         self.setupInfoButton()
         self.setupReminderTextView()
+        self.setupReminderNotesLabel()
+        self.setupReminderImagesCollectionView()
     }
 
     func setupIsDoneButton() {
@@ -135,15 +165,63 @@ private extension RemindersListTableViewCell {
             self.reminderTextView.topAnchor.constraint(
                 equalTo: self.contentView.topAnchor,
                 constant: AppConstants.Constraints.halfNormalConstraint),
-            self.reminderTextView.bottomAnchor.constraint(
-                equalTo: self.contentView.bottomAnchor,
-                constant: -AppConstants.Constraints.halfNormalConstraint),
             self.reminderTextView.trailingAnchor.constraint(
                 equalTo: self.infoButton.leadingAnchor,
                 constant: -AppConstants.Constraints.quarterNormalConstraint)
         ])
     }
+
+    func setupReminderNotesLabel() {
+        self.contentView.addSubview(self.reminderNotesLabel)
+        self.reminderNotesLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            self.reminderNotesLabel.leadingAnchor.constraint(
+                equalTo: self.isDoneButton.trailingAnchor,
+                constant: AppConstants.Constraints.halfNormalConstraint),
+            self.reminderNotesLabel.topAnchor.constraint(
+                equalTo: self.reminderTextView.bottomAnchor,
+                constant: AppConstants.Constraints.quarterNormalConstraint),
+            self.reminderNotesLabel.trailingAnchor.constraint(
+                equalTo: self.infoButton.leadingAnchor,
+                constant: -AppConstants.Constraints.quarterNormalConstraint)
+        ])
+    }
+
+    func setupReminderImagesCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0,
+                                           left: AppConstants.Constraints.normalConstraint,
+                                           bottom: 0,
+                                           right: AppConstants.Constraints.normalConstraint)
+        self.reminderImagesCollectionView.setCollectionViewLayout(layout, animated: true)
+        self.reminderImagesCollectionView.backgroundColor = .clear
+        self.collectionViewDelegate = CustomCollectionViewDelegate(delegate: self)
+        self.collectionViewDataSource = CustomCollectionViewDataSource()
+        self.reminderImagesCollectionView.delegate = self.collectionViewDelegate
+        self.reminderImagesCollectionView.dataSource = self.collectionViewDataSource
+        self.contentView.addSubview(self.reminderImagesCollectionView)
+        self.reminderImagesCollectionView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            self.reminderImagesCollectionView.leadingAnchor.constraint(
+                equalTo: self.isDoneButton.trailingAnchor,
+                constant: AppConstants.Constraints.halfNormalConstraint),
+            self.reminderImagesCollectionView.bottomAnchor.constraint(
+                equalTo: self.contentView.bottomAnchor,
+                constant: -AppConstants.Constraints.quarterNormalConstraint),
+            self.reminderImagesCollectionView.topAnchor.constraint(
+                equalTo: self.reminderNotesLabel.bottomAnchor,
+                constant: AppConstants.Constraints.quarterNormalConstraint),
+            self.reminderImagesCollectionView.trailingAnchor.constraint(
+                equalTo: self.infoButton.leadingAnchor,
+                constant: -AppConstants.Constraints.halfNormalConstraint)
+        ])
+    }
 }
+
+// MARK: - UITextViewDelegate
 
 extension RemindersListTableViewCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
@@ -158,5 +236,14 @@ extension RemindersListTableViewCell: UITextViewDelegate {
 
     func setSelected(selected: Bool, animated: Bool) {
         self.reminderTextView.becomeFirstResponder()
+    }
+}
+
+// MARK: - ICustomCollectionViewDelegate
+
+extension RemindersListTableViewCell: ICustomCollectionViewDelegate {
+    func didSelectItemAt(_ indexPath: IndexPath) {
+        // TODO: - Показать картинку на весь экран с возможностью листать между картинками
+        print("selected at index: ", indexPath.row)
     }
 }

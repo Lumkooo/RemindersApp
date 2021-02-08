@@ -16,7 +16,7 @@ final class CustomTableViewDelegate: NSObject {
     // MARK: - Constants
 
     private enum Constants {
-        static let tableViewEstimatedHeight: CGFloat = 444
+        static let tableViewEstimatedHeight: CGFloat = 44
     }
 
     // MARK: - Properties

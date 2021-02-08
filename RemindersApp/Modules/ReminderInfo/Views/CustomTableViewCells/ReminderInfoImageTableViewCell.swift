@@ -44,6 +44,7 @@ final class ReminderInfoImageTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupElements()
+        self.selectionStyle = .none
     }
 
     required init?(coder: NSCoder) {
@@ -54,7 +55,7 @@ final class ReminderInfoImageTableViewCell: UITableViewCell {
 
     func setupCell(image: UIImage) {
         self.photoImageView.image = image
-        self.photoNameLabel.text = "Image"
+        self.photoNameLabel.text = "Изображение"
     }
 
     // MARK: - Обработка нажатия на кнопки
@@ -100,13 +101,13 @@ private extension ReminderInfoImageTableViewCell {
         NSLayoutConstraint.activate([
             self.deletingButton.trailingAnchor.constraint(
                 equalTo: self.contentView.trailingAnchor,
-                constant: -AppConstants.Constraints.quarterNormalConstraint),
+                constant: -AppConstants.Constraints.normalConstraint),
             self.deletingButton.centerYAnchor.constraint(
                 equalTo: self.contentView.centerYAnchor),
             self.deletingButton.heightAnchor.constraint(
-                equalTo: self.photoImageView.heightAnchor),
+                equalToConstant: AppConstants.Sizes.reminderInfoDeletingButtonSize.height),
             self.deletingButton.widthAnchor.constraint(
-                equalTo: self.photoImageView.widthAnchor)
+                equalToConstant: AppConstants.Sizes.reminderInfoDeletingButtonSize.width)
         ])
     }
 

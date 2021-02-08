@@ -18,7 +18,7 @@ final class RemindersTableViewDataSource: NSObject {
 
     // MARK: - Properties
 
-    var dataArray: [Reminder] = []
+    var reminderArray: [Reminder] = []
     private let delegate: IRemindersTableViewDataSource
 
     // MARK: - Init
@@ -33,7 +33,7 @@ final class RemindersTableViewDataSource: NSObject {
 extension RemindersTableViewDataSource: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataArray.count
+        return self.reminderArray.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -43,10 +43,10 @@ extension RemindersTableViewDataSource: UITableViewDataSource {
             assertionFailure("Can't dequeue tableView cell")
             return UITableViewCell()
         }
-        let data = dataArray[indexPath.row]
+        let reminder = reminderArray[indexPath.row]
         cell.setupCell(tableView: tableView,
                        cellIndex: indexPath.row,
-                       text: data.text)
+                       reminder: reminder)
         cell.infoButtonTapped = {
             self.delegate.infoButtonTapped(indexPath: indexPath)
         }

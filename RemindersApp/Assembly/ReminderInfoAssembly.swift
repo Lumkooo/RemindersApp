@@ -8,9 +8,11 @@
 import UIKit
 
 enum ReminderInfoAssembly {
-    static func createVC(reminder: Reminder) -> UINavigationController {
+    static func createVC(delegate: IReminderListInteractorDelegate, reminder: Reminder, reminderIndex: Int) -> UINavigationController {
         let router = ReminderInfoRouter()
-        let interactor = ReminderInfoInteractor(reminder: reminder)
+        let interactor = ReminderInfoInteractor(delegate: delegate,
+                                                reminder: reminder,
+                                                reminderIndex: reminderIndex)
         let presenter = ReminderInfoPresenter(router: router,
                                               interactor: interactor)
         let viewController = ReminderInfoViewController(presenter: presenter)

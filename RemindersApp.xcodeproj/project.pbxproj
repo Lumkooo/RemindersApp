@@ -17,6 +17,9 @@
 		CE3C093525C9143F00723B83 /* ReminderInfoLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C093425C9143F00723B83 /* ReminderInfoLocationTableViewCell.swift */; };
 		CE5F252325BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F252225BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift */; };
 		CE5F252825BFE26200409BDF /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F252725BFE26200409BDF /* Priority.swift */; };
+		CE72B73125CF9D5100EC7C69 /* ReminderImagesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE72B73025CF9D5100EC7C69 /* ReminderImagesCollectionViewCell.swift */; };
+		CE72B73525CF9F7B00EC7C69 /* CustomCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE72B73425CF9F7B00EC7C69 /* CustomCollectionViewDelegate.swift */; };
+		CE72B73925CF9F9C00EC7C69 /* CustomCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE72B73825CF9F9C00EC7C69 /* CustomCollectionViewDataSource.swift */; };
 		CEAF39E225BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF39E125BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift */; };
 		CEBDF3A725B941C400686F2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3A625B941C400686F2C /* AppDelegate.swift */; };
 		CEBDF3A925B941C400686F2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDF3A825B941C400686F2C /* SceneDelegate.swift */; };
@@ -61,6 +64,9 @@
 		CE3C093425C9143F00723B83 /* ReminderInfoLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoLocationTableViewCell.swift; sourceTree = "<group>"; };
 		CE5F252225BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoPriorityTableViewCell.swift; sourceTree = "<group>"; };
 		CE5F252725BFE26200409BDF /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
+		CE72B73025CF9D5100EC7C69 /* ReminderImagesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderImagesCollectionViewCell.swift; sourceTree = "<group>"; };
+		CE72B73425CF9F7B00EC7C69 /* CustomCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		CE72B73825CF9F9C00EC7C69 /* CustomCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		CEAF39E125BE938D000767C1 /* ReminderInfoSwitcherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInfoSwitcherTableViewCell.swift; sourceTree = "<group>"; };
 		CEBDF3A325B941C400686F2C /* RemindersApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemindersApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBDF3A625B941C400686F2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +133,15 @@
 				CE1149BE25CD08D900D03FBD /* ReminderInfoImageTableViewCell.swift */,
 			);
 			path = CustomTableViewCells;
+			sourceTree = "<group>";
+		};
+		CE72B73325CF9F5B00EC7C69 /* ReminderImagesCollectionViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CE72B73425CF9F7B00EC7C69 /* CustomCollectionViewDelegate.swift */,
+				CE72B73825CF9F9C00EC7C69 /* CustomCollectionViewDataSource.swift */,
+			);
+			path = ReminderImagesCollectionViewModel;
 			sourceTree = "<group>";
 		};
 		CEBDF39A25B941C400686F2C = {
@@ -198,6 +213,7 @@
 			children = (
 				CEBDF3C725B9442F00686F2C /* RemindersListView.swift */,
 				CEBDF3E325B9504200686F2C /* RemindersListTableViewCell.swift */,
+				CE72B73025CF9D5100EC7C69 /* ReminderImagesCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -216,6 +232,7 @@
 		CEBDF3DC25B94DDF00686F2C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CE72B73325CF9F5B00EC7C69 /* ReminderImagesCollectionViewModel */,
 				CEBDF3DD25B94DEF00686F2C /* CustomTableViewDelegate.swift */,
 				CE3A007025BE7EDA0094BD4F /* ReminderInfoModel */,
 				CEFADAB325BA7FEE0020DE32 /* RemindersTableViewModel */,
@@ -369,6 +386,7 @@
 				CEFADAC425BA97E90020DE32 /* ReminderManager.swift in Sources */,
 				CEFA795B25CBA4910004AF81 /* PriorityListVCAssembly.swift in Sources */,
 				CEBDF3AB25B941C400686F2C /* RemindersListViewController.swift in Sources */,
+				CE72B73925CF9F9C00EC7C69 /* CustomCollectionViewDataSource.swift in Sources */,
 				CEBDF3D625B94AAC00686F2C /* RemindersListPresenter.swift in Sources */,
 				CEF4F29525BD2FE400B59892 /* ReminderInfoView.swift in Sources */,
 				CEBDF3CC25B9445B00686F2C /* RemindersListAssembly.swift in Sources */,
@@ -381,6 +399,7 @@
 				CEF4F29D25BD2FFB00B59892 /* ReminderInfoPresenter.swift in Sources */,
 				CEFADABD25BA84870020DE32 /* AppConstants.swift in Sources */,
 				CE007A7525CA6AEF00EDC11B /* ChosenLocationType.swift in Sources */,
+				CE72B73125CF9D5100EC7C69 /* ReminderImagesCollectionViewCell.swift in Sources */,
 				CEBDF3CF25B9449600686F2C /* NavigationControllerAssembly.swift in Sources */,
 				CE3A007225BE7F060094BD4F /* ReminderInfoTableViewDataSource.swift in Sources */,
 				CE5F252325BFD78700409BDF /* ReminderInfoPriorityTableViewCell.swift in Sources */,
@@ -388,6 +407,7 @@
 				CE3A007C25BE82420094BD4F /* ReminderInfo.swift in Sources */,
 				CE1149B925CCFCD700D03FBD /* ReminderInfoAddImageTableViewCell.swift in Sources */,
 				CEBDF3A925B941C400686F2C /* SceneDelegate.swift in Sources */,
+				CE72B73525CF9F7B00EC7C69 /* CustomCollectionViewDelegate.swift in Sources */,
 				CEF4F2A625BD326500B59892 /* ReminderInfoAssembly.swift in Sources */,
 				CE1149BF25CD08D900D03FBD /* ReminderInfoImageTableViewCell.swift in Sources */,
 				CEFA795725CBA32A0004AF81 /* PrioritiesTableViewController.swift in Sources */,

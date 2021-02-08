@@ -32,7 +32,7 @@ final class ReminderInfoViewController: UIViewController {
         self.view = self.customView
         self.presenter.viewDidLoad(ui: self.customView)
         self.setupHidingKeyboardOnTap()
-        self.title = "Detail"
+        self.title = "Информация"
         self.addNavigationBarButtons()
     }
 

@@ -130,6 +130,10 @@ extension ReminderInfoPresenter: IReminderInfoInteractorOuter {
         self.router.showPriorityVC(currentPriority: currentPriority,
                                    delegate: delegate)
     }
+
+    func dismissVC() {
+        self.router.dismissVC()
+    }
 }
 
 extension ReminderInfoPresenter: IReminderInfoRouterOuter {
