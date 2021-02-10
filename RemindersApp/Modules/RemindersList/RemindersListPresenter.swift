@@ -5,7 +5,7 @@
 //  Created by Андрей Шамин on 1/21/21.
 //
 
-import Foundation
+import UIKit
 
 protocol IRemindersListPresenter {
     func viewDidLoad(ui: IRemindersListView)
@@ -44,6 +44,10 @@ extension RemindersListPresenter: IRemindersListPresenter {
         self.ui?.textDidChanged = { [weak self] (index, text) in
             self?.interactor.textDidChanged(atIndex: index, text: text)
         }
+        self.ui?.imageTappedAt = { [weak self] (imageIndex, reminderIndex) in
+            self?.interactor.imageTappedAt(imageIndex: imageIndex,
+                                           reminderIndex: reminderIndex)
+        }
         self.interactor.loadInitData()
     }
 
@@ -65,5 +69,9 @@ extension RemindersListPresenter: IRemindersListInteractorOuter {
 
     func showDataOnScreen(dataArray: [Reminder]) {
         self.ui?.showDataOnScreen(dataArray: dataArray)
+    }
+
+    func goToImagesVC(photos: [UIImage?], imageIndex: Int) {
+        self.router.showImagesVC(photos: photos, imageIndex: imageIndex)
     }
 }

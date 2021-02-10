@@ -14,7 +14,6 @@ import UIKit
     static var reuseIdentifier: String {
         return String(describing: ReminderInfoTextViewTableViewCell.self)
     }
-    private weak var parentTableView: UITableView?
     private var placeholderText: String = ""
     var textViewDidChange: ((String) -> Void)?
 
@@ -41,20 +40,18 @@ import UIKit
 
     // MARK: - Public Method
 
-    func setupCell(tableView: UITableView,
-                   placeholder: String,
+    func setupCell(placeholder: String,
                    text: String) {
         if text.isEmpty {
-        self.textView.text = placeholder
-        self.textView.textColor = UIColor.lightGray
-        self.textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
-                                                             to: textView.beginningOfDocument)
+            self.textView.text = placeholder
+            self.textView.textColor = UIColor.lightGray
+            self.textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
+                                                                 to: textView.beginningOfDocument)
         } else {
             self.textView.text = text
             self.textView.textColor = .black
         }
         self.placeholderText = placeholder
-        self.parentTableView = tableView
     }
 }
 
@@ -92,8 +89,6 @@ private extension ReminderInfoTextViewTableViewCell {
 
 extension ReminderInfoTextViewTableViewCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        self.parentTableView?.beginUpdates()
-        self.parentTableView?.endUpdates()
         guard let text = textView.text else {
             return
         }

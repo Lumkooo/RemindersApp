@@ -11,6 +11,7 @@ protocol IRemindersListRouter {
     func showDetailInfo(delegate: IReminderListInteractorDelegate,
                         forReminder reminder: Reminder,
                         reminderIndex: Int)
+    func showImagesVC(photos: [UIImage?], imageIndex: Int)
 }
 
 final class RemindersListRouter {
@@ -27,5 +28,11 @@ extension RemindersListRouter: IRemindersListRouter {
                                                            reminder: reminder,
                                                            reminderIndex: reminderIndex)
         self.vc?.navigationController?.present(reminderInfoVC, animated: true)
+    }
+
+    func showImagesVC(photos: [UIImage?], imageIndex: Int) {
+        let imagesVC = ImagesViewController(photos: photos, imageIndex: imageIndex)
+        imagesVC.modalPresentationStyle = .overFullScreen
+        self.vc?.navigationController?.present(imagesVC, animated: true)
     }
 }

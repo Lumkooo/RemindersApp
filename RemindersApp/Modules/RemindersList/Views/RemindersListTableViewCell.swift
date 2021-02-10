@@ -14,13 +14,12 @@ final class RemindersListTableViewCell: UITableViewCell {
     static var reuseIdentifier: String {
         return String(describing: RemindersListTableViewCell.self)
     }
-    private weak var parentTableView: UITableView?
-    private var cellIndex: Int = 0
     private var collectionViewDelegate: CustomCollectionViewDelegate?
     private var collectionViewDataSource: CustomCollectionViewDataSource?
     var isDoneButtonTapped: (() -> Void)?
     var infoButtonTapped: (() -> Void)?
-    var textViewDidChange: ((Int, String) -> Void)?
+    var textViewDidChange: ((String) -> Void)?
+    var imageTapped: ((Int) -> Void)?
 
     // MARK: - Views
 
@@ -29,6 +28,14 @@ final class RemindersListTableViewCell: UITableViewCell {
         myTextView.font = AppConstants.AppFonts.reminderFont
         myTextView.isScrollEnabled = false
         return myTextView
+    }()
+
+    private lazy var reminderPriorityLabel: UILabel = {
+        let myLabel = UILabel()
+        myLabel.textColor = .systemOrange
+        myLabel.textAlignment = .natural
+        myLabel.font = AppConstants.AppFonts.reminderFont
+        return myLabel
     }()
 
     private lazy var reminderNotesLabel: UILabel = {
@@ -68,6 +75,15 @@ final class RemindersListTableViewCell: UITableViewCell {
         return myButton
     }()
 
+    private lazy var flagImageView: UIImageView = {
+        let myImageView = UIImageView()
+        myImageView.contentMode = .center
+        myImageView.tintColor = .systemOrange
+        myImageView.image = AppConstants.Images.flagFillImage
+        return myImageView
+    }()
+
+
     // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -82,19 +98,58 @@ final class RemindersListTableViewCell: UITableViewCell {
 
     // MARK: - Public method
 
-    func setupCell(tableView: UITableView, cellIndex: Int, reminder: Reminder) {
+    func setupCell(reminder: Reminder) {
+        self.setupCellText(text: reminder.text)
         self.reminderTextView.text = reminder.text
-        if let note = reminder.note {
+        self.setupCellNoteText(note: reminder.note)
+        self.setupCellImages(images: reminder.photos)
+        self.setupCellFlag(flag: reminder.flag)
+        self.setupCellPriority(priority: reminder.priority)
+        self.reminderImagesCollectionView.reloadData()
+    }
+
+    // MARK: - Методы для настройки отображения информации о напоминании в ячейке
+
+    private func setupCellText(text: String) {
+        self.reminderTextView.text = text
+    }
+
+    private func setupCellNoteText(note: String?) {
+        if let note = note {
             self.reminderNotesLabel.text = note
+        } else {
+            self.reminderNotesLabel.text = nil
         }
-        self.parentTableView = tableView
-        self.cellIndex = cellIndex
-        self.collectionViewDataSource?.imagesArray = reminder.photos
-        if reminder.photos.count > 0 {
+    }
+
+    private func setupCellImages(images: [UIImage?]) {
+        self.collectionViewDataSource?.imagesArray = images
+        if images.count > 0 {
             self.reminderImagesCollectionView.heightAnchor.constraint(
                 equalToConstant: AppConstants.CollectionViewSize.reminderImagesCollectionViewSize.height).isActive = true
         }
-        self.reminderImagesCollectionView.reloadData()
+    }
+
+    private func setupCellPriority(priority: Priority?) {
+        switch priority {
+        case .low:
+            self.reminderPriorityLabel.text = "!"
+        case .normal:
+            self.reminderPriorityLabel.text = "!!"
+        case .high:
+            self.reminderPriorityLabel.text = "!!!"
+        default:
+            self.reminderPriorityLabel.text = nil
+            break
+        }
+    }
+
+    private func setupCellFlag(flag: Bool) {
+        if flag {
+            self.setupFlagImageView()
+        } else {
+            self.flagImageView.removeFromSuperview()
+        }
     }
 
     // MARK: - Buttons action methods
@@ -114,6 +169,7 @@ private extension RemindersListTableViewCell {
     func setupElements() {
         self.setupIsDoneButton()
         self.setupInfoButton()
+        self.setupReminderPriorityLabel()
         self.setupReminderTextView()
         self.setupReminderNotesLabel()
         self.setupReminderImagesCollectionView()
@@ -153,6 +209,19 @@ private extension RemindersListTableViewCell {
         ])
     }
 
+    func setupReminderPriorityLabel() {
+        self.contentView.addSubview(self.reminderPriorityLabel)
+        self.reminderPriorityLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            self.reminderPriorityLabel.leadingAnchor.constraint(
+                equalTo: self.isDoneButton.trailingAnchor),
+            self.reminderPriorityLabel.topAnchor.constraint(
+                equalTo: self.contentView.topAnchor,
+                constant: AppConstants.Constraints.normalConstraint)
+        ])
+    }
+
     func setupReminderTextView() {
         self.contentView.addSubview(self.reminderTextView)
         self.reminderTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -160,14 +229,14 @@ private extension RemindersListTableViewCell {
         self.reminderTextView.backgroundColor = self.backgroundColor
         NSLayoutConstraint.activate([
             self.reminderTextView.leadingAnchor.constraint(
-                equalTo: self.isDoneButton.trailingAnchor,
+                equalTo: self.reminderPriorityLabel.trailingAnchor,
                 constant: AppConstants.Constraints.quarterNormalConstraint),
             self.reminderTextView.topAnchor.constraint(
                 equalTo: self.contentView.topAnchor,
                 constant: AppConstants.Constraints.halfNormalConstraint),
             self.reminderTextView.trailingAnchor.constraint(
                 equalTo: self.infoButton.leadingAnchor,
-                constant: -AppConstants.Constraints.quarterNormalConstraint)
+                constant: -AppConstants.Constraints.quarterNormalConstraint),
         ])
     }
 
@@ -219,19 +288,29 @@ private extension RemindersListTableViewCell {
                 constant: -AppConstants.Constraints.halfNormalConstraint)
         ])
     }
+
+    func setupFlagImageView() {
+        self.contentView.addSubview(self.flagImageView)
+        self.flagImageView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            self.flagImageView.trailingAnchor.constraint(
+                equalTo: self.infoButton.leadingAnchor,
+                constant: -AppConstants.Constraints.halfNormalConstraint),
+            self.flagImageView.centerYAnchor.constraint(
+                equalTo: self.infoButton.centerYAnchor)
+        ])
+    }
 }
 
 // MARK: - UITextViewDelegate
 
 extension RemindersListTableViewCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        self.parentTableView?.beginUpdates()
-        self.parentTableView?.endUpdates()
         guard let text = textView.text else {
             return
         }
-        self.textViewDidChange?(self.cellIndex,
-                                text)
+        self.textViewDidChange?(text)
     }
 
     func setSelected(selected: Bool, animated: Bool) {
@@ -244,6 +323,6 @@ extension RemindersListTableViewCell: UITextViewDelegate {
 extension RemindersListTableViewCell: ICustomCollectionViewDelegate {
     func didSelectItemAt(_ indexPath: IndexPath) {
         // TODO: - Показать картинку на весь экран с возможностью листать между картинками
-        print("selected at index: ", indexPath.row)
+        self.imageTapped?(indexPath.row)
     }
 }

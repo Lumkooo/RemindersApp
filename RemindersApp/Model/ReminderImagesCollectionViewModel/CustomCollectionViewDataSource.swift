@@ -19,7 +19,6 @@ final class CustomCollectionViewDataSource: NSObject {
 
 extension CustomCollectionViewDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("self.imagesArray.count", self.imagesArray.count)
         return self.imagesArray.count
     }
 

@@ -163,10 +163,11 @@ private extension ReminderInfoTableViewDataSource {
         } else if indexPath.row == 2 {
             text = self.reminder.url ?? ""
         }
-        firstCell.setupCell(tableView: tableView,
-                            placeholder: placeholder,
+        firstCell.setupCell(placeholder: placeholder,
                             text: text)
         firstCell.textViewDidChange = { [weak self] (text) in
+            tableView.beginUpdates()
+            tableView.endUpdates()
             self?.delegate.textViewDidChange(indexPath: indexPath, text: text)
         }
         return firstCell

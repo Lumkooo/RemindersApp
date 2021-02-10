@@ -5,7 +5,7 @@
 //  Created by Андрей Шамин on 1/21/21.
 //
 
-import Foundation
+import UIKit
 
 protocol IRemindersListInteractor {
     func loadInitData()
@@ -14,11 +14,16 @@ protocol IRemindersListInteractor {
     func deleteReminderAt(indexPath: IndexPath)
     func textDidChanged(atIndex index: Int, text: String)
     func goToDetailInfo(indexPath: IndexPath)
+    func imageTappedAt(imageIndex: Int, reminderIndex: Int)
 }
 
 protocol IRemindersListInteractorOuter: AnyObject {
     func showDataOnScreen(dataArray: [Reminder])
-    func goToDetailInfo(delegate: IReminderListInteractorDelegate, reminder: Reminder, reminderIndex: Int)
+    func goToDetailInfo(delegate: IReminderListInteractorDelegate,
+                        reminder: Reminder,
+                        reminderIndex: Int)
+    func goToImagesVC(photos: [UIImage?],
+                      imageIndex: Int)
 }
 
 protocol IReminderListInteractorDelegate {
@@ -70,11 +75,23 @@ extension RemindersListInteractor: IRemindersListInteractor {
                                        reminder: reminder,
                                        reminderIndex: reminderIndex)
     }
+
+    func imageTappedAt(imageIndex: Int, reminderIndex: Int) {
+        let reminders = self.getReminders()
+        let photos = reminders[reminderIndex].photos
+        self.presenter?.goToImagesVC(photos: photos,
+                                     imageIndex: imageIndex)
+    }
 }
 
 private extension RemindersListInteractor {
     func passDataToView() {
-        self.presenter?.showDataOnScreen(dataArray: ReminderManager.sharedInstance.getDataArray())
+        let reminderArray = self.getReminders()
+        self.presenter?.showDataOnScreen(dataArray: reminderArray)
+    }
+
+    func getReminders() -> [Reminder] {
+        return ReminderManager.sharedInstance.getDataArray()
     }
 }
 

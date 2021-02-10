@@ -12,6 +12,7 @@ protocol IRemindersListView: AnyObject {
     var infoButtonTapped: ((IndexPath) -> Void)? { get set }
     var deletingCellAt: ((IndexPath) -> Void)? { get set }
     var textDidChanged: ((Int, String) -> Void)? { get set }
+    var imageTappedAt: ((Int, Int) -> Void)? { get set }
 
     func showDataOnScreen(dataArray: [Reminder])
 }
@@ -35,6 +36,7 @@ final class RemindersListView: UIView {
     var infoButtonTapped: ((IndexPath) -> Void)?
     var deletingCellAt: ((IndexPath) -> Void)?
     var textDidChanged: ((Int, String) -> Void)?
+    var imageTappedAt: ((Int, Int) -> Void)?
 
     // MARK: - Init
 
@@ -112,5 +114,9 @@ extension RemindersListView: IRemindersTableViewDataSource {
 
     func textDidChanged(atIndex index: Int, text: String) {
         self.textDidChanged?(index, text)
+    }
+
+    func imageTappedAt(imageIndex: Int, reminderIndex: Int) {
+        self.imageTappedAt?(imageIndex, reminderIndex)
     }
 }

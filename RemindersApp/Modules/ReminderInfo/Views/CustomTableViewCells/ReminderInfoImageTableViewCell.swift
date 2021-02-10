@@ -33,7 +33,7 @@ final class ReminderInfoImageTableViewCell: UITableViewCell {
     private lazy var deletingButton: UIButton = {
         let myButton = UIButton()
         myButton.tintColor = .red
-        myButton.setImage(AppConstants.Images.minusCircleFill,
+        myButton.setImage(AppConstants.Images.minusCircleFillImage,
                           for: .normal)
         myButton.addTarget(self, action: #selector(deletingAction), for: .touchUpInside)
         return myButton
