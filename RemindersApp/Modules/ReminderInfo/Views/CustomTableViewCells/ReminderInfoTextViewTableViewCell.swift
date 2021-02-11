@@ -48,7 +48,6 @@ import UIKit
             self.textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
                                                                  to: textView.beginningOfDocument)
         } else {
-            print("HHHEY")
             self.textView.text = text
             self.textView.textColor = .label
         }

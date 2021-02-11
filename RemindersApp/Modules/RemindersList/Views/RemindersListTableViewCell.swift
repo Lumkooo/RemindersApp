@@ -108,6 +108,7 @@ final class RemindersListTableViewCell: UITableViewCell {
         self.setupCellImages(images: reminder.photos)
         self.setupCellFlag(flag: reminder.flag)
         self.setupCellPriority(priority: reminder.priority)
+        self.setupCellDate(date: reminder.date)
         self.reminderImagesCollectionView.reloadData()
     }
 
@@ -161,6 +162,18 @@ final class RemindersListTableViewCell: UITableViewCell {
             self.setupFlagImageView()
         } else {
             self.flagImageView.removeFromSuperview()
+        }
+    }
+
+    private func setupCellDate(date: Date?) {
+        if let date = date {
+            if let stringIndex = self.reminderNotesLabel.text?.startIndex {
+                let formatter1 = DateFormatter()
+                formatter1.dateStyle = .medium
+                formatter1.timeStyle = .short
+                let stringDate = formatter1.string(from: date)
+                self.reminderNotesLabel.text?.insert(contentsOf: "\(stringDate)\n", at: stringIndex)
+            }
         }
     }
 
