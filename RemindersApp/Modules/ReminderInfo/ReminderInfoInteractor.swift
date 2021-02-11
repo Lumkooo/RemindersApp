@@ -75,6 +75,7 @@ final class ReminderInfoInteractor {
 
 extension ReminderInfoInteractor: IReminderInfoInteractor {
     func loadInitData() {
+        self.checkIfDateIsSet()
         self.reloadViewPresentation()
     }
 
@@ -100,20 +101,29 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
 
             // MARK: - Дата и время
 
-            self.isDateIncluded = value
             if indexPath.row == 0 {
                 if value {
                     self.presenter?.showCalendarInfo()
                 } else {
                     self.presenter?.hideCalendarInfo()
                 }
+                self.isDateIncluded = value
             } else if indexPath.row == 1 {
                 if value {
+                    self.isDateIncluded = value
                     self.presenter?.showTime()
                 } else {
                     self.presenter?.hideTime()
+                    // Если switch перешел в состояние false, то ставим базовое время
+                    // 8:00 для того, если switch даты все еще true, то уведомление
+                    // показалось в 8:00 того дня
+                    self.hoursAndMinutes = DateComponents(calendar: .autoupdatingCurrent,
+                                                          timeZone: .autoupdatingCurrent,
+                                                          hour: 8,
+                                                          minute: 0)
                 }
             }
+            print("isDateIncluded", self.isDateIncluded)
         } else if indexPath.section == 2 {
 
             // MARK: - Местоположение
@@ -150,9 +160,12 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
         if self.isDateIncluded {
             let dateAndTime = self.getDateAndTime()
             self.reminder.date = dateAndTime
+        } else {
+            self.reminder.date = nil
         }
         ReminderManager.sharedInstance.updateReminderAt(self.reminderIndex,
                                                         reminder: self.reminder)
+        print("saved", self.reminder)
         self.presenter?.dismissVC()
         self.delegate.reloadData()
     }
@@ -192,14 +205,14 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
 
 private extension ReminderInfoInteractor {
     func reloadViewPresentation() {
-        self.presenter?.prepareViewFor(reminder: reminder)
+        self.presenter?.prepareViewFor(reminder: self.reminder)
     }
 
     func getDateAndTime() -> Date? {
         let calendar = Calendar.current
         if self.dayMonthsAndYears.year ?? 0 <= 1 {
             // Для того, чтобы выбрать дату, соответствующую сегодня
-            // если пользователь не выбрал конкретную дату, но выбрал swifch календаря
+            // если пользователь не выбрал конкретную дату, но выбрал switch календаря
             let date = Date()
             self.dateChanged(date: date)
         }
@@ -212,6 +225,20 @@ private extension ReminderInfoInteractor {
                                         minute: self.hoursAndMinutes.minute)
         let dateAndTime = calendar.date(from: components)
         return dateAndTime
+    }
+
+    func checkIfDateIsSet() {
+        if let date = self.reminder.date {
+            self.isDateIncluded = true
+            self.presenter?.showCalendarInfo()
+            self.presenter?.showTime()
+
+            let calendar = Calendar.current
+            let dateComponents = calendar.dateComponents([.day, .month, .year], from: date)
+            self.dayMonthsAndYears = dateComponents
+            let timeComponents = calendar.dateComponents([.hour, .minute], from: date)
+            self.hoursAndMinutes = timeComponents
+        }
     }
 }
 

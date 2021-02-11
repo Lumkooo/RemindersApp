@@ -44,12 +44,13 @@ import UIKit
                    text: String) {
         if text.isEmpty {
             self.textView.text = placeholder
-            self.textView.textColor = UIColor.lightGray
+            self.textView.textColor = UIColor.systemGray
             self.textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
                                                                  to: textView.beginningOfDocument)
         } else {
+            print("HHHEY")
             self.textView.text = text
-            self.textView.textColor = .black
+            self.textView.textColor = .label
         }
         self.placeholderText = placeholder
     }
@@ -96,16 +97,16 @@ extension ReminderInfoTextViewTableViewCell: UITextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
+        if textView.textColor == UIColor.systemGray {
             textView.text = nil
-            textView.textColor = UIColor.black
+            textView.textColor = .label
         }
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = self.placeholderText
-            textView.textColor = UIColor.lightGray
+            textView.textColor = UIColor.systemGray
         }
     }
 }

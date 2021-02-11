@@ -162,7 +162,7 @@ private extension ReminderInfoLocationTableViewCell {
 
     func setupDescriptionButtonAsUntapped(button: UIButton) {
         button.backgroundColor = self.backgroundColor
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.label, for: .normal)
     }
 
     func setupButtonsColor(button: UIButton, decriptionButton: UIButton) {

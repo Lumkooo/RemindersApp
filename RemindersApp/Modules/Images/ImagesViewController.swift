@@ -112,10 +112,10 @@ private extension ImagesViewController {
 
         NSLayoutConstraint.activate([
             self.closeButton.trailingAnchor.constraint(
-                equalTo: self.view.trailingAnchor,
+                equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -AppConstants.Constraints.normalConstraint),
             self.closeButton.topAnchor.constraint(
-                equalTo: self.view.topAnchor,
+                equalTo: self.view.safeAreaLayoutGuide.topAnchor,
                 constant: AppConstants.Constraints.normalConstraint)
         ])
     }

@@ -38,25 +38,4 @@ extension CustomTableViewDelegate: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         Constants.tableViewEstimatedHeight
     }
-
-//    func tableView(_ tableView: UITableView,
-//                   contextMenuConfigurationForRowAt indexPath: IndexPath,
-//                   point: CGPoint) -> UIContextMenuConfiguration? {
-//        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { suggestedActions in
-//
-//            return self.makeContextMenu()
-//        })
-//    }
-//
-//    func makeContextMenu() -> UIMenu {
-//
-//        // Create a UIAction for sharing
-//        let share = UIAction(title: "Photo Library",
-//                             image: UIImage(systemName: "square.and.arrow.up")) { action in
-//            // Show system share sheet
-//        }
-//
-//        // Create and return a UIMenu with the share action
-//        return UIMenu(title: "Main Menu", children: [share])
-//    }
 }

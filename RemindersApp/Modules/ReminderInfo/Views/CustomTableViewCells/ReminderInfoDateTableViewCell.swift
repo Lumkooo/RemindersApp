@@ -46,13 +46,20 @@ final class ReminderInfoDateTableViewCell: UITableViewCell {
 
     // MARK: - Public method
 
-    func setupCell(cellType: DateAndTimeCellType) {
+    func setupCell(cellType: DateAndTimeCellType,
+                   chosenDate: Date?) {
         if cellType == .time {
             // Время
             self.datePicker.datePickerMode = .time
+            if let date = chosenDate {
+                self.datePicker.setDate(date, animated: true)
+            }
         } else if cellType == .date {
             // Дата
             self.datePicker.datePickerMode = .date
+            if let date = chosenDate {
+                self.datePicker.setDate(date, animated: true)
+            }
         }
     }
 }

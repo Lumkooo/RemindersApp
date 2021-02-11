@@ -245,7 +245,8 @@ private extension ReminderInfoTableViewDataSource {
             assertionFailure("oops, something went wrong")
             return UITableViewCell()
         }
-        cell.setupCell(cellType: .date)
+        cell.setupCell(cellType: .date,
+                       chosenDate: self.reminder.date)
         cell.datePickerDidChangedValue = { [weak self] (date) in
             self?.delegate.dateChanged(newDate: date)
         }
@@ -262,7 +263,8 @@ private extension ReminderInfoTableViewDataSource {
             assertionFailure("oops, something went wrong")
             return UITableViewCell()
         }
-        cell.setupCell(cellType: .time)
+        cell.setupCell(cellType: .time,
+                       chosenDate: self.reminder.date)
         cell.datePickerDidChangedValue = { [weak self] (date) in
             self?.delegate.timeChanged(newTime: date)
         }
@@ -301,7 +303,7 @@ private extension ReminderInfoTableViewDataSource {
                            locationInfo: ReminderInfo.LocationInfo) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: AppConstants.TableViewCells.cellID, for: indexPath)
-        cell.textLabel?.textColor = .systemGray4
+        cell.textLabel?.textColor = .systemGray
         cell.selectionStyle = .none
         if locationInfo.chosenLocationType == .userCurrent {
             cell.textLabel?.text = locationInfo.chosenLocation

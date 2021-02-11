@@ -21,6 +21,9 @@ final class RemindersListTableViewCell: UITableViewCell {
     var textViewDidChange: ((String) -> Void)?
     var imageTapped: ((Int) -> Void)?
 
+    private var reminderImagesCollectionViewHeightAnchor: NSLayoutConstraint?
+
+
     // MARK: - Views
 
     private let reminderTextView: UITextView = {
@@ -123,10 +126,19 @@ final class RemindersListTableViewCell: UITableViewCell {
     }
 
     private func setupCellImages(images: [UIImage?]) {
+
+        // MARK: - Баг...
+        // Так и не смог изменить размер ячейки, если в одной ячейке есть картинка
+        // а в другой картинки нет и удалив первую ячейку вторая ячейка будет большего размера
+        // чем нужно
+        // Как исправить - не знаю, не получилось
+
         self.collectionViewDataSource?.imagesArray = images
         if images.count > 0 {
-            self.reminderImagesCollectionView.heightAnchor.constraint(
-                equalToConstant: AppConstants.CollectionViewSize.reminderImagesCollectionViewSize.height).isActive = true
+            self.reminderImagesCollectionViewHeightAnchor = reminderImagesCollectionView.heightAnchor.constraint(equalToConstant: AppConstants.CollectionViewSize.reminderImagesCollectionViewSize.height)
+            self.reminderImagesCollectionViewHeightAnchor?.isActive = true
+        } else {
+            self.reminderImagesCollectionViewHeightAnchor = reminderImagesCollectionView.heightAnchor.constraint(equalToConstant: 0)
         }
     }
 
@@ -215,10 +227,7 @@ private extension RemindersListTableViewCell {
 
         NSLayoutConstraint.activate([
             self.reminderPriorityLabel.leadingAnchor.constraint(
-                equalTo: self.isDoneButton.trailingAnchor),
-            self.reminderPriorityLabel.topAnchor.constraint(
-                equalTo: self.contentView.topAnchor,
-                constant: AppConstants.Constraints.normalConstraint)
+                equalTo: self.isDoneButton.trailingAnchor)
         ])
     }
 
@@ -233,10 +242,15 @@ private extension RemindersListTableViewCell {
                 constant: AppConstants.Constraints.quarterNormalConstraint),
             self.reminderTextView.topAnchor.constraint(
                 equalTo: self.contentView.topAnchor,
-                constant: AppConstants.Constraints.halfNormalConstraint),
+                constant: AppConstants.Constraints.normalConstraint),
             self.reminderTextView.trailingAnchor.constraint(
                 equalTo: self.infoButton.leadingAnchor,
                 constant: -AppConstants.Constraints.quarterNormalConstraint),
+
+
+            self.reminderPriorityLabel.bottomAnchor.constraint(
+                equalTo: self.reminderTextView.firstBaselineAnchor,
+                constant: AppConstants.Constraints.quarterNormalConstraint)
         ])
     }
 
@@ -282,7 +296,7 @@ private extension RemindersListTableViewCell {
                 constant: -AppConstants.Constraints.quarterNormalConstraint),
             self.reminderImagesCollectionView.topAnchor.constraint(
                 equalTo: self.reminderNotesLabel.bottomAnchor,
-                constant: AppConstants.Constraints.quarterNormalConstraint),
+                constant: AppConstants.Constraints.halfNormalConstraint),
             self.reminderImagesCollectionView.trailingAnchor.constraint(
                 equalTo: self.infoButton.leadingAnchor,
                 constant: -AppConstants.Constraints.halfNormalConstraint)
