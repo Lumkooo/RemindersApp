@@ -9,14 +9,15 @@ import UIKit
 
 class ImagePickerManager: NSObject {
 
-    private var picker = UIImagePickerController();
+    private var picker = UIImagePickerController()
     private var viewController: UIViewController?
-    private var pickImageCallback : ((UIImage) -> ())?;
+    private var pickImageCallback : ((UIImage) -> ())?
 
-    init(_ viewController: UIViewController, _ callback: @escaping ((UIImage) -> ())){
+    init(_ viewController: UIViewController,
+         _ callback: @escaping ((UIImage) -> ())) {
         super.init()
-        self.pickImageCallback = callback;
-        self.viewController = viewController;
+        self.pickImageCallback = callback
+        self.viewController = viewController
         self.picker.delegate = self
     }
 
@@ -25,8 +26,8 @@ class ImagePickerManager: NSObject {
             picker.sourceType = .camera
             self.viewController?.present(picker, animated: true, completion: nil)
         } else {
-            let alertWarning = UIAlertController(title:"Warning", message: "You don't have camera", preferredStyle: .actionSheet)
-            let alertAction = UIAlertAction(title: "Ok", style: .default)
+            let alertWarning = UIAlertController(title:"Ошибка", message: "Не удалось получить доступ к камере", preferredStyle: .actionSheet)
+            let alertAction = UIAlertAction(title: "Ок", style: .default)
             alertWarning.addAction(alertAction)
             alertWarning.show(alertWarning, sender: nil)
         }
@@ -34,7 +35,7 @@ class ImagePickerManager: NSObject {
 
     func openGallery(){
         self.picker.sourceType = .photoLibrary
-        self.viewController!.present(picker, animated: true, completion: nil)
+        self.viewController!.present(picker, animated: true)
     }
 }
 
