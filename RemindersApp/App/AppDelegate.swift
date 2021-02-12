@@ -7,12 +7,27 @@
 
 import UIKit
 import CoreData
+import UserNotifications
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    private let notificationCenter = UNUserNotificationCenter.current()
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        self.notificationCenter.delegate = self
+
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+
+        self.notificationCenter.requestAuthorization(options: options) {
+            (didAllow, error) in
+            if !didAllow {
+                print("User has declined notifications")
+            }
+        }
+
         return true
     }
 
@@ -77,3 +92,95 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+
+        completionHandler([.list, .sound, .badge])
+    }
+
+
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+
+        if response.notification.request.identifier == "Local Notification" {
+            print("Handling notifications with the Local Notification Identifier")
+        }
+
+        completionHandler()
+    }
+
+    func scheduleNotification(name: String, date: Date?) {
+
+        guard let yourFireDate = date else {
+            return
+        }
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey:
+                    "Напоминание!", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "\(name)", arguments: nil)
+        content.categoryIdentifier = "notification_identifier_\(name)"
+        content.sound = UNNotificationSound.default
+        content.badge = 1
+
+        let dateComponents = Calendar.current.dateComponents(Set(arrayLiteral: Calendar.Component.year,
+                                                                 Calendar.Component.month,
+                                                                 Calendar.Component.day,
+                                                                 Calendar.Component.hour,
+                                                                 Calendar.Component.minute),
+                                                             from: yourFireDate)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let identifier = "local_notification_\(name)"
+        let request = UNNotificationRequest(identifier: identifier,
+                                            content: content,
+                                            trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
+                if let _ = error {
+                    //handle error
+                } else {
+                    //notification set up successfully
+                }
+        })
+
+//        let content = UNMutableNotificationContent() // Содержимое уведомления
+//        let categoryIdentifire = "Delete Notification Type"
+//
+//        guard let date = date else {
+//            return
+//        }
+//
+//        let formatter1 = DateFormatter()
+//        formatter1.dateStyle = .medium
+//        formatter1.timeStyle = .short
+//        let stringDate = formatter1.string(from: date)
+//
+//        content.title = "Напоминания!"
+//        content.body = "\(name) установленное на \(stringDate) следует выполнить!"
+//        content.sound = UNNotificationSound.default
+//        content.badge = 1
+//        content.categoryIdentifier = categoryIdentifire
+//
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 25, repeats: false)
+//        let identifier = "local_notification_\(name)"
+//        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+//
+//        self.notificationCenter.add(request) { (error) in
+//            if let error = error {
+//                print("Error \(error.localizedDescription)")
+//            }
+//        }
+//
+//        let deleteAction = UNNotificationAction(identifier: "DeleteAction", title: "Закрыть", options: [.destructive])
+//        let category = UNNotificationCategory(identifier: categoryIdentifire,
+//                                              actions: [deleteAction],
+//                                              intentIdentifiers: [],
+//                                              options: [])
+//
+//        self.notificationCenter.setNotificationCategories([category])
+    }
+}

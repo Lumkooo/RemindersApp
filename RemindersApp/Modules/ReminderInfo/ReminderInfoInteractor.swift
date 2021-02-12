@@ -59,6 +59,8 @@ final class ReminderInfoInteractor {
                                                                  hour: 8,
                                                                  minute: 0)
     private var isDateIncluded: Bool = false
+    //Для уведомлений
+    private var appDelegate = UIApplication.shared.delegate as? AppDelegate
 
     // MARK: - Init
 
@@ -166,6 +168,8 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
         ReminderManager.sharedInstance.updateReminderAt(self.reminderIndex,
                                                         reminder: self.reminder)
         print("saved", self.reminder)
+        self.appDelegate?.scheduleNotification(name: self.reminder.text,
+                                               date: self.reminder.date)
         self.presenter?.dismissVC()
         self.delegate.reloadData()
     }
