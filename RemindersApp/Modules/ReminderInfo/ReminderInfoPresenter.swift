@@ -137,7 +137,7 @@ extension ReminderInfoPresenter: IReminderInfoInteractorOuter {
 }
 
 extension ReminderInfoPresenter: IReminderInfoRouterOuter {
-    func imageFromImagePicker(image: UIImage) {
-        self.interactor.imageFromImagePicker(image: image)
+    func imageFromImagePicker(image: UIImage, url: URL) {
+        self.interactor.imageFromImagePicker(image: image, url: url)
     }
 }

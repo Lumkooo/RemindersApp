@@ -11,10 +11,10 @@ class ImagePickerManager: NSObject {
 
     private var picker = UIImagePickerController()
     private var viewController: UIViewController?
-    private var pickImageCallback : ((UIImage) -> ())?
+    private var pickImageCallback : ((UIImage, URL) -> ())?
 
     init(_ viewController: UIViewController,
-         _ callback: @escaping ((UIImage) -> ())) {
+         _ callback: @escaping ((UIImage, URL) -> ())) {
         super.init()
         self.pickImageCallback = callback
         self.viewController = viewController
@@ -45,12 +45,17 @@ extension ImagePickerManager: UIImagePickerControllerDelegate, UINavigationContr
     }
 
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
         guard let image = info[.originalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
-        self.pickImageCallback?(image)
+        guard let url = info[.imageURL] as? URL else {
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+
+        self.pickImageCallback?(image, url)
     }
 
     @objc func imagePickerController(_ picker: UIImagePickerController, pickedImage: UIImage?) {

@@ -122,7 +122,7 @@ final class RemindersListTableViewCell: UITableViewCell {
         if let note = note {
             self.reminderNotesLabel.text = note
         } else {
-            self.reminderNotesLabel.text = nil
+            self.reminderNotesLabel.text = ""
         }
     }
 
@@ -172,7 +172,12 @@ final class RemindersListTableViewCell: UITableViewCell {
                 formatter1.dateStyle = .medium
                 formatter1.timeStyle = .short
                 let stringDate = formatter1.string(from: date)
-                self.reminderNotesLabel.text?.insert(contentsOf: "\(stringDate)\n", at: stringIndex)
+                if let note = self.reminderNotesLabel.text,
+                   !note.isEmpty {
+                    self.reminderNotesLabel.text?.insert(contentsOf: "\(stringDate)\n", at: stringIndex)
+                } else {
+                    self.reminderNotesLabel.text?.insert(contentsOf: "\(stringDate)", at: stringIndex)
+                }
             }
         }
     }

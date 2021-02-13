@@ -16,14 +16,14 @@ protocol IReminderInfoRouter {
 }
 
 protocol IReminderInfoRouterOuter: AnyObject {
-    func imageFromImagePicker(image: UIImage)
+    func imageFromImagePicker(image: UIImage, url: URL)
 }
 
 final class ReminderInfoRouter {
     weak var vc: UIViewController?
     weak var presenter: IReminderInfoRouterOuter?
-    private lazy var imagePickerManager = ImagePickerManager(self.vc ?? UIViewController()) { (image) in
-        self.presenter?.imageFromImagePicker(image: image)
+    private lazy var imagePickerManager = ImagePickerManager(self.vc ?? UIViewController()) { (image, url) in
+        self.presenter?.imageFromImagePicker(image: image, url: url)
     }
 }
 

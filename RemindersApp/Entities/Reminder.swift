@@ -17,6 +17,7 @@ struct Reminder {
     var location: CLLocation?
     var flag: Bool
     var photos: [UIImage?]
+    var photosURL: [URL]
     var priority: Priority?
 
     // MARK: - Init
@@ -31,5 +32,6 @@ struct Reminder {
         self.photos = []
         self.flag = false
         self.priority = Priority()
+        self.photosURL = []
     }
 }

@@ -19,7 +19,7 @@ protocol IReminderInfoInteractor {
     func getInCarLocationChosen()
     func getOutCarLocationChosen()
     func prepareForPriorityVC()
-    func imageFromImagePicker(image: UIImage)
+    func imageFromImagePicker(image: UIImage, url: URL)
     func deleteImage(atIndex index: Int)
 }
 
@@ -168,8 +168,7 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
         ReminderManager.sharedInstance.updateReminderAt(self.reminderIndex,
                                                         reminder: self.reminder)
         print("saved", self.reminder)
-        self.appDelegate?.scheduleNotification(name: self.reminder.text,
-                                               date: self.reminder.date)
+        self.appDelegate?.scheduleNotification(reminder: self.reminder)
         self.presenter?.dismissVC()
         self.delegate.reloadData()
     }
@@ -194,8 +193,9 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
                                        delegate: self)
     }
 
-    func imageFromImagePicker(image: UIImage) {
+    func imageFromImagePicker(image: UIImage, url: URL) {
         self.reminder.photos.append(image)
+        self.reminder.photosURL.append(url)
         self.presenter?.reloadViewFor(reminder: self.reminder)
     }
 

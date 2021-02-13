@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 import UserNotifications
+import MobileCoreServices
 
 
 @main
@@ -115,72 +116,49 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler()
     }
 
-    func scheduleNotification(name: String, date: Date?) {
+    func scheduleNotification(reminder: Reminder) {
 
-        guard let yourFireDate = date else {
+        let notificationIdetifier = "local_notification_\(reminder.text)"
+        let categoryIdentifier = "Delete Notification Type"
+        // для того, чтобы поддерживать возможность изменения даты напоминания и самого напоминания
+        // будем удалять напоминание из notificationCenter (если имеется)
+        // и потом добавлять заново
+        self.notificationCenter.removePendingNotificationRequests(withIdentifiers: [notificationIdetifier])
+
+        guard let fireDate = reminder.date else {
             return
         }
         let content = UNMutableNotificationContent()
-        content.title = NSString.localizedUserNotificationString(forKey:
-                    "Напоминание!", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "\(name)", arguments: nil)
-        content.categoryIdentifier = "notification_identifier_\(name)"
+        content.title = "Напоминание!"
+        content.body = "\(reminder.text)"
+        content.categoryIdentifier = categoryIdentifier
         content.sound = UNNotificationSound.default
         content.badge = 1
-
+        if !reminder.photosURL.isEmpty {
+            let photoURL = reminder.photosURL[0]
+            do {
+                let attachment = try UNNotificationAttachment(identifier: "\(reminder.text)_attachment_identifier", url: photoURL, options: [:])
+                content.attachments = [attachment]
+            } catch let error {
+                assertionFailure("error occured, \(error)")
+            }
+        }
         let dateComponents = Calendar.current.dateComponents(Set(arrayLiteral: Calendar.Component.year,
                                                                  Calendar.Component.month,
                                                                  Calendar.Component.day,
                                                                  Calendar.Component.hour,
                                                                  Calendar.Component.minute),
-                                                             from: yourFireDate)
+                                                             from: fireDate)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        let identifier = "local_notification_\(name)"
-        let request = UNNotificationRequest(identifier: identifier,
+        let request = UNNotificationRequest(identifier: notificationIdetifier,
                                             content: content,
                                             trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
+        self.notificationCenter.add(request, withCompletionHandler: { error in
                 if let _ = error {
-                    //handle error
+                    // Error
                 } else {
                     //notification set up successfully
                 }
         })
-
-//        let content = UNMutableNotificationContent() // Содержимое уведомления
-//        let categoryIdentifire = "Delete Notification Type"
-//
-//        guard let date = date else {
-//            return
-//        }
-//
-//        let formatter1 = DateFormatter()
-//        formatter1.dateStyle = .medium
-//        formatter1.timeStyle = .short
-//        let stringDate = formatter1.string(from: date)
-//
-//        content.title = "Напоминания!"
-//        content.body = "\(name) установленное на \(stringDate) следует выполнить!"
-//        content.sound = UNNotificationSound.default
-//        content.badge = 1
-//        content.categoryIdentifier = categoryIdentifire
-//
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 25, repeats: false)
-//        let identifier = "local_notification_\(name)"
-//        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-//
-//        self.notificationCenter.add(request) { (error) in
-//            if let error = error {
-//                print("Error \(error.localizedDescription)")
-//            }
-//        }
-//
-//        let deleteAction = UNNotificationAction(identifier: "DeleteAction", title: "Закрыть", options: [.destructive])
-//        let category = UNNotificationCategory(identifier: categoryIdentifire,
-//                                              actions: [deleteAction],
-//                                              intentIdentifiers: [],
-//                                              options: [])
-//
-//        self.notificationCenter.setNotificationCategories([category])
     }
 }
