@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CoreDataReminder" representedClassName="CoreDataReminder" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="flag" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isDone" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="photos" optional="YES" attributeType="Binary"/>
+        <attribute name="photosURL" optional="YES" attributeType="Binary"/>
+        <attribute name="priority" optional="YES" attributeType="String" defaultValueString="Отсутствует"/>
+        <attribute name="text" attributeType="String"/>
+        <attribute name="uID" attributeType="String"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="CoreDataReminder" positionX="-63" positionY="-18" width="128" height="179"/>
+    </elements>
+</model>

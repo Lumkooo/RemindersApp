@@ -10,11 +10,11 @@ import CoreData
 import UserNotifications
 import MobileCoreServices
 
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private let notificationCenter = UNUserNotificationCenter.current()
+    private let notificationManager = NotificationManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
@@ -28,7 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("User has declined notifications")
             }
         }
-
         return true
     }
 
@@ -117,42 +116,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     func scheduleNotification(reminder: Reminder) {
-
-        let notificationIdetifier = "local_notification_\(reminder.text)"
-        let categoryIdentifier = "Delete Notification Type"
         // для того, чтобы поддерживать возможность изменения даты напоминания и самого напоминания
         // будем удалять напоминание из notificationCenter (если имеется)
         // и потом добавлять заново
+        // Согласен, что идентифицировать напоминание по тексту - так себе идея, но пока что не знаю как
+        // назначить какие-то уникальные ID для напоминания, кроме как какое-то рандомное число
+        let notificationIdetifier = "local_notification_\(reminder.uID)"
         self.notificationCenter.removePendingNotificationRequests(withIdentifiers: [notificationIdetifier])
-
-        guard let fireDate = reminder.date else {
+        guard let request = self.notificationManager.setupDateNotification(for: reminder) else {
             return
         }
-        let content = UNMutableNotificationContent()
-        content.title = "Напоминание!"
-        content.body = "\(reminder.text)"
-        content.categoryIdentifier = categoryIdentifier
-        content.sound = UNNotificationSound.default
-        content.badge = 1
-        if !reminder.photosURL.isEmpty {
-            let photoURL = reminder.photosURL[0]
-            do {
-                let attachment = try UNNotificationAttachment(identifier: "\(reminder.text)_attachment_identifier", url: photoURL, options: [:])
-                content.attachments = [attachment]
-            } catch let error {
-                assertionFailure("error occured, \(error)")
-            }
-        }
-        let dateComponents = Calendar.current.dateComponents(Set(arrayLiteral: Calendar.Component.year,
-                                                                 Calendar.Component.month,
-                                                                 Calendar.Component.day,
-                                                                 Calendar.Component.hour,
-                                                                 Calendar.Component.minute),
-                                                             from: fireDate)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        let request = UNNotificationRequest(identifier: notificationIdetifier,
-                                            content: content,
-                                            trigger: trigger)
         self.notificationCenter.add(request, withCompletionHandler: { error in
                 if let _ = error {
                     // Error

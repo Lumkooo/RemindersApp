@@ -35,7 +35,7 @@ class RemindersListViewController: UIViewController {
         self.setupHidingKeyboardOnTap()
         self.addNavigationBarButton()
     }
-
+    
     private func addNavigationBarButton() {
         let add = UIBarButtonItem(barButtonSystemItem: .add,
                                   target: self,

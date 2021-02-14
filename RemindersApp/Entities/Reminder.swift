@@ -10,6 +10,7 @@ import MapKit
 
 struct Reminder {
     var text: String
+    var uID: String
     var note: String?
     var url: String?
     var isDone: Bool
@@ -33,5 +34,30 @@ struct Reminder {
         self.flag = false
         self.priority = Priority()
         self.photosURL = []
+        self.uID = UUID().uuidString
+    }
+
+    init(text: String,
+         uID: String,
+         note: String?,
+         url: String?,
+         isDone: Bool,
+         date: Date?,
+         location: CLLocation?,
+         flag: Bool,
+         photos: [UIImage?],
+         photosURL: [URL],
+         priority: Priority?) {
+        self.text = text
+        self.note = note
+        self.url = url
+        self.isDone = isDone
+        self.date = date
+        self.location = location
+        self.photos = photos
+        self.flag = flag
+        self.priority = priority
+        self.photosURL = photosURL
+        self.uID = uID
     }
 }
