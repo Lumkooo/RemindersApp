@@ -28,6 +28,14 @@ final class RemindersListView: UIView {
         return myTableView
     }()
 
+    private lazy var activitIndicator: UIActivityIndicatorView = {
+        let myActivitIndicator = UIActivityIndicatorView()
+        myActivitIndicator.hidesWhenStopped = true
+        myActivitIndicator.startAnimating()
+        myActivitIndicator.style = .large
+        return myActivitIndicator
+    }()
+
     // MARK: - Properties
 
     private var tableViewDelegate: CustomTableViewDelegate?
@@ -57,6 +65,9 @@ extension RemindersListView: IRemindersListView {
     func showDataOnScreen(dataArray: [Reminder]) {
         self.tableViewDataSource?.reminderArray = dataArray
         self.tableView.reloadData()
+        if self.activitIndicator.isAnimating {
+            self.activitIndicator.stopAnimating()
+        }
     }
 }
 
@@ -65,6 +76,7 @@ extension RemindersListView: IRemindersListView {
 private extension RemindersListView {
     func setupElements() {
         self.setupTableView()
+        self.setupActivityIndicator()
     }
 
     func setupTableView() {
@@ -80,6 +92,16 @@ private extension RemindersListView {
             self.tableView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             self.tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
+    }
+
+    func setupActivityIndicator() {
+        self.addSubview(self.activitIndicator)
+        self.activitIndicator.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            self.activitIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.activitIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
 }

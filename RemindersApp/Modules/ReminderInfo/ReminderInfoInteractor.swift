@@ -125,7 +125,6 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
                                                           minute: 0)
                 }
             }
-            print("isDateIncluded", self.isDateIncluded)
         } else if indexPath.section == 2 {
 
             // MARK: - Местоположение
@@ -166,11 +165,12 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
             self.reminder.date = nil
         }
         ReminderManager.sharedInstance.updateReminderAt(self.reminderIndex,
-                                                        reminder: self.reminder)
-        print("saved", self.reminder)
-        self.appDelegate?.scheduleNotification(reminder: self.reminder)
-        self.presenter?.dismissVC()
-        self.delegate.reloadData()
+                                                        reminder: self.reminder) {
+            print("saved", self.reminder)
+            self.appDelegate?.scheduleNotification(reminder: self.reminder)
+            self.presenter?.dismissVC()
+            self.delegate.reloadData()
+        }
     }
 
     func userCurrentLocationChosen() {

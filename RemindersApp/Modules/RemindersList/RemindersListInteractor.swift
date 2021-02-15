@@ -42,13 +42,15 @@ final class RemindersListInteractor {
 extension RemindersListInteractor: IRemindersListInteractor {
 
     func loadInitData() {
-        ReminderManager.sharedInstance.loadElements()
-        self.passDataToView()
+        ReminderManager.sharedInstance.loadElements { reminders in
+            self.presenter?.showDataOnScreen(dataArray: reminders)
+        }
     }
     
     func addNewReminder() {
-        ReminderManager.sharedInstance.appendElement()
-        self.passDataToView()
+        ReminderManager.sharedInstance.appendElement { reminders in
+            self.presenter?.showDataOnScreen(dataArray: reminders)
+        }
     }
     
     func saveReminderToCompleted(indexPath: IndexPath) {
@@ -57,8 +59,9 @@ extension RemindersListInteractor: IRemindersListInteractor {
     }
 
     func deleteReminderAt(indexPath: IndexPath) {
-        ReminderManager.sharedInstance.removeElement(atIndex: indexPath.row)
-        self.passDataToView()
+        ReminderManager.sharedInstance.removeElement(atIndex: indexPath.row) { reminders in
+            self.presenter?.showDataOnScreen(dataArray: reminders)
+        }
     }
 
     func textDidChanged(atIndex index: Int, text: String) {
@@ -85,18 +88,14 @@ extension RemindersListInteractor: IRemindersListInteractor {
 }
 
 private extension RemindersListInteractor {
-    func passDataToView() {
-        let reminderArray = self.getReminders()
-        self.presenter?.showDataOnScreen(dataArray: reminderArray)
-    }
-
     func getReminders() -> [Reminder] {
-        return ReminderManager.sharedInstance.getDataArray()
+        return ReminderManager.sharedInstance.getRemindersArray()
     }
 }
 
 extension RemindersListInteractor: IReminderListInteractorDelegate {
     func reloadData() {
-        self.passDataToView()
+        let reminderArray = self.getReminders()
+        self.presenter?.showDataOnScreen(dataArray: reminderArray)
     }
 }

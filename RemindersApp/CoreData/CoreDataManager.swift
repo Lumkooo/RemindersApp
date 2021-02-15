@@ -13,8 +13,6 @@ final class CoreDataManager {
 
     // MARK: - Properties
 
-    // Использование синглтона, чтобы на каждом из экранов не создавать экземпляр класса
-    static let sharedInstance = CoreDataManager()
     private var coreDataReminder: [CoreDataReminder] = []
     private let context: NSManagedObjectContext
 
