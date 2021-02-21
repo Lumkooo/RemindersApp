@@ -134,7 +134,7 @@ final class RemindersListTableViewCell: UITableViewCell {
         // чем нужно
         // Как исправить - не знаю, не получилось
 
-        self.collectionViewDataSource?.imagesArray = images
+        self.collectionViewDataSource?.setImageArray(images)
         if images.count > 0 {
             self.reminderImagesCollectionViewHeightAnchor = reminderImagesCollectionView.heightAnchor.constraint(equalToConstant: AppConstants.CollectionViewSize.reminderImagesCollectionViewSize.height)
             self.reminderImagesCollectionViewHeightAnchor?.isActive = true

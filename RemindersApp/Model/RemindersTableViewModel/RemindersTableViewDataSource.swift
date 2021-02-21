@@ -19,7 +19,7 @@ final class RemindersTableViewDataSource: NSObject {
 
     // MARK: - Properties
 
-    var reminderArray: [Reminder] = []
+    private var reminderArray: [Reminder] = []
     private let delegate: IRemindersTableViewDataSource
 
     // MARK: - Init
@@ -27,6 +27,14 @@ final class RemindersTableViewDataSource: NSObject {
     init(delegate: IRemindersTableViewDataSource) {
         self.delegate = delegate
     }
+
+
+    // MARK: - reminderArray Setter
+
+    func setReminderArray(_ reminderArray: [Reminder]) {
+        self.reminderArray = reminderArray
+    }
+
 }
 
 // MARK: - UITableViewDataSource

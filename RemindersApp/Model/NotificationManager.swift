@@ -12,12 +12,36 @@ import MobileCoreServices
 
 final class NotificationManager {
 
-    func setupDateNotification(for reminder: Reminder) -> UNNotificationRequest? {
+    // MARK: - Properties
+
+    private let notificationCenter = UNUserNotificationCenter.current()
+
+    // MARK: - Init
+
+    init(delegate: UNUserNotificationCenterDelegate) {
+        self.notificationCenter.delegate = delegate
+    }
+
+    // MARK: Public func
+
+
+    func requestAuthorization() {
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        self.notificationCenter.requestAuthorization(options: options) { (didAllow, error) in
+            if !didAllow {
+                print("User has declined notifications")
+            }
+        }
+    }
+
+    func createNotification(for reminder: Reminder){
         let notificationIdetifier = "local_notification_\(reminder.uID)"
         let categoryIdentifier = "Delete Notification Type"
 
+        self.notificationCenter.removePendingNotificationRequests(withIdentifiers: [notificationIdetifier])
+
         guard let fireDate = reminder.date else {
-            return nil
+            return
         }
         let content = UNMutableNotificationContent()
         content.title = "Напоминание!"
@@ -44,6 +68,12 @@ final class NotificationManager {
         let request = UNNotificationRequest(identifier: notificationIdetifier,
                                             content: content,
                                             trigger: trigger)
-        return request
+        self.notificationCenter.add(request, withCompletionHandler: { error in
+                if let _ = error {
+                    // Error
+                } else {
+                    //notification set up successfully
+                }
+        })
     }
 }

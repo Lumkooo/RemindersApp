@@ -25,8 +25,8 @@ final class ReminderInfoTableViewDataSource: NSObject {
     // MARK: - Properties
 
     private let delegate: IReminderInfoTableViewDataSource
-    var reminderInfo = ReminderInfo()
-    var reminder = Reminder()
+    private var reminderInfo = ReminderInfo()
+    private var reminder = Reminder()
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
@@ -77,6 +77,14 @@ final class ReminderInfoTableViewDataSource: NSObject {
     func setupViewForGetOutCarLocation() {
         self.reminderInfo.locationInfo.chosenLocationType = .getOutCar
     }
+
+
+    // MARK: - reminder Setter
+
+    func setReminder(_ reminder: Reminder) {
+        self.reminder = reminder
+    }
+
 }
 
 // MARK: - UITableViewDataSource

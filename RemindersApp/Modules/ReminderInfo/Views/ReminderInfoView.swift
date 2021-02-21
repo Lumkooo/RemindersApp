@@ -77,11 +77,11 @@ final class ReminderInfoView: UIView {
 
 extension ReminderInfoView: IReminderInfoView {
     func prepareViewFor(reminder: Reminder) {
-        self.tableViewDataSource?.reminder = reminder
+        self.tableViewDataSource?.setReminder(reminder)
     }
 
     func reloadViewFor(reminder: Reminder) {
-        self.tableViewDataSource?.reminder = reminder
+        self.tableViewDataSource?.setReminder(reminder)
         self.reloadTableViewWithAnimation()
     }
 

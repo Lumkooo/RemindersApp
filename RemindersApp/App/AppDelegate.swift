@@ -13,21 +13,12 @@ import MobileCoreServices
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    private let notificationCenter = UNUserNotificationCenter.current()
-    private let notificationManager = NotificationManager()
+    private lazy var notificationManager = NotificationManager(delegate: self)
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        self.notificationCenter.delegate = self
-
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
-
-        self.notificationCenter.requestAuthorization(options: options) {
-            (didAllow, error) in
-            if !didAllow {
-                print("User has declined notifications")
-            }
-        }
+        // Получение разрешения на доставку уведомлений
+        self.notificationManager.requestAuthorization()
         return true
     }
 
@@ -116,22 +107,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     func scheduleNotification(reminder: Reminder) {
-        // для того, чтобы поддерживать возможность изменения даты напоминания и самого напоминания
-        // будем удалять напоминание из notificationCenter (если имеется)
-        // и потом добавлять заново
-        // Согласен, что идентифицировать напоминание по тексту - так себе идея, но пока что не знаю как
-        // назначить какие-то уникальные ID для напоминания, кроме как какое-то рандомное число
-        let notificationIdetifier = "local_notification_\(reminder.uID)"
-        self.notificationCenter.removePendingNotificationRequests(withIdentifiers: [notificationIdetifier])
-        guard let request = self.notificationManager.setupDateNotification(for: reminder) else {
-            return
-        }
-        self.notificationCenter.add(request, withCompletionHandler: { error in
-                if let _ = error {
-                    // Error
-                } else {
-                    //notification set up successfully
-                }
-        })
+        self.notificationManager.createNotification(for: reminder)
     }
 }

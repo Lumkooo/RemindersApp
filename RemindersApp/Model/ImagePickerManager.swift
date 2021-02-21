@@ -21,21 +21,23 @@ class ImagePickerManager: NSObject {
         self.picker.delegate = self
     }
 
-    func openCamera(){
+    func openCamera() {
         if(UIImagePickerController .isSourceTypeAvailable(.camera)) {
             picker.sourceType = .camera
             self.viewController?.present(picker, animated: true, completion: nil)
         } else {
-            let alertWarning = UIAlertController(title:"Ошибка", message: "Не удалось получить доступ к камере", preferredStyle: .actionSheet)
+            let alertWarning = UIAlertController(title:"Ошибка",
+                                                 message: "Не удалось получить доступ к камере",
+                                                 preferredStyle: .actionSheet)
             let alertAction = UIAlertAction(title: "Ок", style: .default)
             alertWarning.addAction(alertAction)
             alertWarning.show(alertWarning, sender: nil)
         }
     }
 
-    func openGallery(){
+    func openGallery() {
         self.picker.sourceType = .photoLibrary
-        self.viewController!.present(picker, animated: true)
+        self.viewController?.present(picker, animated: true)
     }
 }
 

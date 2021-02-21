@@ -44,6 +44,7 @@ enum AppConstants {
         static let cameraImage = UIImage(systemName: "camera")
         static let minusCircleFillImage = UIImage(systemName: "minus.circle.fill")
         static let safariFillImage = UIImage(systemName: "safari.fill")
+        static let ellipsisCircleImage = UIImage(systemName: "ellipsis.circle")
     }
 
     enum Sizes {

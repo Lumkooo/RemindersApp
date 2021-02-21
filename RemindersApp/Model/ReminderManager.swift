@@ -37,7 +37,8 @@ final class ReminderManager {
         completion(self.dataArray)
     }
 
-    func updateTextForReminderAt(_ index: Int, text: String) {
+    func updateTextForReminderAt(_ index: Int,
+                                 text: String) {
         self.dataArray[index].text = text
     }
 
@@ -77,6 +78,11 @@ final class ReminderManager {
                 }
                 self.maindQueue.async {
                     completion(self.dataArray)
+                }
+            } else {
+                // Возвращаем пустой массив
+                self.maindQueue.async {
+                    completion([])
                 }
             }
         }

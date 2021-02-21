@@ -11,8 +11,13 @@ final class CustomCollectionViewDataSource: NSObject {
 
     // MARK: - Properties
 
-    var imagesArray: [UIImage?] = []
+    private var imagesArray: [UIImage?] = []
 
+    // MARK: - imagesArray Setter
+
+    func setImageArray(_ imagesArray: [UIImage?]) {
+        self.imagesArray = imagesArray
+    }
 }
 
 // MARK: - UICollectionViewDataSource
