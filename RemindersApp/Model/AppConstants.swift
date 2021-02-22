@@ -27,6 +27,7 @@ enum AppConstants {
 
     enum Images {
         static let circleImage = UIImage(systemName: "circle")
+        static let largeCircleFillImage = UIImage(systemName: "largecircle.fill.circle")
         static let infoImage = UIImage(systemName: "info.circle")
         static let calendarImage = UIImage(systemName: "calendar")
         static let clockImage = UIImage(systemName: "clock.fill")
@@ -45,6 +46,8 @@ enum AppConstants {
         static let minusCircleFillImage = UIImage(systemName: "minus.circle.fill")
         static let safariFillImage = UIImage(systemName: "safari.fill")
         static let ellipsisCircleImage = UIImage(systemName: "ellipsis.circle")
+        static let eyeSlashImage = UIImage(systemName: "eye.slash")
+        static let eyeImage = UIImage(systemName: "eye")
     }
 
     enum Sizes {
@@ -86,4 +89,7 @@ enum AppConstants {
             height: 35)
     }
 
+    enum UserDefaultsKeys {
+        static let isShowingCompletedKey = "isShowingCompleted"
+    }
 }

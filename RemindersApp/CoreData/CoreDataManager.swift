@@ -104,7 +104,7 @@ extension CoreDataManager {
                 try self.context.save()
             } catch {
                 self.context.rollback()
-                assertionFailure("Can not append reminder")
+                assertionFailure("Can not update reminder")
             }
         } else {
             self.appendReminder(reminder)

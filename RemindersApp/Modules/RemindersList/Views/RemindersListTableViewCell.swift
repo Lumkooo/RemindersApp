@@ -59,6 +59,8 @@ final class RemindersListTableViewCell: UITableViewCell {
         return myCollectionView
     }()
 
+
+    // TODO: - Добавить возможность просматривать не выполненные/все напоминания
     private lazy var isDoneButton: UIButton = {
         let myButton = UIButton()
         myButton.setImage(AppConstants.Images.circleImage, for: .normal)
@@ -109,6 +111,7 @@ final class RemindersListTableViewCell: UITableViewCell {
         self.setupCellFlag(flag: reminder.flag)
         self.setupCellPriority(priority: reminder.priority)
         self.setupCellDate(date: reminder.date)
+        self.setupCellIsDoneButton(reminderIsDone: reminder.isDone)
         self.reminderImagesCollectionView.reloadData()
     }
 
@@ -179,6 +182,19 @@ final class RemindersListTableViewCell: UITableViewCell {
                     self.reminderNotesLabel.text?.insert(contentsOf: "\(stringDate)", at: stringIndex)
                 }
             }
+        }
+    }
+
+    private func setupCellIsDoneButton(reminderIsDone: Bool) {
+        if reminderIsDone {
+            self.isDoneButton.tintColor = .systemOrange
+            self.isDoneButton.setImage(AppConstants.Images.largeCircleFillImage,
+                                       for: .normal)
+            self.reminderTextView.textColor = .secondaryLabel
+        } else {
+            self.isDoneButton.setImage(AppConstants.Images.circleImage, for: .normal)
+            self.isDoneButton.tintColor = .systemGray
+            self.reminderTextView.textColor = .label
         }
     }
 

@@ -8,8 +8,9 @@
 import UIKit
 
 protocol IRemindersListPresenter {
-    func viewDidLoad(ui: IRemindersListView)
-    func addReminderTapped()
+    func viewDidLoad(ui: IRemindersListView,
+                     vc: IRemindersListViewController)
+    func toggleIsShowingCompletedReminders()
 }
 
 final class RemindersListPresenter {
@@ -17,6 +18,7 @@ final class RemindersListPresenter {
     // MARK: - Properties
 
     private weak var ui: IRemindersListView?
+    private weak var vc: IRemindersListViewController?
     private var interactor: IRemindersListInteractor
     private var router: IRemindersListRouter
 
@@ -25,13 +27,19 @@ final class RemindersListPresenter {
         self.interactor = interactor
         self.router = router
     }
+
+    func toggleIsShowingCompletedReminders() {
+        self.interactor.toggleIsShowingCompletedReminders()
+    }
 }
 
 // MARK: - IRemindersListPresenter
 
 extension RemindersListPresenter: IRemindersListPresenter {
-    func viewDidLoad(ui: IRemindersListView) {
+    func viewDidLoad(ui: IRemindersListView,
+                     vc: IRemindersListViewController) {
         self.ui = ui
+        self.vc = vc
         self.ui?.infoButtonTapped = { [weak self] indexPath in
             self?.interactor.goToDetailInfo(indexPath: indexPath)
         }
@@ -48,11 +56,10 @@ extension RemindersListPresenter: IRemindersListPresenter {
             self?.interactor.imageTappedAt(imageIndex: imageIndex,
                                            reminderIndex: reminderIndex)
         }
+        self.ui?.createReminderTapped = { [weak self] in
+            self?.interactor.addNewReminder()
+        }
         self.interactor.loadInitData()
-    }
-
-    func addReminderTapped() {
-        self.interactor.addNewReminder()
     }
 }
 
@@ -73,5 +80,9 @@ extension RemindersListPresenter: IRemindersListInteractorOuter {
 
     func goToImagesVC(photos: [UIImage?], imageIndex: Int) {
         self.router.showImagesVC(photos: photos, imageIndex: imageIndex)
+    }
+
+    func changeMenuTitles(isCompletedRemindersShowing: Bool) {
+        self.vc?.changeMenuTitles(isCompletedRemindersShowing: isCompletedRemindersShowing)
     }
 }

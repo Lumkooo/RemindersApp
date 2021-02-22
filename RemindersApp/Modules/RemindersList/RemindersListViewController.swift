@@ -7,12 +7,20 @@
 
 import UIKit
 
+protocol IRemindersListViewController: AnyObject {
+    func changeMenuTitles(isCompletedRemindersShowing: Bool)
+}
+
 class RemindersListViewController: UIViewController {
 
     // MARK: - Properties
 
     private let customView = RemindersListView()
     private var presenter: IRemindersListPresenter
+    private let barButtonItem = UIBarButtonItem(image: AppConstants.Images.ellipsisCircleImage,
+                              style: .done,
+                              target: self,
+                              action: nil)
 
     // MARK: - Init
 
@@ -31,20 +39,45 @@ class RemindersListViewController: UIViewController {
         super.viewDidLoad()
         self.title = "Напоминания"
         self.view = self.customView
-        self.presenter.viewDidLoad(ui: self.customView)
+        self.presenter.viewDidLoad(ui: self.customView,
+                                   vc: self)
         self.setupHidingKeyboardOnTap()
-        self.addNavigationBarButton()
-    }
-    
-    private func addNavigationBarButton() {
-        let add = UIBarButtonItem(barButtonSystemItem: .add,
-                                  target: self,
-                                  action: #selector(addTapped))
-        navigationItem.rightBarButtonItem = add
-    }
-
-    @objc private func addTapped() {
-        self.presenter.addReminderTapped()
     }
 }
 
+extension RemindersListViewController: IRemindersListViewController {
+    func changeMenuTitles(isCompletedRemindersShowing: Bool) {
+        self.navigationItem.rightBarButtonItem = barButtonItem
+        let itemChildrens = self.setupMenuChildrens(isCompletedRemindersShowing: isCompletedRemindersShowing)
+        let items = UIMenu(title: "More",
+                           options: .displayInline,
+                           children: itemChildrens)
+        self.barButtonItem.menu = UIMenu(title: "", children: [items])
+        self.barButtonItem.primaryAction = nil
+    }
+}
+
+private extension RemindersListViewController {
+    // Других вариантов изменения текста в меню не нашел
+    // Поэтому пусть будет так
+    func setupMenuChildrens(isCompletedRemindersShowing: Bool) -> [UIMenuElement] {
+        let toggleAction = UIAction(handler: { _ in
+                            self.presenter.toggleIsShowingCompletedReminders()
+                          })
+        if isCompletedRemindersShowing {
+            self.setupUIAction(action: toggleAction,
+                               title: "Скрыть завершенные",
+                               image: AppConstants.Images.eyeSlashImage)
+        } else {
+            self.setupUIAction(action: toggleAction,
+                               title: "Показать завершенные",
+                               image: AppConstants.Images.eyeImage)
+        }
+        return [toggleAction]
+    }
+
+    func setupUIAction(action: UIAction, title: String, image: UIImage?) {
+        action.title = title
+        action.image = image
+    }
+}

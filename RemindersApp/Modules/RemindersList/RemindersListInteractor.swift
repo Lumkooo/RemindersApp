@@ -15,6 +15,7 @@ protocol IRemindersListInteractor {
     func textDidChanged(atIndex index: Int, text: String)
     func goToDetailInfo(indexPath: IndexPath)
     func imageTappedAt(imageIndex: Int, reminderIndex: Int)
+    func toggleIsShowingCompletedReminders()
 }
 
 protocol IRemindersListInteractorOuter: AnyObject {
@@ -24,6 +25,7 @@ protocol IRemindersListInteractorOuter: AnyObject {
                         reminderIndex: Int)
     func goToImagesVC(photos: [UIImage?],
                       imageIndex: Int)
+    func changeMenuTitles(isCompletedRemindersShowing: Bool)
 }
 
 protocol IReminderListInteractorDelegate {
@@ -35,6 +37,9 @@ final class RemindersListInteractor {
     // MARK: - Properties
 
     weak var presenter: IRemindersListInteractorOuter?
+    private lazy var isCompletedRemindersShowing: Bool = {
+        UserDefaults.standard.bool(forKey: AppConstants.UserDefaultsKeys.isShowingCompletedKey)
+    }()
 }
 
 // MARK: - IRemindersListInteractor
@@ -42,8 +47,10 @@ final class RemindersListInteractor {
 extension RemindersListInteractor: IRemindersListInteractor {
 
     func loadInitData() {
+        self.presenter?.changeMenuTitles(isCompletedRemindersShowing: self.isCompletedRemindersShowing)
         ReminderManager.sharedInstance.loadElements { reminders in
-            self.presenter?.showDataOnScreen(dataArray: reminders)
+            let filteredReminders = self.filterReminders(reminders)
+            self.presenter?.showDataOnScreen(dataArray: filteredReminders)
         }
     }
     
@@ -54,8 +61,12 @@ extension RemindersListInteractor: IRemindersListInteractor {
     }
     
     func saveReminderToCompleted(indexPath: IndexPath) {
-        ReminderManager.sharedInstance.saveReminderToCompleted(indexPath: indexPath)
-        self.deleteReminderAt(indexPath: indexPath)
+        let reminders = self.getReminders()
+        let isDone = !reminders[indexPath.row].isDone
+        ReminderManager.sharedInstance.saveReminderToCompleted(indexPath: indexPath,
+                                                               isDone: isDone) { (reminders) in
+            self.presenter?.showDataOnScreen(dataArray: reminders)
+        }
     }
 
     func deleteReminderAt(indexPath: IndexPath) {
@@ -85,11 +96,31 @@ extension RemindersListInteractor: IRemindersListInteractor {
         self.presenter?.goToImagesVC(photos: photos,
                                      imageIndex: imageIndex)
     }
+
+    func toggleIsShowingCompletedReminders() {
+        self.isCompletedRemindersShowing.toggle()
+        let reminders = self.getReminders()
+        let filteredReminders = self.filterReminders(reminders)
+        self.presenter?.showDataOnScreen(dataArray: filteredReminders)
+        self.presenter?.changeMenuTitles(isCompletedRemindersShowing: self.isCompletedRemindersShowing)
+        UserDefaults.standard.setValue(self.isCompletedRemindersShowing,
+                                       forKeyPath: AppConstants.UserDefaultsKeys.isShowingCompletedKey)
+    }
 }
 
 private extension RemindersListInteractor {
     func getReminders() -> [Reminder] {
         return ReminderManager.sharedInstance.getRemindersArray()
+    }
+
+    func filterReminders(_ reminders: [Reminder]) -> [Reminder] {
+        return reminders.filter {
+            if self.isCompletedRemindersShowing {
+                return true
+            } else {
+                return $0.isDone == self.isCompletedRemindersShowing
+            }
+        }
     }
 }
 

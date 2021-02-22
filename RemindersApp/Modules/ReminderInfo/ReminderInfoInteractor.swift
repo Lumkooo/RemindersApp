@@ -158,6 +158,9 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
     }
 
     func saveReminder() {
+        if self.reminder.text.isEmpty {
+            self.reminder.text = "Новое напоминание"
+        }
         if self.isDateIncluded {
             let dateAndTime = self.getDateAndTime()
             self.reminder.date = dateAndTime
@@ -165,12 +168,12 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
             self.reminder.date = nil
         }
         ReminderManager.sharedInstance.updateReminderAt(self.reminderIndex,
-                                                        reminder: self.reminder) {
+                                                        reminder: self.reminder) { _ in 
             print("saved", self.reminder)
-            self.appDelegate?.scheduleNotification(reminder: self.reminder)
-            self.presenter?.dismissVC()
             self.delegate.reloadData()
+            self.appDelegate?.scheduleNotification(reminder: self.reminder)
         }
+        self.presenter?.dismissVC()
     }
 
     func userCurrentLocationChosen() {

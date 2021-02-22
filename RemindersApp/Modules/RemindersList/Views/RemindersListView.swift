@@ -8,6 +8,7 @@
 import UIKit
 
 protocol IRemindersListView: AnyObject {
+    var createReminderTapped: (() -> Void)? { get set }
     var isDoneButtonTapped: ((IndexPath) -> Void)? { get set }
     var infoButtonTapped: ((IndexPath) -> Void)? { get set }
     var deletingCellAt: ((IndexPath) -> Void)? { get set }
@@ -36,10 +37,22 @@ final class RemindersListView: UIView {
         return myActivitIndicator
     }()
 
+    private lazy var createReminderButton: UIButton = {
+        let myButton = UIButton()
+        myButton.addTarget(self,
+                           action: #selector(createReminderButtonTapped),
+                           for: .touchUpInside)
+        myButton.setTitle("Добавить напоминание", for: .normal)
+        myButton.setTitleColor(.systemOrange, for: .normal)
+        myButton.backgroundColor = self.tableView.backgroundColor
+        return myButton
+    }()
+
     // MARK: - Properties
 
     private var tableViewDelegate: CustomTableViewDelegate?
     private var tableViewDataSource: RemindersTableViewDataSource?
+    var createReminderTapped: (() -> Void)?
     var isDoneButtonTapped: ((IndexPath) -> Void)?
     var infoButtonTapped: ((IndexPath) -> Void)?
     var deletingCellAt: ((IndexPath) -> Void)?
@@ -56,6 +69,12 @@ final class RemindersListView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Обработка нажатий на кнопки
+
+    @objc private func createReminderButtonTapped() {
+        self.createReminderTapped?()
     }
 }
 
@@ -77,6 +96,7 @@ private extension RemindersListView {
     func setupElements() {
         self.setupTableView()
         self.setupActivityIndicator()
+        self.setupCreateReminderButton()
     }
 
     func setupTableView() {
@@ -104,6 +124,19 @@ private extension RemindersListView {
             self.activitIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
+
+    func setupCreateReminderButton() {
+        self.addSubview(self.createReminderButton)
+        self.createReminderButton.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            self.createReminderButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            self.createReminderButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.createReminderButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            self.createReminderButton.heightAnchor.constraint(equalTo: self.heightAnchor,
+                                                              multiplier: 0.1)
+        ])
+    }
 }
 
 // MARK: - IRemindersTableViewDelegate
@@ -125,13 +158,16 @@ extension RemindersListView: IRemindersTableViewDataSource {
 
     func isDoneButtonTapped(indexPath: IndexPath) {
         let cell = self.tableView.cellForRow(at: indexPath)
-        UIView.animate(withDuration: 0.45) {
-            cell?.contentView.alpha = 0
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-            cell?.contentView.alpha = 1
-            self.isDoneButtonTapped?(indexPath)
-        }
+        // TODO: - вернуть анимацию
+//        UIView.animate(withDuration: 0.45) {
+//            cell?.contentView.alpha = 0
+//        }
+//        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+//            cell?.contentView.alpha = 1
+//            self.isDoneButtonTapped?(indexPath)
+//        }
+        self.isDoneButtonTapped?(indexPath)
+
     }
 
     func textDidChanged(atIndex index: Int, text: String) {

@@ -44,12 +44,12 @@ final class ReminderManager {
 
     func updateReminderAt(_ index: Int,
                           reminder: Reminder,
-                          completion: @escaping (() -> Void)) {
+                          completion: @escaping ([Reminder]) -> Void) {
         self.globaUserInitiatedQueue.async {
             self.dataArray[index] = reminder
             self.coreDataManager.updateReminderAt(index, reminder: reminder)
             self.maindQueue.async {
-                completion()
+                completion(self.dataArray)
             }
         }
     }
@@ -99,9 +99,14 @@ final class ReminderManager {
         }
     }
 
-    func saveReminderToCompleted(indexPath: IndexPath) {
-        //        CoreDataManager.sharedInstance.
-        // TODO: - Сохранение в удаленные в CoreData
+    func saveReminderToCompleted(indexPath: IndexPath,
+                                 isDone: Bool,
+                                 completion: @escaping (([Reminder]) -> Void)) {
+        self.dataArray[indexPath.row].isDone = isDone
+        self.updateReminderAt(indexPath.row,
+                              reminder: self.dataArray[indexPath.row]) { reminders in
+            completion(reminders)
+        }
     }
 }
 
