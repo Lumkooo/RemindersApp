@@ -17,12 +17,14 @@ final class ReminderManager {
     private let coreDataManager = CoreDataManager()
     private let globaUserInitiatedQueue = DispatchQueue.global(qos: .userInitiated)
     private let maindQueue = DispatchQueue.main
+    private let filter = Filter()
 
     // MARK: Methods
 
     func getRemindersArray() -> [Reminder] {
         return self.dataArray
     }
+
 
     func getReminderAt(_ index: Int) -> Reminder? {
         if self.dataArray.count >= index {
@@ -44,12 +46,12 @@ final class ReminderManager {
 
     func updateReminderAt(_ index: Int,
                           reminder: Reminder,
-                          completion: @escaping ([Reminder]) -> Void) {
+                          completion: @escaping () -> Void) {
         self.globaUserInitiatedQueue.async {
             self.dataArray[index] = reminder
             self.coreDataManager.updateReminderAt(index, reminder: reminder)
             self.maindQueue.async {
-                completion(self.dataArray)
+                completion()
             }
         }
     }
@@ -99,14 +101,18 @@ final class ReminderManager {
         }
     }
 
-    func saveReminderToCompleted(indexPath: IndexPath,
+    func saveReminderToCompleted(reminderUID: String,
                                  isDone: Bool,
                                  completion: @escaping (([Reminder]) -> Void)) {
-        self.dataArray[indexPath.row].isDone = isDone
-        self.updateReminderAt(indexPath.row,
-                              reminder: self.dataArray[indexPath.row]) { reminders in
-            completion(reminders)
+        
+        guard let reminderIndex = self.filter.getReminderIndex(reminders: self.dataArray,
+                                                               reminderUID: reminderUID) else {
+            return
         }
+        self.dataArray[reminderIndex].isDone = isDone
+        self.coreDataManager.saveReminderToCompleted(reminderIndex: reminderIndex,
+                                                     isDone: isDone)
+        completion(self.dataArray)
     }
 }
 
@@ -140,5 +146,4 @@ private extension ReminderManager {
         }
         return retVal
     }
-
 }

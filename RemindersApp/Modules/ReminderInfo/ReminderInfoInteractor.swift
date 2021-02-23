@@ -168,7 +168,7 @@ extension ReminderInfoInteractor: IReminderInfoInteractor {
             self.reminder.date = nil
         }
         ReminderManager.sharedInstance.updateReminderAt(self.reminderIndex,
-                                                        reminder: self.reminder) { _ in 
+                                                        reminder: self.reminder) { 
             print("saved", self.reminder)
             self.delegate.reloadData()
             self.appDelegate?.scheduleNotification(reminder: self.reminder)

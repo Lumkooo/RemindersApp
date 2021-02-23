@@ -12,7 +12,7 @@ protocol IRemindersListView: AnyObject {
     var isDoneButtonTapped: ((IndexPath) -> Void)? { get set }
     var infoButtonTapped: ((IndexPath) -> Void)? { get set }
     var deletingCellAt: ((IndexPath) -> Void)? { get set }
-    var textDidChanged: ((Int, String) -> Void)? { get set }
+    var textDidChanged: ((IndexPath, String) -> Void)? { get set }
     var imageTappedAt: ((Int, Int) -> Void)? { get set }
 
     func showDataOnScreen(dataArray: [Reminder])
@@ -56,7 +56,7 @@ final class RemindersListView: UIView {
     var isDoneButtonTapped: ((IndexPath) -> Void)?
     var infoButtonTapped: ((IndexPath) -> Void)?
     var deletingCellAt: ((IndexPath) -> Void)?
-    var textDidChanged: ((Int, String) -> Void)?
+    var textDidChanged: ((IndexPath, String) -> Void)?
     var imageTappedAt: ((Int, Int) -> Void)?
 
     // MARK: - Init
@@ -157,21 +157,11 @@ extension RemindersListView: IRemindersTableViewDataSource {
     }
 
     func isDoneButtonTapped(indexPath: IndexPath) {
-        let cell = self.tableView.cellForRow(at: indexPath)
-        // TODO: - вернуть анимацию
-//        UIView.animate(withDuration: 0.45) {
-//            cell?.contentView.alpha = 0
-//        }
-//        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-//            cell?.contentView.alpha = 1
-//            self.isDoneButtonTapped?(indexPath)
-//        }
         self.isDoneButtonTapped?(indexPath)
-
     }
 
-    func textDidChanged(atIndex index: Int, text: String) {
-        self.textDidChanged?(index, text)
+    func textDidChanged(indexPath: IndexPath, text: String) {
+        self.textDidChanged?(indexPath, text)
     }
 
     func imageTappedAt(imageIndex: Int, reminderIndex: Int) {

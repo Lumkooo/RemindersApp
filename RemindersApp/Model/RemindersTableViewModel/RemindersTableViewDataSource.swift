@@ -11,7 +11,7 @@ protocol IRemindersTableViewDataSource {
     func infoButtonTapped(indexPath: IndexPath)
     func isDoneButtonTapped(indexPath: IndexPath)
     func deletingCellAt(_ indexPath: IndexPath)
-    func textDidChanged(atIndex index: Int, text: String)
+    func textDidChanged(indexPath: IndexPath, text: String)
     func imageTappedAt(imageIndex: Int, reminderIndex: Int)
 }
 
@@ -34,7 +34,6 @@ final class RemindersTableViewDataSource: NSObject {
     func setReminderArray(_ reminderArray: [Reminder]) {
         self.reminderArray = reminderArray
     }
-
 }
 
 // MARK: - UITableViewDataSource
@@ -63,7 +62,7 @@ extension RemindersTableViewDataSource: UITableViewDataSource {
         cell.textViewDidChange = { [weak self] (text) in
             tableView.beginUpdates()
             tableView.endUpdates()
-            self?.delegate.textDidChanged(atIndex: indexPath.row, text: text)
+            self?.delegate.textDidChanged(indexPath: indexPath, text: text)
         }
         cell.imageTapped = { [weak self] (index) in
             self?.delegate.imageTappedAt(imageIndex: index,

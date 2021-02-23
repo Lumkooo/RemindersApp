@@ -49,8 +49,8 @@ extension RemindersListPresenter: IRemindersListPresenter {
         self.ui?.deletingCellAt = { [weak self] indexPath in
             self?.interactor.deleteReminderAt(indexPath: indexPath)
         }
-        self.ui?.textDidChanged = { [weak self] (index, text) in
-            self?.interactor.textDidChanged(atIndex: index, text: text)
+        self.ui?.textDidChanged = { [weak self] (indexPath, text) in
+            self?.interactor.textDidChanged(indexPath: indexPath, text: text)
         }
         self.ui?.imageTappedAt = { [weak self] (imageIndex, reminderIndex) in
             self?.interactor.imageTappedAt(imageIndex: imageIndex,

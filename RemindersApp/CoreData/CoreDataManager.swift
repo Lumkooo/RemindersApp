@@ -55,7 +55,6 @@ extension CoreDataManager {
 
         self.coreDataReminder.append(coreDataReminder)
         do {
-            print("SAVED", self.coreDataReminder)
             try self.context.save()
         } catch {
             self.context.rollback()
@@ -108,6 +107,19 @@ extension CoreDataManager {
             }
         } else {
             self.appendReminder(reminder)
+        }
+    }
+
+    func saveReminderToCompleted(reminderIndex: Int,
+                                 isDone: Bool) {
+        if self.coreDataReminder.count > reminderIndex {
+            self.coreDataReminder[reminderIndex].isDone = isDone
+            do {
+                try self.context.save()
+            } catch {
+                self.context.rollback()
+                assertionFailure("Can not update reminder")
+            }
         }
     }
 }

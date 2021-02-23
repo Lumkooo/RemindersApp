@@ -79,6 +79,7 @@ enum AppConstants {
 
     enum AnimationTimes {
         static let reloadTableView: Double = 0.1
+        static let listCellDisappearanceTime: Double = 0.45
     }
 
     // MARK: - CollectionViewSize
