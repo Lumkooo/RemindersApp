@@ -13,8 +13,11 @@ protocol IRemindersListView: AnyObject {
     var infoButtonTapped: ((IndexPath) -> Void)? { get set }
     var deletingCellAt: ((IndexPath) -> Void)? { get set }
     var textDidChanged: ((IndexPath, String) -> Void)? { get set }
+    var textDidEndEditing: ((IndexPath) -> Void)? { get set }
+    var textDidBeginEditing: ((IndexPath) -> Void)? { get set }
     var imageTappedAt: ((Int, Int) -> Void)? { get set }
 
+    func resignFirstResponder()
     func showDataOnScreen(dataArray: [Reminder])
 }
 
@@ -57,6 +60,8 @@ final class RemindersListView: UIView {
     var infoButtonTapped: ((IndexPath) -> Void)?
     var deletingCellAt: ((IndexPath) -> Void)?
     var textDidChanged: ((IndexPath, String) -> Void)?
+    var textDidEndEditing: ((IndexPath) -> Void)?
+    var textDidBeginEditing: ((IndexPath) -> Void)?
     var imageTappedAt: ((Int, Int) -> Void)?
 
     // MARK: - Init
@@ -87,6 +92,10 @@ extension RemindersListView: IRemindersListView {
         if self.activitIndicator.isAnimating {
             self.activitIndicator.stopAnimating()
         }
+    }
+
+    func resignFirstResponder() {
+        self.endEditing(true)
     }
 }
 
@@ -162,6 +171,14 @@ extension RemindersListView: IRemindersTableViewDataSource {
 
     func textDidChanged(indexPath: IndexPath, text: String) {
         self.textDidChanged?(indexPath, text)
+    }
+
+    func textViewDidEndEditing(indexPath: IndexPath) {
+        self.textDidEndEditing?(indexPath)
+    }
+
+    func textDidBeginEditing(indexPath: IndexPath) {
+        self.textDidBeginEditing?(indexPath)
     }
 
     func imageTappedAt(imageIndex: Int, reminderIndex: Int) {

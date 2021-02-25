@@ -19,6 +19,8 @@ final class RemindersListTableViewCell: UITableViewCell {
     var isDoneButtonTapped: (() -> Void)?
     var infoButtonTapped: (() -> Void)?
     var textViewDidChange: ((String) -> Void)?
+    var textDidEndEditing: (() -> Void)?
+    var textDidBeginEditing: (() -> Void)?
     var imageTapped: ((Int) -> Void)?
 
     private var reminderImagesCollectionViewHeightAnchor: NSLayoutConstraint?
@@ -359,6 +361,17 @@ extension RemindersListTableViewCell: UITextViewDelegate {
             return
         }
         self.textViewDidChange?(text)
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard let _ = textView.text else {
+            return
+        }
+        self.textDidEndEditing?()
+    }
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.textDidBeginEditing?()
     }
 
     func setSelected(selected: Bool, animated: Bool) {

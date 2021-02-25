@@ -13,9 +13,12 @@ protocol IRemindersListInteractor {
     func saveReminderToCompleted(indexPath: IndexPath)
     func deleteReminderAt(indexPath: IndexPath)
     func textDidChanged(indexPath: IndexPath, text: String)
+    func textDidEndEditing(indexPath: IndexPath)
+    func textDidBeginEditing(indexPath: IndexPath)
     func goToDetailInfo(indexPath: IndexPath)
     func imageTappedAt(imageIndex: Int, reminderIndex: Int)
     func toggleIsShowingCompletedReminders()
+    func stopEdtingText()
 }
 
 protocol IRemindersListInteractorOuter: AnyObject {
@@ -25,7 +28,9 @@ protocol IRemindersListInteractorOuter: AnyObject {
                         reminderIndex: Int)
     func goToImagesVC(photos: [UIImage?],
                       imageIndex: Int)
-    func changeMenuTitles(isCompletedRemindersShowing: Bool)
+    func changeMenuTitles(isCompletedRemindersShowing: Bool,
+                          isTextEditing: Bool)
+    func resignFirstResponder()
 }
 
 protocol IReminderListInteractorDelegate {
@@ -40,7 +45,9 @@ final class RemindersListInteractor {
     private lazy var isCompletedRemindersShowing: Bool = {
         UserDefaults.standard.bool(forKey: AppConstants.UserDefaultsKeys.isShowingCompletedKey)
     }()
+    private var isTextEditing: Bool = false
     private let filter = Filter()
+    private let reminderManager = ReminderManager.sharedInstance
 }
 
 // MARK: - IRemindersListInteractor
@@ -48,15 +55,15 @@ final class RemindersListInteractor {
 extension RemindersListInteractor: IRemindersListInteractor {
 
     func loadInitData() {
-        self.presenter?.changeMenuTitles(isCompletedRemindersShowing: self.isCompletedRemindersShowing)
-        ReminderManager.sharedInstance.loadElements { reminders in
-            self.showRemindersOnScreen(reminders: reminders)
+        self.reloadMenu()
+        self.reminderManager.loadElements { reminders in
+            self.filterAndShowRemindersOnScreen(reminders: reminders)
         }
     }
     
     func addNewReminder() {
-        ReminderManager.sharedInstance.appendElement { reminders in
-            self.showRemindersOnScreen(reminders: reminders)
+        self.reminderManager.appendElement { reminders in
+            self.filterAndShowRemindersOnScreen(reminders: reminders)
         }
     }
     
@@ -65,19 +72,18 @@ extension RemindersListInteractor: IRemindersListInteractor {
             return
         }
         let isDone = !reminder.isDone
-        ReminderManager.sharedInstance.saveReminderToCompleted(reminderUID: reminder.uID,
+        self.reminderManager.saveReminderToCompleted(reminderUID: reminder.uID,
                                                                isDone: isDone) { (reminders) in
-            self.showRemindersOnScreen(reminders: reminders)
+            self.filterAndShowRemindersOnScreen(reminders: reminders)
         }
     }
-
 
     func deleteReminderAt(indexPath: IndexPath) {
         guard let reminderIndex = self.getReminderIndex(indexPath: indexPath) else {
             return
         }
-        ReminderManager.sharedInstance.removeElement(atIndex: reminderIndex) { reminders in
-            self.presenter?.showDataOnScreen(dataArray: reminders)
+        self.reminderManager.removeElement(atIndex: reminderIndex) { reminders in
+            self.filterAndShowRemindersOnScreen(reminders: reminders)
         }
     }
 
@@ -85,7 +91,27 @@ extension RemindersListInteractor: IRemindersListInteractor {
         guard let reminderIndex = self.getReminderIndex(indexPath: indexPath) else {
             return
         }
-        ReminderManager.sharedInstance.updateTextForReminderAt(reminderIndex, text: text)
+        self.reminderManager.updateTextForReminderAt(reminderIndex, text: text)
+    }
+
+    func textDidEndEditing(indexPath: IndexPath) {
+        guard let reminderIndex = self.getReminderIndex(indexPath: indexPath) else {
+            return
+        }
+        self.isTextEditing = false
+        self.reloadMenu()
+        self.reminderManager.saveTextForReminderAt(reminderIndex)
+    }
+
+    func textDidBeginEditing(indexPath: IndexPath) {
+        self.isTextEditing = true
+        self.reloadMenu()
+    }
+
+    func stopEdtingText() {
+        self.isTextEditing = false
+        self.presenter?.resignFirstResponder()
+        self.reloadMenu()
     }
 
     func goToDetailInfo(indexPath: IndexPath) {
@@ -109,29 +135,25 @@ extension RemindersListInteractor: IRemindersListInteractor {
                 atIndex: reminderIndex) else {
             return
         }
-        guard let index = self.filter.getReminderIndex(
-                reminders: reminders,
-                reminderUID: reminder.uID) else {
-            return
-        }
-        let photos = reminders[index].photos
+        let photos = reminder.photos
         self.presenter?.goToImagesVC(photos: photos,
                                      imageIndex: imageIndex)
     }
 
     func toggleIsShowingCompletedReminders() {
         self.isCompletedRemindersShowing.toggle()
-        let reminders = self.getReminders()
-        self.showRemindersOnScreen(reminders: reminders)
-        self.presenter?.changeMenuTitles(isCompletedRemindersShowing: self.isCompletedRemindersShowing)
         UserDefaults.standard.setValue(self.isCompletedRemindersShowing,
                                        forKeyPath: AppConstants.UserDefaultsKeys.isShowingCompletedKey)
+
+        let reminders = self.getReminders()
+        self.filterAndShowRemindersOnScreen(reminders: reminders)
+        self.reloadMenu()
     }
 }
 
 private extension RemindersListInteractor {
     func getReminders() -> [Reminder] {
-        return ReminderManager.sharedInstance.getRemindersArray()
+        return self.reminderManager.getRemindersArray()
     }
 
     /// Показывает уведомления на экране, отсортировав их
@@ -139,7 +161,7 @@ private extension RemindersListInteractor {
     /// self.isCompletedRemindersShowing
     /// для того, чтобы показывать не выполненные/все напоминания
     /// и все работало как следует
-    func showRemindersOnScreen(reminders: [Reminder]) {
+    func filterAndShowRemindersOnScreen(reminders: [Reminder]) {
         let filteredReminders = self.filter.filterReminders(
             reminders,
             isCompletedRemindersShowing: self.isCompletedRemindersShowing)
@@ -172,11 +194,16 @@ private extension RemindersListInteractor {
         }
         return reminderIndex
     }
+
+    func reloadMenu() {
+        self.presenter?.changeMenuTitles(isCompletedRemindersShowing: self.isCompletedRemindersShowing,
+                                         isTextEditing: self.isTextEditing)
+    }
 }
 
 extension RemindersListInteractor: IReminderListInteractorDelegate {
     func reloadData() {
         let reminders = self.getReminders()
-        self.showRemindersOnScreen(reminders: reminders)
+        self.filterAndShowRemindersOnScreen(reminders: reminders)
     }
 }

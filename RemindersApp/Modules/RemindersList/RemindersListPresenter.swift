@@ -11,6 +11,7 @@ protocol IRemindersListPresenter {
     func viewDidLoad(ui: IRemindersListView,
                      vc: IRemindersListViewController)
     func toggleIsShowingCompletedReminders()
+    func stopEdtingText()
 }
 
 final class RemindersListPresenter {
@@ -52,6 +53,12 @@ extension RemindersListPresenter: IRemindersListPresenter {
         self.ui?.textDidChanged = { [weak self] (indexPath, text) in
             self?.interactor.textDidChanged(indexPath: indexPath, text: text)
         }
+        self.ui?.textDidEndEditing = { [weak self] indexPath in
+            self?.interactor.textDidEndEditing(indexPath: indexPath)
+        }
+        self.ui?.textDidBeginEditing = { [weak self] indexPath in
+            self?.interactor.textDidBeginEditing(indexPath: indexPath)
+        }
         self.ui?.imageTappedAt = { [weak self] (imageIndex, reminderIndex) in
             self?.interactor.imageTappedAt(imageIndex: imageIndex,
                                            reminderIndex: reminderIndex)
@@ -60,6 +67,10 @@ extension RemindersListPresenter: IRemindersListPresenter {
             self?.interactor.addNewReminder()
         }
         self.interactor.loadInitData()
+    }
+
+    func stopEdtingText() {
+        self.interactor.stopEdtingText()
     }
 }
 
@@ -82,7 +93,13 @@ extension RemindersListPresenter: IRemindersListInteractorOuter {
         self.router.showImagesVC(photos: photos, imageIndex: imageIndex)
     }
 
-    func changeMenuTitles(isCompletedRemindersShowing: Bool) {
-        self.vc?.changeMenuTitles(isCompletedRemindersShowing: isCompletedRemindersShowing)
+    func changeMenuTitles(isCompletedRemindersShowing: Bool,
+                          isTextEditing: Bool) {
+        self.vc?.changeMenuTitles(isCompletedRemindersShowing: isCompletedRemindersShowing,
+                                  isTextEditing: isTextEditing)
+    }
+
+    func resignFirstResponder() {
+        self.ui?.resignFirstResponder()
     }
 }

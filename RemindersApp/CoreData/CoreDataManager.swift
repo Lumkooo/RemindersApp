@@ -38,33 +38,10 @@ final class CoreDataManager {
 
 extension CoreDataManager {
 
-    // MARK: - Добавление напоминания
-
-    func appendReminder(_ reminder: Reminder) {
-        let coreDataReminder = CoreDataReminder(context: self.context)
-        coreDataReminder.text = reminder.text
-        coreDataReminder.uID = reminder.uID
-        coreDataReminder.note = reminder.note
-        coreDataReminder.url = reminder.url
-        coreDataReminder.isDone = reminder.isDone
-        coreDataReminder.date = reminder.date
-        coreDataReminder.flag = reminder.flag
-        coreDataReminder.photos = self.coreDataObjectFromPhotos(images: reminder.photos)
-        coreDataReminder.photosURL = self.coreDataObjectFromPhotoURL(photoURL: reminder.photosURL)
-        coreDataReminder.priority = reminder.priority?.rawValue
-
-        self.coreDataReminder.append(coreDataReminder)
-        do {
-            try self.context.save()
-        } catch {
-            self.context.rollback()
-            assertionFailure("Can not append reminder")
-        }
-    }
-
     // MARK: - Удаление напоминания
 
     func removeReminder(atIndex index: Int) {
+        print("COUNT", self.coreDataReminder.count)
         if self.coreDataReminder.count > index {
             self.coreDataReminder.remove(at: index)
             let fetchRequest: NSFetchRequest<CoreDataReminder> = CoreDataReminder.fetch()
@@ -110,6 +87,22 @@ extension CoreDataManager {
         }
     }
 
+    func updateReminderTextAt(_ index: Int, text: String) {
+        if self.coreDataReminder.count > index {
+            self.coreDataReminder[index].text = text
+            do {
+                try self.context.save()
+            } catch {
+                self.context.rollback()
+                assertionFailure("Can not update reminder")
+            }
+        } else {
+            self.appendReminder(Reminder(text: text))
+            print("ADDED")
+        }
+    }
+    // MARK: - Изменение параметра isDone и сохранение в выполненные/не выполненные
+
     func saveReminderToCompleted(reminderIndex: Int,
                                  isDone: Bool) {
         if self.coreDataReminder.count > reminderIndex {
@@ -146,4 +139,27 @@ private extension CoreDataManager {
         }
         return try? NSKeyedArchiver.archivedData(withRootObject: dataArray, requiringSecureCoding: true)
     }
+
+    func appendReminder(_ reminder: Reminder) {
+        let coreDataReminder = CoreDataReminder(context: self.context)
+        coreDataReminder.text = reminder.text
+        coreDataReminder.uID = reminder.uID
+        coreDataReminder.note = reminder.note
+        coreDataReminder.url = reminder.url
+        coreDataReminder.isDone = reminder.isDone
+        coreDataReminder.date = reminder.date
+        coreDataReminder.flag = reminder.flag
+        coreDataReminder.photos = self.coreDataObjectFromPhotos(images: reminder.photos)
+        coreDataReminder.photosURL = self.coreDataObjectFromPhotoURL(photoURL: reminder.photosURL)
+        coreDataReminder.priority = reminder.priority?.rawValue
+
+        self.coreDataReminder.append(coreDataReminder)
+        do {
+            try self.context.save()
+        } catch {
+            self.context.rollback()
+            assertionFailure("Can not append reminder")
+        }
+    }
 }
+

@@ -8,7 +8,8 @@
 import UIKit
 
 protocol IRemindersListViewController: AnyObject {
-    func changeMenuTitles(isCompletedRemindersShowing: Bool)
+    func changeMenuTitles(isCompletedRemindersShowing: Bool,
+                          isTextEditing: Bool)
 }
 
 class RemindersListViewController: UIViewController {
@@ -17,10 +18,13 @@ class RemindersListViewController: UIViewController {
 
     private let customView = RemindersListView()
     private var presenter: IRemindersListPresenter
-    private let barButtonItem = UIBarButtonItem(image: AppConstants.Images.ellipsisCircleImage,
+    private let barMenuButtonItem = UIBarButtonItem(image: AppConstants.Images.ellipsisCircleImage,
                               style: .done,
                               target: self,
                               action: nil)
+    private lazy var barDoneButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+                                                    target: self,
+                                                    action: #selector(doneTapped))
 
     // MARK: - Init
 
@@ -43,17 +47,28 @@ class RemindersListViewController: UIViewController {
                                    vc: self)
         self.setupHidingKeyboardOnTap()
     }
+
+    // MARK: - Обработка нажатия на кнопки
+
+    @objc private func doneTapped() {
+        self.presenter.stopEdtingText()
+    }
 }
 
 extension RemindersListViewController: IRemindersListViewController {
-    func changeMenuTitles(isCompletedRemindersShowing: Bool) {
-        self.navigationItem.rightBarButtonItem = barButtonItem
-        let itemChildrens = self.setupMenuChildrens(isCompletedRemindersShowing: isCompletedRemindersShowing)
-        let items = UIMenu(title: "More",
-                           options: .displayInline,
-                           children: itemChildrens)
-        self.barButtonItem.menu = UIMenu(title: "", children: [items])
-        self.barButtonItem.primaryAction = nil
+    func changeMenuTitles(isCompletedRemindersShowing: Bool,
+                          isTextEditing: Bool) {
+        if isTextEditing {
+            self.navigationItem.rightBarButtonItem = self.barDoneButtonItem
+        } else {
+            self.navigationItem.rightBarButtonItem = self.barMenuButtonItem
+            let itemChildrens = self.setupMenuChildrens(isCompletedRemindersShowing: isCompletedRemindersShowing)
+            let items = UIMenu(title: "More",
+                               options: .displayInline,
+                               children: itemChildrens)
+            self.barMenuButtonItem.menu = UIMenu(title: "", children: [items])
+            self.barMenuButtonItem.primaryAction = nil
+        }
     }
 }
 
@@ -62,8 +77,8 @@ private extension RemindersListViewController {
     // Поэтому пусть будет так
     func setupMenuChildrens(isCompletedRemindersShowing: Bool) -> [UIMenuElement] {
         let toggleAction = UIAction(handler: { _ in
-                            self.presenter.toggleIsShowingCompletedReminders()
-                          })
+            self.presenter.toggleIsShowingCompletedReminders()
+        })
         if isCompletedRemindersShowing {
             self.setupUIAction(action: toggleAction,
                                title: "Скрыть завершенные",

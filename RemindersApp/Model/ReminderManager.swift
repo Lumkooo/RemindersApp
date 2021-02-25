@@ -8,7 +8,25 @@
 import Foundation
 import UIKit
 
-final class ReminderManager {
+protocol  ICoreDataAdapter {
+    func getRemindersArray() -> [Reminder]
+    func getReminderAt(_ index: Int) -> Reminder?
+    func loadElements(completion: @escaping (([Reminder]) -> Void))
+    func appendElement(completion: (([Reminder]) -> Void))
+    func updateTextForReminderAt(_ index: Int, text: String)
+    func saveTextForReminderAt(_ index: Int)
+    func updateReminderAt(_ index: Int,
+                          reminder: Reminder,
+                          completion: @escaping () -> Void)
+    func removeElement(atIndex index: Int,
+                       completion: @escaping (([Reminder]) -> Void))
+    func saveReminderToCompleted(reminderUID: String,
+                                 isDone: Bool,
+                                 completion: @escaping (([Reminder]) -> Void))
+}
+
+
+final class ReminderManager: ICoreDataAdapter {
 
     // MARK: Properties
 
@@ -42,6 +60,11 @@ final class ReminderManager {
     func updateTextForReminderAt(_ index: Int,
                                  text: String) {
         self.dataArray[index].text = text
+    }
+
+    func saveTextForReminderAt(_ index: Int) {
+        let text = self.dataArray[index].text
+        self.coreDataManager.updateReminderTextAt(index, text: text)
     }
 
     func updateReminderAt(_ index: Int,
@@ -93,8 +116,13 @@ final class ReminderManager {
     func removeElement(atIndex index: Int,
                        completion: @escaping (([Reminder]) -> Void)) {
         self.globaUserInitiatedQueue.async {
+            if !self.dataArray[index].text.isEmpty {
+                // Удалять напоминание из CoreData только в том случае, если оно имеет текст
+                // то есть, если у напоминания нет текста, то оно пустое
+                // значит оно не сохранено(нельзя сохранить пустое напоминание)
+                self.coreDataManager.removeReminder(atIndex: index)
+            }
             self.dataArray.remove(at: index)
-            self.coreDataManager.removeReminder(atIndex: index)
             self.maindQueue.async {
                 completion(self.dataArray)
             }
